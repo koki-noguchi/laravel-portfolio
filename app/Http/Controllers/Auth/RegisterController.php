@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -70,5 +71,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'permission_id' => 0,
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return $user;
     }
 }
