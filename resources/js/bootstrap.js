@@ -9,3 +9,9 @@ window.axios.interceptors.request.use(config => {
 
   return config
 })
+
+// catch(error => error.response || error)を簡略化するため
+window.axios.interceptors.response.use(
+  response => response,
+  error => error.response || error
+)
