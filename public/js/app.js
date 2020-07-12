@@ -20401,6 +20401,17 @@ var createApp = /*#__PURE__*/function () {
             return _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('auth/currentUser');
 
           case 2:
+            new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
+              el: '#app',
+              router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
+              store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
+              components: {
+                App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+              },
+              template: '<App />'
+            });
+
+          case 3:
           case "end":
             return _context.stop();
         }
@@ -20413,15 +20424,6 @@ var createApp = /*#__PURE__*/function () {
   };
 }();
 
-new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
-  el: '#app',
-  router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
-  components: {
-    App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
-  },
-  template: '<App />'
-});
 createApp();
 
 /***/ }),
@@ -20790,6 +20792,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Index_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Index.vue */ "./resources/js/pages/Index.vue");
 /* harmony import */ var _pages_register_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/register.vue */ "./resources/js/pages/register.vue");
 /* harmony import */ var _pages_Login_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Login.vue */ "./resources/js/pages/Login.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+
 
 
 
@@ -20801,10 +20805,24 @@ var routes = [{
   component: _pages_Index_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   path: '/register',
-  component: _pages_register_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _pages_register_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters['auth/check']) {
+      next('/');
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/login',
-  component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters['auth/check']) {
+      next('/');
+    } else {
+      next();
+    }
+  }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -20825,14 +20843,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 
 var state = {
   user: null
