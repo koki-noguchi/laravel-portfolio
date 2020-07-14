@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Index from './pages/Index.vue'
 import Register from './pages/register.vue'
 import Login from './pages/Login.vue'
-import Post from './pages/Post.vue'
+import Post from './pages/Posting.vue'
 
 import store from './store'
 
