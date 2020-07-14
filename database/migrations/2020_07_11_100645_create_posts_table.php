@@ -23,6 +23,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('max_number');
             $table->string('about');
             $table->boolean('share_judge');
+            $table->timestamps();
         });
     }
 

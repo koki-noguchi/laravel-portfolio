@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Index from './pages/Index.vue'
 import Register from './pages/register.vue'
 import Login from './pages/Login.vue'
+import Post from './pages/Post.vue'
 
 import store from './store'
 
@@ -35,6 +36,17 @@ const routes = [
                 next('/')
             } else {
                 next()
+            }
+        }
+    },
+    {
+        path: '/posting',
+        component: Post,
+        beforeEnter (to, from, next) {
+            if (store.getters['auth/check']) {
+                next()
+            } else {
+                next('/')
             }
         }
     },
