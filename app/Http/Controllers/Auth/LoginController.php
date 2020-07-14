@@ -39,21 +39,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, $user)
-    {
-        return redirect('home')->with('my_status', __('ログインに成功しました。'));
-    }
-
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        $request->session()->invalidate();
-
-        return $this->loggedOut($request) ?: redirect('/')->with('my_status', __('ログアウトしました。'));
-    }
-
     public function username()
     {
         return 'login_id';
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        return $user;
+    }
+
+    protected function loggedOut(Request $request)
+    {
+        $request->session()->regenerate();
+
+        return response()->json();
     }
 }
