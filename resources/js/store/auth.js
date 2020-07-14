@@ -33,7 +33,7 @@ const actions = {
         const response = await axios.post('/api/register', data)
 
         if (response.status === CREATED) {
-            context.commit('setApiStatus', false)
+            context.commit('setApiStatus', true)
             context.commit('setUser', response.data)
             return false
         }
