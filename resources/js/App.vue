@@ -3,6 +3,7 @@
     <header>
       <Navbar />
     </header>
+    <Sidebar v-if="isLogin"></Sidebar>
     <main>
       <div class="container">
         <RouterView />
@@ -17,16 +18,21 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
+import Sidebar from "./components/Sidebar.vue";
 import { INTERNAL_SERVER_ERROR } from './util'
 
 export default {
   components: {
     Navbar,
-    Footer
+    Footer,
+    Sidebar
   },
   computed: {
     errorCode () {
       return this.$store.state.error.code
+    },
+    isLogin () {
+      return this.$store.getters['auth/check']
     }
   },
   watch: {
