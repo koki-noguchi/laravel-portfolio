@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar">
         <RouterLink class="navbar-brand" to="/">
-            Message For You
+            MessageShare
         </RouterLink>
         <div class="navbar-menu">
             <span v-if="isLogin" class="navbar-item">
