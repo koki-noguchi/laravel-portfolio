@@ -14,7 +14,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
         'max_number' => 2,
         'created_at' => $faker->dateTime(),
         'updated_at' => $faker->dateTime(),
-        'about' => '',
+        'about' => $faker->word,
         'share_judge' => 0,
     ];
 });

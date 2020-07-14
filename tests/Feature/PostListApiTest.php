@@ -20,17 +20,17 @@ class PostListApiTest extends TestCase
     {
         factory(Post::class, 5)->create();
 
-        $response = $this->json('GET', route('home.index'));
+        $response = $this->json('GET', route('post.index'));
 
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->get();
 
         $expected_data = $posts->map(function ($post) {
             return [
+                'about' => $post->about,
+                'post_title' => $post->post_title,
                 'user' => [
                     'name' => $post->user->name,
                 ],
-                'post_title',
-                'about',
             ];
         })
         ->all();

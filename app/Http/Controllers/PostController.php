@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
 
     /**
@@ -38,5 +39,15 @@ class PostController extends Controller
         $post->save();
 
         return response($post, 201);
+    }
+
+    /**
+     * メッセージ募集一覧
+     */
+    public function index()
+    {
+        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->paginate();
+
+        return $posts;
     }
 }
