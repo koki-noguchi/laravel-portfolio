@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/posting', 'PostController@create')->name('posting.create');
 Route::get('/user', fn() => Auth::user())->name('user');
