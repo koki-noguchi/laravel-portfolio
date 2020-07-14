@@ -21120,7 +21120,7 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', false);
+              context.commit('setApiStatus', true);
               context.commit('setUser', response.data);
               return _context.abrupt("return", false);
 
