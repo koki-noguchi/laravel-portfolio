@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Message For You</title>
+  <title>MessageShare</title>
 
   <!-- Scripts -->
   <script src="{{ mix('js/app.js') }}" defer></script>
