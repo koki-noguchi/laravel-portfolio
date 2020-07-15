@@ -26,6 +26,7 @@ class PostListApiTest extends TestCase
 
         $expected_data = $posts->map(function ($post) {
             return [
+                'id' => $post->id,
                 'about' => $post->about,
                 'post_title' => $post->post_title,
                 'user' => [

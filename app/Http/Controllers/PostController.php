@@ -14,7 +14,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except('index', 'show');
     }
 
     /**
@@ -49,5 +49,17 @@ class PostController extends Controller
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->paginate();
 
         return $posts;
+    }
+
+    /**
+     * メッセージ募集の詳細
+     * @params string $id
+     * @return Post
+     */
+    public function show(string $id)
+    {
+        $post = Post::where('id', $id)->with(['user'])->first();
+
+        return $post ?? abort(404);
     }
 }

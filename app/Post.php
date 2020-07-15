@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $visible = [
-        'post_title', 'about', 'user',
+        'id', 'post_title', 'about', 'user',
     ];
 
     protected $hidden = [
-        'id','user_id','post_password', 'min_number', 'max_number', 'share_judge',
+        'user_id','post_password', 'min_number', 'max_number', 'share_judge',
         self::CREATED_AT, self::UPDATED_AT,
     ];
 
