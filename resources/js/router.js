@@ -5,6 +5,7 @@ import Index from './pages/Index.vue'
 import Register from './pages/register.vue'
 import Login from './pages/Login.vue'
 import Post from './pages/Posting.vue'
+import PostList from './pages/PostList.vue'
 
 import store from './store'
 
@@ -48,6 +49,14 @@ const routes = [
             } else {
                 next('/')
             }
+        }
+    },
+    {
+        path: '/post',
+        component: PostList,
+        props: route => {
+            const page = route.query.page
+            return { page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 }
         }
     },
     {
