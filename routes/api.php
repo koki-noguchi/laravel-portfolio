@@ -20,3 +20,4 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/posting', 'PostController@create')->name('posting.create');
 Route::get('/user', fn() => Auth::user())->name('user');
 Route::get('/post', 'PostController@index')->name('post.index');
+Route::get('/post/{id}', 'PostController@show')->name('post.show');
