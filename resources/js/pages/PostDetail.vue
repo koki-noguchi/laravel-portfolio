@@ -7,6 +7,7 @@
         <div class="post-detail__name">
             {{ post.user.name}}
         </div>
+        <button @click.prevent="deletePost">募集ページの削除</button>
     </div>
 </template>
 
@@ -35,6 +36,16 @@ export default {
             }
 
             this.post = response.data
+        },
+        async deletePost () {
+            const response = await axios.delete(`/api/post/${this.id}`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.$router.push('/post')
         }
     },
     watch: {
