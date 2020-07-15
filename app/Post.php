@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $visible = [
-        'post_title', 'about',
+        'post_title', 'about', 'user',
     ];
 
     protected $hidden = [
