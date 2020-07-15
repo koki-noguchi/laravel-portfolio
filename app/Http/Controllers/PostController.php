@@ -62,4 +62,20 @@ class PostController extends Controller
 
         return $post ?? abort(404);
     }
+
+    /**
+     * メッセージ募集の詳細
+     * @params string $id
+     * @return Post
+     */
+    public function delete(string $id)
+    {
+        $post = Post::where('id', $id)->first();
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->delete();
+    }
 }

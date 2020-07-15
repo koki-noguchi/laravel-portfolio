@@ -40,4 +40,23 @@ class PostSubmitApiTest extends TestCase
             ->assertStatus(201)
             ->assertJson(['post_title' => $post->post_title]);
     }
+
+    /**
+     * @test
+     */
+    public function should_メッセージ募集を削除できる()
+    {
+        factory(Post::class)->create();
+        $this->post = Post::first();
+
+        $response = $this->actingAs($this->user)
+            ->json('DELETE',route('post.delete', [
+                'id' => $this->post->id,
+            ]));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('posts', [
+            'id' => $this->post->id,
+        ]);
+    }
 }

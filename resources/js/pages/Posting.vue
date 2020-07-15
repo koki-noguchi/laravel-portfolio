@@ -35,6 +35,8 @@ export default {
             this.post_password = ''
             this.min_number = ''
             this.max_number = ''
+
+            this.$router.push(`/post/${response.data.id}`)
         }
     }
 }

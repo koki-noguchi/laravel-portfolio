@@ -2490,7 +2490,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.min_number = '';
                 _this.max_number = '';
 
-              case 7:
+                _this.$router.push("/post/".concat(response.data.id));
+
+              case 8:
               case "end":
                 return _context.stop();
             }
