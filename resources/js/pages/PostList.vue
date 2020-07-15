@@ -4,7 +4,7 @@
       <Post
         class="grid__item"
         v-for="post in posts"
-        :key="post.post_title"
+        :key="post.id"
         :item="post"
       />
     </div>
