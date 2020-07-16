@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
+use App\Http\Requests\UpdatePost;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PostController extends Controller
 
     /**
      * メッセージ募集
-     * @param StorePhoto $request
+     * @param StorePost $request
      * @return \Illuminate\Http\Response
      */
     public function create(StorePost $request)
@@ -64,7 +65,7 @@ class PostController extends Controller
     }
 
     /**
-     * メッセージ募集の詳細
+     * メッセージ募集の削除
      * @params string $id
      * @return Post
      */
@@ -77,5 +78,20 @@ class PostController extends Controller
         }
 
         $post->delete();
+    }
+
+    /**
+     * メッセージ募集の更新
+     * @params string $id
+     * @param UpdatePost $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(string $id, UpdatePost $request)
+    {
+        $post = Post::find($id);
+        $post->fill($request->all())->save();
+
+        $new_post = Post::where('id', $post->id)->first();
+        return $new_post;
     }
 }
