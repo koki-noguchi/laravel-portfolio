@@ -8,13 +8,21 @@
             {{ post.user.name}}
         </div>
         <button @click.prevent="deletePost">募集ページの削除</button>
+        <button >edit</button>
+        <PostModal
+          :post="post"
+          @update="updatePost"
+        ></PostModal>
     </div>
 </template>
 
 <script>
 import { OK } from '../util'
-
+import PostModal from '../components/PostModal.vue'
 export default {
+    components: {
+        PostModal
+    },
     props: {
         id: {
             type: String,
@@ -23,7 +31,7 @@ export default {
     },
     data () {
         return {
-            post: null
+            post: null,
         }
     },
     methods: {
@@ -46,6 +54,17 @@ export default {
             }
 
             this.$router.push('/post')
+        },
+        updatePost ({ post_title, about }) {
+            this.update(post_title, about)
+        },
+        async update (post_title, about) {
+            const response = await axios.put(`/api/post/${this.id}`,
+            {
+                post_title: post_title,
+                about: about
+            })
+            await this.fetchPost()
         }
     },
     watch: {

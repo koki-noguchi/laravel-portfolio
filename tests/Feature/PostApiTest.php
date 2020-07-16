@@ -17,6 +17,7 @@ class PostSubmitApiTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+
     }
 
     /**
@@ -58,5 +59,27 @@ class PostSubmitApiTest extends TestCase
         $this->assertDatabaseMissing('posts', [
             'id' => $this->post->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function should_メッセージ募集を更新できる()
+    {
+        factory(Post::class)->create();
+        $this->post = Post::first();
+
+        $data = [
+            'post_title' => 'sample',
+            'about' => 'samplesample',
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->json('PUT', route('post.update', [
+                'id' => $this->post->id,
+            ]),$data);
+
+        $response->assertStatus(200)
+            ->assertJson(['post_title' => $data['post_title']]);
     }
 }
