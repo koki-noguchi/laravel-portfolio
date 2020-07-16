@@ -2105,6 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
@@ -4135,7 +4136,11 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "post-about" }, [_vm._v(_vm._s(_vm.item.about))])
+    _c("div", { staticClass: "post-about" }, [_vm._v(_vm._s(_vm.item.about))]),
+    _vm._v(" "),
+    _vm.item.password_judge === true
+      ? _c("p", { staticClass: "post-judge" }, [_vm._v("※パスワードあり")])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
