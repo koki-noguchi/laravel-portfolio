@@ -29,6 +29,7 @@ class PostListApiTest extends TestCase
                 'id' => $post->id,
                 'about' => $post->about,
                 'post_title' => $post->post_title,
+                'password_judge' => $post->post_password ? true : false,
                 'user' => [
                     'name' => $post->user->name,
                 ],

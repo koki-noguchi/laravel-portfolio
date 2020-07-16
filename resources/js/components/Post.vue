@@ -5,6 +5,7 @@
           <RouterLink :to="`/post/${item.id}`">{{ item.post_title }}</RouterLink>
       </div>
       <div class="post-about">{{ item.about }}</div>
+      <p v-if="item.password_judge === true" class="post-judge">※パスワードあり</p>
   </div>
 </template>
 
