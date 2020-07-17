@@ -59,7 +59,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::where('id', $id)->with(['user'])->first();
+        $post = Post::where('id', $id)->with(['user', 'messages.author'])->first();
 
         return $post ?? abort(404);
     }
