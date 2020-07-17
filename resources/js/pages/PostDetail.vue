@@ -8,20 +8,43 @@
             {{ post.user.name}}
         </div>
         <button @click.prevent="deletePost">募集ページの削除</button>
+        <h2 class="post-detail__title">Messages</h2>
+        <ul v-if="post.messages.length > 0" class="post-detail__messages">
+            <li
+              v-for="message in post.messages"
+              :key="message.message_text"
+              class="post-detail__messageItem"
+            >
+            <p class="post-detail__messageBody">
+                {{ message.message_text }}
+            </p>
+            <p class="post-detail__messageBody">
+                {{ message.author.name}}
+            </p>
+            </li>
+        </ul>
+        <p v-else>No messages yet.</p>
         <button >edit</button>
         <PostModal
           :post="post"
           @update="updatePost"
         ></PostModal>
+        <button>message</button>
+        <MessageModal
+          @create="createMessage"
+        ></MessageModal>
     </div>
 </template>
 
 <script>
 import { OK } from '../util'
 import PostModal from '../components/PostModal.vue'
+import MessageModal from '../components/MessageModal.vue'
+
 export default {
     components: {
-        PostModal
+        PostModal,
+        MessageModal
     },
     props: {
         id: {
@@ -65,6 +88,20 @@ export default {
                 about: about
             })
             await this.fetchPost()
+        },
+        createMessage ({ message_text }) {
+            this.create(message_text)
+        },
+        async create (message_text) {
+            const response = await axios.post(`/api/post/${this.id}/messages`,
+            {
+                message_text: message_text
+            })
+
+            this.post.messages = [
+                response.data,
+                ...this.post.messages
+            ]
         }
     },
     watch: {
