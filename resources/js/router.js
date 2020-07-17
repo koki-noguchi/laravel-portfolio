@@ -57,6 +57,11 @@ const routes = [
         component: PostList
     },
     {
+        path: '/post?:keyword',
+        component: PostList,
+        props: true
+    },
+    {
         path: '/post/:id',
         component: PostDetail,
         props: true
