@@ -45,10 +45,15 @@ class PostController extends Controller
     /**
      * メッセージ募集一覧
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->paginate();
-
+        $keyword = $request->input('keyword');
+        if ($request->has('keyword')) {
+            $posts = Post::where('id', 'like', '%'.$keyword.'%')->orWhere('post_title', 'like', '%'.$keyword.'%')
+                ->with(['user'])->orderBy('created_at', 'desc')->paginate();
+        } else {
+            $posts = Post::with(['user'])->orderBy('created_at', 'desc')->paginate();
+        }
         return $posts;
     }
 

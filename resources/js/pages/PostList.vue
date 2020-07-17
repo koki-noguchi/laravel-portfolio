@@ -26,13 +26,17 @@ export default {
   },
   methods: {
     async fetchPosts () {
-      const response = await axios.get('/api/post')
-
-      if (response.status !== OK) {
-        this.$store.commit('error/setCode', response.status)
-        return false
+      const url = location.href.split('/post')
+      let response = []
+      if (url[1]) {
+        response = await axios.get('/api/post' + url[1])
+      } else {
+        response = await axios.get('/api/post')
       }
-
+      if (response.status !== OK) {
+          this.$store.commit('error/setCode', response.status)
+          return false
+        }
       this.posts = response.data.data
     }
   },

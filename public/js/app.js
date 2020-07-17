@@ -2088,6 +2088,26 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2114,6 +2134,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      keyword: '',
+      posts: []
+    };
+  },
+  methods: {
+    search: function search() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var string, pattern;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                string = location.href;
+                pattern = '/post?keyword=' + _this.keyword;
+
+                if (!(string.lastIndexOf(pattern) + pattern.length === string.length && pattern.length <= string.length)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _context.next = 8;
+                return axios.get('/api/post?keyword=' + _this.keyword).then(function (response) {
+                  return _this.posts = response.data;
+                })["catch"](function (error) {});
+
+              case 8:
+                _this.$router.push('/post?keyword=' + _this.keyword);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
   computed: {
     isLogin: function isLogin() {
       return this.$store.getters['auth/check'];
@@ -2597,19 +2661,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                url = location.href.split('/post');
+                response = [];
+
+                if (!url[1]) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 5;
+                return axios.get('/api/post' + url[1]);
+
+              case 5:
+                response = _context.sent;
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.next = 10;
                 return axios.get('/api/post');
 
-              case 2:
+              case 10:
                 response = _context.sent;
 
+              case 11:
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 14;
                   break;
                 }
 
@@ -2617,10 +2699,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 14:
                 _this.posts = response.data.data;
 
-              case 7:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -4259,13 +4341,68 @@ var render = function() {
               ],
               1
             )
-          : _vm._e()
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "post-search" }, [
+          _c(
+            "form",
+            {
+              staticClass: "form",
+              on: {
+                keydown: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  $event.preventDefault()
+                  return _vm.search($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form__item" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.keyword,
+                      expression: "keyword"
+                    }
+                  ],
+                  staticClass: "input--keyword",
+                  attrs: { type: "text", placeholder: "id or title" },
+                  domProps: { value: _vm.keyword },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.keyword = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ]
+          )
+        ])
       ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn button--search" }, [_c("span")])
+  }
+]
 render._withStripped = true
 
 
@@ -22615,6 +22752,10 @@ var routes = [{
 }, {
   path: '/post',
   component: _pages_PostList_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+}, {
+  path: '/post?:keyword',
+  component: _pages_PostList_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+  props: true
 }, {
   path: '/post/:id',
   component: _pages_PostDetail_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
