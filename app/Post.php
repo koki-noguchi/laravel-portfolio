@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $visible = [
-        'id', 'post_title', 'about', 'user', 'password_judge'
+        'id', 'post_title', 'about', 'user', 'password_judge', 'messages',
     ];
 
     protected $hidden = [
@@ -43,5 +43,14 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id', 'id', 'users');
+    }
+
+    /**
+     * リレーションシップ - messagesテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany('App\Message')->orderBy('id', 'desc');
     }
 }
