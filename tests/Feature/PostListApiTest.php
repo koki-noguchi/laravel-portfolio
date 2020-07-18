@@ -33,6 +33,7 @@ class PostListApiTest extends TestCase
                 'user' => [
                     'name' => $post->user->name,
                 ],
+                'bookmarked_by_user' => false,
             ];
         })
         ->all();
