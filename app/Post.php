@@ -53,4 +53,13 @@ class Post extends Model
     {
         return $this->hasMany('App\Message')->orderBy('id', 'desc');
     }
+
+    /**
+     * リレーションシップ - usersテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function bookmarks()
+    {
+        return $this->belongsToMany('App\User', 'bookmarks')->withTimestamps();
+    }
 }

@@ -99,4 +99,41 @@ class PostController extends Controller
         $new_post = Post::where('id', $post->id)->first();
         return $new_post;
     }
+
+    /**
+     * ブックマーク
+     * @param string $id
+     * @return array
+     */
+    public function bookmark(string $id)
+    {
+        $post = Post::where('id', $id)->with('bookmarks')->first();
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->bookmarks()->detach(Auth::user()->id);
+        $post->bookmarks()->attach(Auth::user()->id);
+
+        return ["post_id" => (int) $id];
+    }
+
+    /**
+     * ブックマークを外す
+     * @param string $id
+     * @return array
+     */
+    public function deleteBookmark(string $id)
+    {
+        $post = Post::where('id', $id)->with('bookmarks')->first();
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->bookmarks()->detach(Auth::user()->id);
+
+        return ["post_id" => (int) $id];
+    }
 }
