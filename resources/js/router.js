@@ -7,6 +7,7 @@ import Login from './pages/Login.vue'
 import Post from './pages/Posting.vue'
 import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
+import History from './pages/History.vue'
 
 import store from './store'
 
@@ -60,6 +61,10 @@ const routes = [
         path: '/post?:keyword',
         component: PostList,
         props: true
+    },
+    {
+        path: '/history',
+        component: History
     },
     {
         path: '/post/:id',
