@@ -1,5 +1,13 @@
 <template>
     <div v-if="post" class="post-detail">
+        <button
+          class="button button--bookmark"
+          :class="{ 'button--bookmark': post.bookmarked_by_user }"
+          title="Bookmark post"
+          @click="onBookmarkClick"
+        >
+            <i class="icon ion-md-heart">bookmark</i>
+        </button>
         <h1 class="post-detail__title">{{ post.post_title }}</h1>
         <div class="post-detail__about">
             {{ post.about }}
@@ -102,7 +110,44 @@ export default {
                 response.data,
                 ...this.post.messages
             ]
+        },
+        onBookmarkClick () {
+            if (! this.isLogin) {
+                alert('ブックマーク機能を使うにはログインが必要です。')
+                return false
+            }
+
+            if (this.post.bookmarked_by_user) {
+                this.deleteBookmark()
+            } else {
+                this.bookmark()
+            }
+        },
+        async bookmark () {
+            const response = await axios.put(`/api/post/${this.id}/bookmark`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.post.bookmarked_by_user = true
+        },
+        async deleteBookmark () {
+            const response = await axios.delete(`/api/post/${this.id}/bookmark`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.post.bookmarked_by_user = false
         }
+    },
+    computed: {
+        isLogin () {
+            return this.$store.getters['auth/check']
+        },
     },
     watch: {
         $route: {
