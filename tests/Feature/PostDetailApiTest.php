@@ -43,8 +43,8 @@ class PostDetailApiTest extends TestCase
                             ],
                             'message_text' => $message->message_text,
                         ];
-                    })
-                    ->all(),
+                    })->all(),
+                'bookmarked_by_user' => false,
             ]);
     }
 }

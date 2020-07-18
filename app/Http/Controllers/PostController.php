@@ -50,9 +50,9 @@ class PostController extends Controller
         $keyword = $request->input('keyword');
         if ($request->has('keyword')) {
             $posts = Post::where('id', 'like', '%'.$keyword.'%')->orWhere('post_title', 'like', '%'.$keyword.'%')
-                ->with(['user'])->orderBy('created_at', 'desc')->paginate();
+                ->with(['user', 'bookmarks'])->orderBy('created_at', 'desc')->paginate();
         } else {
-            $posts = Post::with(['user'])->orderBy('created_at', 'desc')->paginate();
+            $posts = Post::with(['user', 'bookmarks'])->orderBy('created_at', 'desc')->paginate();
         }
         return $posts;
     }
@@ -64,7 +64,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::where('id', $id)->with(['user', 'messages.author'])->first();
+        $post = Post::where('id', $id)->with(['user', 'messages.author', 'bookmarks'])->first();
 
         return $post ?? abort(404);
     }
@@ -98,5 +98,42 @@ class PostController extends Controller
 
         $new_post = Post::where('id', $post->id)->first();
         return $new_post;
+    }
+
+    /**
+     * ブックマーク
+     * @param string $id
+     * @return array
+     */
+    public function bookmark(string $id)
+    {
+        $post = Post::where('id', $id)->with('bookmarks')->first();
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->bookmarks()->detach(Auth::user()->id);
+        $post->bookmarks()->attach(Auth::user()->id);
+
+        return ["post_id" => (int) $id];
+    }
+
+    /**
+     * ブックマークを外す
+     * @param string $id
+     * @return array
+     */
+    public function deleteBookmark(string $id)
+    {
+        $post = Post::where('id', $id)->with('bookmarks')->first();
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->bookmarks()->detach(Auth::user()->id);
+
+        return ["post_id" => (int) $id];
     }
 }

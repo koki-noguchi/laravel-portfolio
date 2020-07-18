@@ -2210,11 +2210,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    bookmark: function bookmark() {
+      this.$emit('bookmark', {
+        id: this.item.id,
+        bookmarked: this.item.bookmarked_by_user
+      });
     }
   }
 });
@@ -2541,6 +2556,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2693,27 +2716,114 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    },
+    onBookmarkClick: function onBookmarkClick() {
+      if (!this.isLogin) {
+        alert('ブックマーク機能を使うにはログインが必要です。');
+        return false;
+      }
+
+      if (this.post.bookmarked_by_user) {
+        this.deleteBookmark();
+      } else {
+        this.bookmark();
+      }
+    },
+    bookmark: function bookmark() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios.put("/api/post/".concat(_this5.id, "/bookmark"));
+
+              case 2:
+                response = _context5.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context5.next = 6;
+                  break;
+                }
+
+                _this5.$store.commit('error/setCode', response.status);
+
+                return _context5.abrupt("return", false);
+
+              case 6:
+                _this5.post.bookmarked_by_user = true;
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios["delete"]("/api/post/".concat(_this6.id, "/bookmark"));
+
+              case 2:
+                response = _context6.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context6.next = 6;
+                  break;
+                }
+
+                _this6.$store.commit('error/setCode', response.status);
+
+                return _context6.abrupt("return", false);
+
+              case 6:
+                _this6.post.bookmarked_by_user = false;
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    }
+  },
+  computed: {
+    isLogin: function isLogin() {
+      return this.$store.getters['auth/check'];
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this5 = this;
+        var _this7 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context7.prev = _context7.next) {
                 case 0:
-                  _context5.next = 2;
-                  return _this5.fetchPost();
+                  _context7.next = 2;
+                  return _this7.fetchPost();
 
                 case 2:
                 case "end":
-                  return _context5.stop();
+                  return _context7.stop();
               }
             }
-          }, _callee5);
+          }, _callee7);
         }))();
       },
       immediate: true
@@ -2742,6 +2852,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -2819,27 +2930,124 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked = _ref.bookmarked;
+
+      if (!this.$store.getters['auth/check']) {
+        alert('ブックマーク機能を使うにはログインが必要です。');
+        return false;
+      }
+
+      if (bookmarked) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                return _context2.abrupt("return", false);
+
+              case 6:
+                _this2.posts = _this2.posts.map(function (post) {
+                  if (post.id === response.data.post_id) {
+                    post.bookmarked_by_user = true;
+                  }
+
+                  return post;
+                });
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this3.posts = _this3.posts.map(function (post) {
+                  if (post.id === response.data.post_id) {
+                    post.bookmarked_by_user = false;
+                  }
+
+                  return post;
+                });
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this2 = this;
+        var _this4 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context2.prev = _context2.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context2.next = 2;
-                  return _this2.fetchPosts();
+                  _context4.next = 2;
+                  return _this4.fetchPosts();
 
                 case 2:
                 case "end":
-                  return _context2.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee2);
+          }, _callee4);
         }))();
       },
       immediate: true
@@ -4535,6 +4743,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "post" }, [
+    _c(
+      "button",
+      {
+        staticClass: "post__action post__action--bookmark",
+        class: { "post__action--bookmarked": _vm.item.bookmarked_by_user },
+        attrs: { title: "Bookmark post" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.bookmark($event)
+          }
+        }
+      },
+      [_c("i", { staticClass: "icon ion-md-heart" }, [_vm._v("bookmark")])]
+    ),
+    _vm._v(" "),
     _c("p", { staticClass: "post-user" }, [_vm._v(_vm._s(_vm.item.user.name))]),
     _vm._v(" "),
     _c(
@@ -4931,6 +5155,21 @@ var render = function() {
         "div",
         { staticClass: "post-detail" },
         [
+          _c(
+            "button",
+            {
+              staticClass: "button button--bookmark",
+              class: { "button--bookmark": _vm.post.bookmarked_by_user },
+              attrs: { title: "Bookmark post" },
+              on: { click: _vm.onBookmarkClick }
+            },
+            [
+              _c("i", { staticClass: "icon ion-md-heart" }, [
+                _vm._v("bookmark")
+              ])
+            ]
+          ),
+          _vm._v(" "),
           _c("h1", { staticClass: "post-detail__title" }, [
             _vm._v(_vm._s(_vm.post.post_title))
           ]),
@@ -5037,7 +5276,8 @@ var render = function() {
         return _c("Post", {
           key: post.id,
           staticClass: "grid__item",
-          attrs: { item: post }
+          attrs: { item: post },
+          on: { bookmark: _vm.onBookmarkClick }
         })
       }),
       1
