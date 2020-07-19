@@ -10,6 +10,11 @@
                 </RouterLink>
             </span>
             <span v-if="isLogin !== true" class="navbar-item">
+                <button class="button button--link" @click.prevent="guestLogin">
+                    ゲストユーザーとしてログイン
+                </button>
+            </span>
+            <span v-if="isLogin !== true" class="navbar-item">
                 <RouterLink class="button button--link" to="/register">
                     新規登録
                 </RouterLink>
@@ -36,11 +41,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
     data () {
         return {
             keyword: '',
-            posts: []
+            posts: [],
+            loginForm: {
+                login_id: 'guest001',
+                password: 'i29tg58f',
+            }
         }
     },
     methods: {
@@ -55,7 +66,20 @@ export default {
                 .catch(error => {})
                 this.$router.push('/post?keyword=' + this.keyword)
             }
+        },
+        async guestLogin () {
+            await this.$store.dispatch('auth/login', this.loginForm)
+
+            if (this.apiStatus) {
+                this.$router.push('/').catch(()=>{})
+            }
+        },
+        clearError () {
+            this.$store.commit('auth/setLoginErrorMessages', null)
         }
+    },
+    created () {
+        this.clearError()
     },
     computed : {
         isLogin () {
@@ -63,7 +87,11 @@ export default {
         },
         username () {
             return this.$store.getters['auth/username']
-        }
+        },
+        ...mapState({
+            apiStatus: state => state.auth.apiStatus,
+            loginErrors: state => state.auth.loginErrorMessages
+        })
     }
 }
 </script>
