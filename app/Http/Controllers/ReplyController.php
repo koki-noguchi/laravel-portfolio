@@ -15,14 +15,15 @@ class ReplyController extends Controller
 {
     /**
      * メッセージ投稿
+     * @params Post $post
      * @params Message $message
      * @param StoreReplies $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Message $message, StoreReplies $request)
+    public function create(Post $post, Message $message, StoreReplies $request)
     {
         $id = Auth::user()->id;
-        if ((int) $message->post->user_id === $id) {
+        if ((int) $post->user_id === $id) {
             $reply = new Reply();
             $reply->reply_text = $request->get('reply_text');
             $reply->user_id = $id;

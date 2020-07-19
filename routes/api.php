@@ -27,4 +27,4 @@ Route::post('/post/{post}/messages', 'MessageController@addMessage')->name('post
 Route::get('/history', 'HistoryController@index')->name('history.index');
 Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add');
 Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
-Route::post('/messages/{message}', 'ReplyController@create')->name('reply.create');
+Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');

@@ -23,6 +23,7 @@ class ReplyApiTest extends TestCase
         ])->each(function ($post) {
             $post->messages()->saveMany(factory(Message::class, 3)->make());
         });
+        $this->post = Post::first();
         $this->message = Message::first();
     }
 
@@ -35,6 +36,7 @@ class ReplyApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('POST', route('reply.create', [
+                'post' => $this->post->id,
                 'message' => $this->message->id,
             ]), compact('reply_text'));
 
