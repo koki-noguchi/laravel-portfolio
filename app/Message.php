@@ -18,4 +18,23 @@ class Message extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id', 'users');
     }
+
+    /**
+     * リレーションシップ - repliesテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function reply()
+    {
+        return $this->hasOne('App\Reply')->orderBy('id', 'desc');
+    }
+
+    /**
+     * リレーションシップ - postsテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function post()
+    {
+        return $this->belongsTo('App\Post', 'post_id', 'id', 'posts');
+    }
+
 }
