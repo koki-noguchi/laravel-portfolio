@@ -14,7 +14,11 @@ class AddColumnTextToRepiesTable extends Migration
     public function up()
     {
         Schema::table('replies', function (Blueprint $table) {
-            $table->text('reply_text');
+            $table->text('reply_text')->nullable();
+            $table->timestamps();
+        });
+        Schema::table('replies', function (Blueprint $table) {
+            $table->text('reply_text')->nullable(false)->change();
         });
     }
 
@@ -27,6 +31,8 @@ class AddColumnTextToRepiesTable extends Migration
     {
         Schema::table('replies', function (Blueprint $table) {
             $table->dropColumn('reply_text');
+            $table->dropColumn('created_at');
+            $table->dropColumn('updated_at');
         });
     }
 }
