@@ -29,8 +29,7 @@ class Post extends Model
     ];
 
     /**
-     * ユーザーの管理者フラグを取得
-     *
+     * アクセサ - password_judge
      * @return bool
      */
     public function getPasswordJudgeAttribute()

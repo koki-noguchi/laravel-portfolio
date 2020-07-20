@@ -29,6 +29,7 @@
             <p class="post-detail__messageBody">
                 {{ message.author.name}}
             </p>
+            <RouterLink :to="`/post/${id}/message/${message.id}`">reply</RouterLink>
             </li>
         </ul>
         <p v-else>No messages yet.</p>
@@ -97,13 +98,13 @@ export default {
             })
             await this.fetchPost()
         },
-        createMessage ({ message_text }) {
-            this.create(message_text)
+        createMessage ({ text }) {
+            this.create(text)
         },
-        async create (message_text) {
+        async create (text) {
             const response = await axios.post(`/api/post/${this.id}/messages`,
             {
-                message_text: message_text
+                message_text: text
             })
 
             this.post.messages = [

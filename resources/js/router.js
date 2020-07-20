@@ -8,6 +8,7 @@ import Post from './pages/Posting.vue'
 import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
 import History from './pages/History.vue'
+import MessageDetail from './pages/MessageDetail.vue'
 
 import store from './store'
 
@@ -72,6 +73,11 @@ const routes = [
         props: true
     },
     {
+        path: '/post/:post_id/message/:message_id',
+        component: MessageDetail,
+        props: true
+    },
+    {
         path: '/500',
         component: SystemError
     }
@@ -79,7 +85,14 @@ const routes = [
 
 const router = new VueRouter({
     mode: 'history',
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    }
 })
 
 export default router
