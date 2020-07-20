@@ -17,6 +17,10 @@
                 <div class="message-detail__name">
                     {{ reply.reply_user.name }}
                 </div>
+                <button 
+                  v-if="reply.my_reply"
+                  @click.prevent="deleteReply(reply.id)"
+                >削除</button>
             </li>
         </ul>
         <div>
@@ -78,6 +82,16 @@ export default {
                 response.data,
                 ...this.message.replies
             ]
+        },
+        async deleteReply (id) {
+            const response = await axios.delete(`/api/reply/${id}`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.fetchReply()
         }
     },
     computed: {
