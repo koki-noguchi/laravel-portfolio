@@ -52,4 +52,20 @@ class ReplyController extends Controller
         }
         return $message ?? abort(404);
     }
+
+    /**
+     * メッセージ募集の削除
+     * @params string $id
+     * @return Reply
+     */
+    public function delete(string $id)
+    {
+        $reply = Reply::where('id', $id)->first();
+
+        if ((int) $reply->user_id !==  Auth::user()->id || ! $reply) {
+            abort(401);
+        } else {
+            $reply->delete();
+        }
+    }
 }

@@ -2,26 +2,36 @@
 
 namespace App;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
     protected $visible = [
-        'reply_user', 'reply_text', 'reply_judge',
+        'id', 'reply_user', 'reply_text', 'post_user', 'my_reply'
     ];
 
     protected $appends = [
-        'reply_judge',
+        'post_user', 'my_reply'
     ];
 
     /**
-     * アクセサ - reply_judge
+     * アクセサ - post_user
      * @return boolean
      */
-    public function getReplyJudgeAttribute()
+    public function getPostUserAttribute()
     {
         return (int) $this->message->post->user_id === $this->user_id;
+    }
+
+    /**
+     * アクセサ - my_reply
+     * @return boolean
+     */
+    public function getMyReplyAttribute()
+    {
+        return (int) $this->user_id === Auth::user()->id;
     }
 
     /**

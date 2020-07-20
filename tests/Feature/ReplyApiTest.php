@@ -73,8 +73,11 @@ class ReplyApiTest extends TestCase
             'message' => $this->message->id,
         ]));
 
+        $reply = $this->message->replies()->first();
+
         $response->assertStatus(200)
             ->assertJsonFragment([
+                'id' => $reply->id,
                 'author' => [
                     'name' => $this->message->author->name,
                 ],
@@ -84,6 +87,31 @@ class ReplyApiTest extends TestCase
                 ],
                 'reply_text' => $reply_text,
             ]);
+    }
 
+    /**
+     * @test
+     */
+    public function should_リプライを削除できる()
+    {
+        $reply_text = 'sample reply';
+
+        $this->actingAs($this->user)
+            ->json('POST', route('reply.create', [
+                'post' => $this->post->id,
+                'message' => $this->message->id,
+            ]), compact('reply_text'));
+
+        $reply = $this->message->replies()->first();
+
+        $response = $this->actingAs($this->user)
+            ->json('DELETE', route('reply.delete', [
+                'id' => $reply->id,
+            ]));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('replies', [
+            'id' => $reply->id,
+        ]);
     }
 }

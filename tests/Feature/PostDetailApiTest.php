@@ -38,6 +38,7 @@ class PostDetailApiTest extends TestCase
                     ->sortByDesc('id')
                     ->map(function ($message) {
                         return [
+                            'id' => $message->id,
                             'author' => [
                                 'name' => $message->author->name,
                             ],

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $visible = [
-        'author', 'message_text', 'replies',
+        'id', 'author', 'message_text', 'replies',
     ];
 
     /**
