@@ -30,3 +30,4 @@ Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add
 Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
 Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');
 Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');
+Route::delete('/reply/{id}', 'ReplyController@delete')->name('reply.delete');
