@@ -73,8 +73,11 @@ class ReplyApiTest extends TestCase
             'message' => $this->message->id,
         ]));
 
+        $reply = $this->message->replies()->first();
+
         $response->assertStatus(200)
             ->assertJsonFragment([
+                'id' => $reply->id,
                 'author' => [
                     'name' => $this->message->author->name,
                 ],

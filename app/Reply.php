@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     protected $visible = [
-        'reply_user', 'reply_text', 'reply_judge',
+        'id', 'reply_user', 'reply_text', 'reply_judge',
     ];
 
     protected $appends = [
