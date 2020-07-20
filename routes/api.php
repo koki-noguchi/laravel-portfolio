@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReplyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,4 @@ Route::get('/history', 'HistoryController@index')->name('history.index');
 Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add');
 Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
 Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');
+Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');

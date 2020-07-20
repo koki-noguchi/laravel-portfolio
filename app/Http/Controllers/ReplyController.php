@@ -22,19 +22,34 @@ class ReplyController extends Controller
      */
     public function create(Post $post, Message $message, StoreReplies $request)
     {
-        $id = Auth::user()->id;
-        if ((int) $post->user_id === $id) {
+        if (! $post) {
+            abort(401);
+        } else {
             $reply = new Reply();
             $reply->reply_text = $request->get('reply_text');
-            $reply->user_id = $id;
+            $reply->user_id = Auth::user()->id;
             $reply->message_id = $message->id;
-            $message->reply()->save($reply);
+            $message->replies()->save($reply);
 
             $new_reply = Reply::where('id', $reply->id)->with('reply_user')->first();
 
             return response($new_reply, 201);
-        } else {
-            abort(401);
         }
+    }
+
+    /**
+     * メッセージ詳細の取得
+     * @params Post $post
+     * @params Message $message
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Post $post, Message $message)
+    {
+        if (! $post) {
+            abort(401);
+        } else {
+            $message = Message::where('id', $message->id)->with(['author', 'replies.reply_user'])->first();
+        }
+        return $message ?? abort(404);
     }
 }

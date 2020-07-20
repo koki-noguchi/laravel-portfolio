@@ -40,7 +40,7 @@ class ReplyApiTest extends TestCase
                 'message' => $this->message->id,
             ]), compact('reply_text'));
 
-        $reply = $this->message->reply()->get();
+        $reply = $this->message->replies()->get();
 
         $response->assertStatus(201)
             ->assertJsonFragment([
@@ -53,5 +53,37 @@ class ReplyApiTest extends TestCase
         $this->assertEquals(1, $reply->count());
 
         $this->assertEquals($reply_text, $reply[0]->reply_text);
+    }
+
+    /**
+     * @test
+     */
+    public function should_メッセージと返信を取得できる()
+    {
+        $reply_text = 'sample reply';
+
+        $this->actingAs($this->user)
+            ->json('POST', route('reply.create', [
+                'post' => $this->post->id,
+                'message' => $this->message->id,
+            ]), compact('reply_text'));
+
+        $response = $this->json('GET', route('reply.show', [
+            'post' => $this->post->id,
+            'message' => $this->message->id,
+        ]));
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'author' => [
+                    'name' => $this->message->author->name,
+                ],
+                'message_text' => $this->message->message_text,
+                'reply_user' => [
+                    'name' => $this->user->name,
+                ],
+                'reply_text' => $reply_text,
+            ]);
+
     }
 }

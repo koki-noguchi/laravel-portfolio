@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $visible = [
-        'author', 'message_text',
+        'author', 'message_text', 'replies',
     ];
 
     /**
@@ -21,11 +21,11 @@ class Message extends Model
 
     /**
      * リレーションシップ - repliesテーブル
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reply()
+    public function replies()
     {
-        return $this->hasOne('App\Reply')->orderBy('id', 'desc');
+        return $this->hasMany('App\Reply')->orderBy('id', 'desc');
     }
 
     /**
