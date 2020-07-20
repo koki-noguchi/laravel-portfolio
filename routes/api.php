@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReplyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,9 @@ Route::get('/post/{id}', 'PostController@show')->name('post.show');
 Route::delete('/post/{id}', 'PostController@delete')->name('post.delete');
 Route::put('/post/{id}', 'PostController@update')->name('post.update');
 Route::post('/post/{post}/messages', 'MessageController@addMessage')->name('post.message');
+Route::get('/history', 'HistoryController@index')->name('history.index');
+Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add');
+Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
+Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');
+Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');
+Route::delete('/reply/{id}', 'ReplyController@delete')->name('reply.delete');
