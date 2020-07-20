@@ -62,6 +62,11 @@ class ReplyController extends Controller
     {
         $reply = Reply::where('id', $id)->first();
 
+        if ($reply->user_id === Auth::user()->id) {
+            abort(401);
+            return false;
+        }
+
         if (! $reply) {
             abort(404);
         }
