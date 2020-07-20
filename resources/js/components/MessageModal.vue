@@ -1,7 +1,7 @@
 <template>
     <div>
         <textarea
-          v-model="message_text"
+          v-model="text"
         ></textarea>
         <div class="form__button">
           <button
@@ -16,13 +16,13 @@
 export default {
   data () {
     return {
-        message_text: this.message_text,
+        text: this.text,
     }
   },
   methods: {
     create () {
       this.$emit('create', {
-        message_text: this.message_text
+        text: this.text
       })
     }
   }
