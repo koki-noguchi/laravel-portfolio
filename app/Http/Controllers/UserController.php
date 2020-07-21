@@ -46,6 +46,10 @@ class UserController extends Controller
      */
     public function delete()
     {
-        User::where('id', Auth::id())->delete();
+        if ((string) Auth::user()->login_id !== "guest001") {
+            User::where('id', Auth::id())->delete();
+        } else {
+            abort(401);
+        }
     }
 }
