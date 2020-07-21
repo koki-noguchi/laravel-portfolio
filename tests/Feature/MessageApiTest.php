@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Post;
+use App\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -47,5 +48,30 @@ class MessageApiTest extends TestCase
         $this->assertEquals(1, $messages->count());
 
         $this->assertEquals($message_text, $messages[0]->message_text);
+    }
+
+    /**
+     * @test
+     */
+    public function should_メッセージを削除できる()
+    {
+        factory(Post::class)->create()
+        ->each(function ($post) {
+            $post->messages()->save(factory(Message::class)->make([
+                'user_id' => $this->user->id,
+            ]));
+        });
+
+        $message = Message::first();
+
+        $response = $this->actingAs($this->user)
+            ->json('DELETE', route('message.delete', [
+                'id' => $message->id,
+            ]));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('messages', [
+            'id' => $message->id,
+        ]);
     }
 }

@@ -31,4 +31,20 @@ class MessageController extends Controller
         return response($new_message, 201);
 
     }
+
+    /**
+     * メッセージ募集の削除
+     * @params string $id
+     * @return Message
+     */
+    public function delete(string $id)
+    {
+        $message = Message::where('id', $id)->first();
+
+        if ((int) $message->user_id !== Auth::user()->id || ! $message) {
+            abort(401);
+        } else {
+            $message->delete();
+        }
+    }
 }
