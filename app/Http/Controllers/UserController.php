@@ -32,4 +32,12 @@ class UserController extends Controller
             abort(401);
         }
     }
+
+    /**
+     * ユーザー情報取得
+     */
+    public function show()
+    {
+        return response()->json(['login_id' => Auth::user()->login_id, 'name' => Auth::user()->name]);
+    }
 }

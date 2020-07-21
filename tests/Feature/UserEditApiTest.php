@@ -55,4 +55,19 @@ class UserEditApiTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    /**
+     * @test
+     */
+    public function should_ログイン中のユーザー情報をid含めて取得できる()
+    {
+        $response = $this->actingAs($this->user)->json('GET', route('user.show'));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'login_id' => $this->user->login_id,
+                'name' => $this->user->name,
+            ]);
+    }
 }
