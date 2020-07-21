@@ -2846,6 +2846,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2999,19 +3003,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    onBookmarkClick: function onBookmarkClick() {
-      if (!this.isLogin) {
-        alert('ブックマーク機能を使うにはログインが必要です。');
-        return false;
-      }
-
-      if (this.post.bookmarked_by_user) {
-        this.deleteBookmark();
-      } else {
-        this.bookmark();
-      }
-    },
-    bookmark: function bookmark() {
+    deleteMessage: function deleteMessage(id) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
@@ -3021,7 +3013,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios.put("/api/post/".concat(_this5.id, "/bookmark"));
+                return axios["delete"]("/api/message/".concat(id));
 
               case 2:
                 response = _context5.sent;
@@ -3036,7 +3028,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context5.abrupt("return", false);
 
               case 6:
-                _this5.post.bookmarked_by_user = true;
+                _this5.fetchPost();
 
               case 7:
               case "end":
@@ -3046,7 +3038,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    deleteBookmark: function deleteBookmark() {
+    onBookmarkClick: function onBookmarkClick() {
+      if (!this.isLogin) {
+        alert('ブックマーク機能を使うにはログインが必要です。');
+        return false;
+      }
+
+      if (this.post.bookmarked_by_user) {
+        this.deleteBookmark();
+      } else {
+        this.bookmark();
+      }
+    },
+    bookmark: function bookmark() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
@@ -3056,7 +3060,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return axios["delete"]("/api/post/".concat(_this6.id, "/bookmark"));
+                return axios.put("/api/post/".concat(_this6.id, "/bookmark"));
 
               case 2:
                 response = _context6.sent;
@@ -3071,7 +3075,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context6.abrupt("return", false);
 
               case 6:
-                _this6.post.bookmarked_by_user = false;
+                _this6.post.bookmarked_by_user = true;
 
               case 7:
               case "end":
@@ -3079,6 +3083,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee6);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return axios["delete"]("/api/post/".concat(_this7.id, "/bookmark"));
+
+              case 2:
+                response = _context7.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context7.next = 6;
+                  break;
+                }
+
+                _this7.$store.commit('error/setCode', response.status);
+
+                return _context7.abrupt("return", false);
+
+              case 6:
+                _this7.post.bookmarked_by_user = false;
+
+              case 7:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     }
   },
@@ -3090,22 +3129,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     $route: {
       handler: function handler() {
-        var _this7 = this;
+        var _this8 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
             while (1) {
-              switch (_context7.prev = _context7.next) {
+              switch (_context8.prev = _context8.next) {
                 case 0:
-                  _context7.next = 2;
-                  return _this7.fetchPost();
+                  _context8.next = 2;
+                  return _this8.fetchPost();
 
                 case 2:
                 case "end":
-                  return _context7.stop();
+                  return _context8.stop();
               }
             }
-          }, _callee7);
+          }, _callee8);
         }))();
       },
       immediate: true
@@ -5612,6 +5651,21 @@ var render = function() {
                             "\n        "
                         )
                       ]),
+                      _vm._v(" "),
+                      message.my_message
+                        ? _c(
+                            "button",
+                            {
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteMessage(message.id)
+                                }
+                              }
+                            },
+                            [_vm._v("削除")]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "RouterLink",
