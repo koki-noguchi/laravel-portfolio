@@ -1,0 +1,71 @@
+<template>
+    <div>
+        <p>EDIT USER</p>
+        <p>login_id</p>
+        <input 
+          type="text"
+          v-model="login_id">
+        <p>name</p>
+        <input
+          type="text"
+          v-model="name">
+        <input
+          type="file"
+        >
+        <div class="form__button">
+            <button
+                class="button button__inverse"
+                @click.prevent="update"
+            >送信</button>
+        </div>
+    </div>
+</template>
+
+<script>
+import { OK } from "../util"
+
+export default {
+    data () {
+        return {
+            login_id: '',
+            name: '',
+        }
+    },
+    methods: {
+        async fetchUser () {
+            const response = await axios.get('/api/myuser')
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.login_id = response.data.login_id
+            this.name = response.data.name
+        },
+        async update () {
+            const response = await axios.put('/api/user', {
+                name: this.name,
+                login_id: this.login_id,
+            })
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+            this.name = ''
+            this.login_id = ''
+
+            await this.fetchUser()
+        }
+    },
+    watch: {
+        $route: {
+            async handler () {
+                await this.fetchUser()
+            },
+            immediate: true
+        }
+    }
+}
+</script>

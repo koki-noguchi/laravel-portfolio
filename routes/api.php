@@ -21,6 +21,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/posting', 'PostController@create')->name('posting.create');
 Route::get('/user', fn() => Auth::user())->name('user');
 Route::put('/user', 'UserController@update')->name('user.update');
+Route::get('/myuser','UserController@show')->name('user.show');
 Route::get('/post', 'PostController@index')->name('post.index');
 Route::get('/post/{id}', 'PostController@show')->name('post.show');
 Route::delete('/post/{id}', 'PostController@delete')->name('post.delete');
