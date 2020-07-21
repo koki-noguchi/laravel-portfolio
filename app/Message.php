@@ -1,14 +1,28 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
     protected $visible = [
-        'id', 'author', 'message_text', 'replies',
+        'id', 'author', 'message_text', 'replies', 'my_message'
     ];
+
+    protected $appends = [
+        'my_message'
+    ];
+
+    /**
+     * アクセサ - my_message
+     * @return boolean
+     */
+    public function getMyMessageAttribute()
+    {
+        return (int) $this->user_id === Auth::user()->id;
+    }
 
     /**
      * リレーションシップ - usersテーブル

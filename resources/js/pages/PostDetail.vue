@@ -29,6 +29,10 @@
             <p class="post-detail__messageBody">
                 {{ message.author.name}}
             </p>
+            <button
+              v-if="message.my_message"
+              @click.prevent="deleteMessage(message.id)"
+            >削除</button>
             <RouterLink :to="`/post/${id}/message/${message.id}`">reply</RouterLink>
             </li>
         </ul>
@@ -111,6 +115,16 @@ export default {
                 response.data,
                 ...this.post.messages
             ]
+        },
+        async deleteMessage(id) {
+            const response = await axios.delete(`/api/message/${id}`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.fetchPost()
         },
         onBookmarkClick () {
             if (! this.isLogin) {
