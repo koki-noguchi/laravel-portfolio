@@ -7,7 +7,7 @@ import Login from './pages/Login.vue'
 import Post from './pages/Posting.vue'
 import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
-import History from './pages/History.vue'
+import Mypage from './pages/Mypage.vue'
 import MessageDetail from './pages/MessageDetail.vue'
 
 import store from './store'
@@ -64,8 +64,8 @@ const routes = [
         props: true
     },
     {
-        path: '/history',
-        component: History
+        path: '/mypage',
+        component: Mypage
     },
     {
         path: '/post/:id',
