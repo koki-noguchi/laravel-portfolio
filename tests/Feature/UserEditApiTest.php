@@ -70,4 +70,33 @@ class UserEditApiTest extends TestCase
                 'name' => $this->user->name,
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function should_ユーザーを削除できる()
+    {
+        $response = $this->actingAs($this->user)
+            ->json('DELETE', route('user.delete'));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('users', [
+            'id' => $this->user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function should_ゲストユーザーは削除できない()
+    {
+        $user = factory(User::class)->create([
+            'login_id' => "guest001",
+        ]);
+
+        $response = $this->actingAs($user)
+            ->json('delete', route('user.delete'));
+
+        $response->assertStatus(401);
+    }
 }

@@ -2489,6 +2489,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2574,27 +2579,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    deleteUser: function deleteUser() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]('/api/user');
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this3.$store.commit('auth/setUser', null);
+
+                _this3.$router.push('/');
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this3 = this;
+        var _this4 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context3.prev = _context3.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context3.next = 2;
-                  return _this3.fetchUser();
+                  _context4.next = 2;
+                  return _this4.fetchUser();
 
                 case 2:
                 case "end":
-                  return _context3.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee3);
+          }, _callee4);
         }))();
       },
       immediate: true
@@ -5582,6 +5624,21 @@ var render = function() {
           }
         },
         [_vm._v("送信")]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form__button" }, [
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.deleteUser($event)
+            }
+          }
+        },
+        [_vm._v("退会する")]
       )
     ])
   ])

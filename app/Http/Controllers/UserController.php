@@ -40,4 +40,16 @@ class UserController extends Controller
     {
         return response()->json(['login_id' => Auth::user()->login_id, 'name' => Auth::user()->name]);
     }
+
+    /**
+     * ユーザー情報の削除
+     */
+    public function delete()
+    {
+        if ((string) Auth::user()->login_id !== "guest001") {
+            User::where('id', Auth::id())->delete();
+        } else {
+            abort(401);
+        }
+    }
 }
