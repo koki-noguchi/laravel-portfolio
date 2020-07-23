@@ -26,6 +26,7 @@ class UpdateUser extends FormRequest
         return [
             'login_id' => ['string', 'min:8','max:12','alpha_num','unique:users'],
             'name' => ['string', 'max:255'],
+            'user_image' => ['file', 'mimes:jpg,jpeg,png,gif'],
         ];
     }
 }
