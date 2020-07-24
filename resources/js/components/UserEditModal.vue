@@ -9,9 +9,7 @@
         <input
           type="text"
           v-model="name">
-        <input
-          type="file"
-        >
+        <ProfileImage :imgSrc="user_image"></ProfileImage>
         <div class="form__button">
             <button
                 class="button button__inverse"
@@ -28,12 +26,17 @@
 
 <script>
 import { OK } from "../util"
+import ProfileImage from '../components/ProfileImage.vue'
 
 export default {
+    components: {
+        ProfileImage
+    },
     data () {
         return {
             login_id: '',
             name: '',
+            user_image: '',
         }
     },
     methods: {
@@ -47,6 +50,7 @@ export default {
 
             this.login_id = response.data.login_id
             this.name = response.data.name
+            this.user_image = response.data.user_image
         },
         async update () {
             const response = await axios.put('/api/user', {

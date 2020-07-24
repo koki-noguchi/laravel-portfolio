@@ -9,6 +9,10 @@
                     ホーム
                 </RouterLink>
             </span>
+            <span v-if="isLogin" class="navbar-item">
+                {{ username }}
+                <img :src="image">
+            </span>
             <span v-if="isLogin !== true" class="navbar-item">
                 <button class="button button--link" @click.prevent="guestLogin">
                     ゲストユーザーとしてログイン
@@ -87,6 +91,9 @@ export default {
         },
         username () {
             return this.$store.getters['auth/username']
+        },
+        image () {
+            return this.$store.getters['auth/image']
         },
         ...mapState({
             apiStatus: state => state.auth.apiStatus,
