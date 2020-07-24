@@ -24,8 +24,9 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            'login_id' => ['string', 'min:8','max:12','alpha_num','unique:users'],
+            'login_id' => ['string', 'min:8','max:12','alpha_num'],
             'name' => ['string', 'max:255'],
+            'user_image' => [],
         ];
     }
 }

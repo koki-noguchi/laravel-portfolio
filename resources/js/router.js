@@ -65,7 +65,14 @@ const routes = [
     },
     {
         path: '/mypage',
-        component: Mypage
+        component: Mypage,
+        beforeEnter (to, from, next) {
+            if (store.getters['auth/check']) {
+                next()
+            } else {
+                next('/')
+            }
+        }
     },
     {
         path: '/post/:id',

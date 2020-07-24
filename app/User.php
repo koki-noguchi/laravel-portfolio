@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -16,11 +17,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login_id', 'password', 'permission_id',
+        'name', 'login_id', 'password', 'permission_id', 'user_image',
     ];
 
     protected $visible = [
-        'name',
+        'name', 'user_image',
+    ];
+
+    protected $appends = [
+        'url',
     ];
 
     /**
@@ -31,6 +36,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * アクセサ - url
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return Storage::cloud()->url($this->attributes['user_image']);
+    }
 
     /**
      * リレーションシップ - photosテーブル
