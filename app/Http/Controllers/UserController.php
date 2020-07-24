@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -27,22 +28,27 @@ class UserController extends Controller
             $user = User::find(Auth::user()->id);
             $user->fill($request->except(['user_image']));
 
-            $image = $request->user_image;
+            $file_base64 = $request->input('user_image');
 
-            if ($image !== null) {
-                $image_path = Storage::cloud()->putFile('profile_image', $image, 'public');
-                // $image_path = Storage::cloud()->url($path);
+            if ($file_base64 !== null) {
+                list(, $fileData) = explode(';', $file_base64);
+                list(, $fileData) = explode(',', $fileData);
+                $fileData = base64_decode($fileData);
+                $fileName= Str::random(12).'.jpeg';
+                $path = 'profile_image/'.$fileName;
+
+                Storage::cloud()->put($path, $fileData, 'public');
 
                 DB::beginTransaction();
 
                 try {
-                    $user->user_image = $image_path;
+                    $user->user_image = $path;
                     $user->save();
                     DB::commit();
                 } catch (\Exception $exception) {
                     DB::rollBack();
 
-                    Storage::cloud()->delete($image);
+                    Storage::cloud()->delete($fileData);
                     throw $exception;
                 }
             } else {
