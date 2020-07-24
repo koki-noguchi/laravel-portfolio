@@ -29,7 +29,7 @@ class UserPhotoApiTest extends TestCase
         Storage::fake('s3');
 
         $data = [
-            'user_image' => UploadedFile::fake()->image('photo.jpg'),
+            'user_image' => 'data:image/jpg;base64,'. base64_encode(UploadedFile::fake()->image('photo.jpg')) ,
         ];
 
         $response = $this->actingAs($this->user)
@@ -53,7 +53,7 @@ class UserPhotoApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('PUT', route('user.update'), [
-                'user_image' => UploadedFile::fake()->image('photo.jpg'),
+                'user_image' => 'data:image/jpg;base64,'. base64_encode(UploadedFile::fake()->image('photo.jpg')),
             ]);
 
         $response->assertStatus(500);
@@ -71,7 +71,7 @@ class UserPhotoApiTest extends TestCase
             ->andReturnNull();
 
         $data = [
-            'user_image' => UploadedFile::fake()->image('photo.jpg'),
+            'user_image' => 'data:image/jpg;base64,'. base64_encode(UploadedFile::fake()->image('photo.jpg')),
         ];
 
         $response = $this->actingAs($this->user)
