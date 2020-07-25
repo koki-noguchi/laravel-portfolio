@@ -2168,7 +2168,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2520,14 +2519,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8397,36 +8388,32 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "" } },
+                { attrs: { text: "", to: "/" } },
                 [
-                  _c(
-                    "RouterLink",
-                    {
-                      staticClass: "button button--link black--text",
-                      attrs: { to: "/" }
-                    },
-                    [_vm._v("\n                    ホーム\n                ")]
-                  )
+                  _c("v-icon", { attrs: { to: "/" } }, [_vm._v("home")]),
+                  _vm._v("\n                    ホーム\n            ")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticStyle: { "text-decoration": "none" },
+                  attrs: { text: "", to: "/mypage" }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.username) +
+                      "\n                "
+                  ),
+                  _c("v-avatar", { attrs: { size: "30px" } }, [
+                    _c("img", { attrs: { src: _vm.image } })
+                  ])
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              staticStyle: { "text-decoration": "none" },
-              attrs: { text: "", to: "/mypage" }
-            },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.username) + "\n            "
-              ),
-              _c("v-avatar", { attrs: { size: "30px" } }, [
-                _c("img", { attrs: { src: _vm.image } })
-              ])
             ],
             1
           )
@@ -8677,7 +8664,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("ゲストログイン")])],
+                    [_c("v-list-item-title", [_vm._v("Guest Login")])],
                     1
                   )
                 ],
@@ -8775,12 +8762,18 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "" } },
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.guestLogin($event)
+                    }
+                  }
+                },
                 [
-                  _c("v-icon", [_vm._v("verified_user")]),
-                  _vm._v(" "),
                   _c(
-                    "button",
+                    "v-icon",
                     {
                       on: {
                         click: function($event) {
@@ -8789,69 +8782,43 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                    ゲストログイン\n                "
-                      )
-                    ]
-                  )
+                    [_vm._v("verified_user")]
+                  ),
+                  _vm._v("\n                    ゲストログイン\n            ")
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "" } },
+                { attrs: { text: "", to: "/" } },
                 [
-                  _c("v-icon", [_vm._v("home")]),
-                  _vm._v(" "),
-                  _c(
-                    "RouterLink",
-                    {
-                      staticClass: "black--text",
-                      staticStyle: { "text-decoration": "none" },
-                      attrs: { to: "/" }
-                    },
-                    [_vm._v("\n                    ホーム\n                ")]
-                  )
+                  _c("v-icon", { attrs: { to: "/" } }, [_vm._v("home")]),
+                  _vm._v("\n                    ホーム\n            ")
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "" } },
+                { attrs: { text: "", to: "/register" } },
                 [
-                  _c("v-icon", [_vm._v("how_to_reg")]),
-                  _vm._v(" "),
-                  _c(
-                    "RouterLink",
-                    {
-                      staticClass: "black--text",
-                      staticStyle: { "text-decoration": "none" },
-                      attrs: { to: "/register" }
-                    },
-                    [_vm._v("\n                    新規登録\n                ")]
-                  )
+                  _c("v-icon", { attrs: { to: "/register" } }, [
+                    _vm._v("how_to_reg")
+                  ]),
+                  _vm._v("\n                    新規登録\n            ")
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "" } },
+                { attrs: { text: "", to: "/login" } },
                 [
-                  _c("v-icon", [_vm._v("account_box")]),
-                  _vm._v(" "),
-                  _c(
-                    "RouterLink",
-                    {
-                      staticClass: "black--text",
-                      staticStyle: { "text-decoration": "none" },
-                      attrs: { to: "/login" }
-                    },
-                    [_vm._v("\n                    ログイン\n                ")]
-                  )
+                  _c("v-icon", { attrs: { to: "/login" } }, [
+                    _vm._v("account_box")
+                  ]),
+                  _vm._v("\n                    ログイン\n            ")
                 ],
                 1
               )

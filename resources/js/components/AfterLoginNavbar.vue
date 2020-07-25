@@ -62,18 +62,17 @@
                     class="mt-3 shrink"
                     >
                     </v-text-field>
-                    <v-btn text>
-                        <RouterLink class="button button--link black--text" to="/">
+                    <v-btn text to="/">
+                        <v-icon to="/">home</v-icon>
                             ホーム
-                        </RouterLink>
+                    </v-btn>
+                    <v-btn text to="/mypage" style="text-decoration: none;">
+                        {{ username }}
+                        <v-avatar size="30px">
+                            <img :src="image">
+                        </v-avatar>
                     </v-btn>
                 </v-toolbar-items>
-                <v-btn text to="/mypage" style="text-decoration: none;">
-                    {{ username }}
-                    <v-avatar size="30px">
-                        <img :src="image">
-                    </v-avatar>
-                </v-btn>
             </v-app-bar>
         </div>
 </template>

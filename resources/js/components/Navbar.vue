@@ -21,7 +21,7 @@
                             <v-icon>verified_user</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>ゲストログイン</v-list-item-title>
+                            <v-list-item-title>Guest Login</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item
@@ -60,29 +60,21 @@
                     class="mt-3 shrink"
                     >
                     </v-text-field>
-                    <v-btn text>
-                        <v-icon>verified_user</v-icon>
-                        <button @click.prevent="guestLogin">
+                    <v-btn text @click.prevent="guestLogin">
+                        <v-icon @click.prevent="guestLogin">verified_user</v-icon>
                             ゲストログイン
-                        </button>
                     </v-btn>
-                    <v-btn text>
-                        <v-icon>home</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/">
+                    <v-btn text to="/">
+                        <v-icon to="/">home</v-icon>
                             ホーム
-                        </RouterLink>
                     </v-btn>
-                    <v-btn text>
-                        <v-icon>how_to_reg</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/register">
+                    <v-btn text to="/register">
+                        <v-icon to="/register">how_to_reg</v-icon>
                             新規登録
-                        </RouterLink>
                     </v-btn>
-                    <v-btn text>
-                        <v-icon>account_box</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/login">
+                    <v-btn text to="/login">
+                        <v-icon to="/login">account_box</v-icon>
                             ログイン
-                        </RouterLink>
                     </v-btn>
                 </v-toolbar-items>
             </v-app-bar>
