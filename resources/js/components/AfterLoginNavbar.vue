@@ -1,6 +1,16 @@
 <template>
         <div>
             <v-navigation-drawer v-model="drawer" absolute temporary>
+                <v-list class="pa-1">
+                    <v-list-item>
+                        <v-list-item-avatar>
+                            <v-img :src="image"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title class="title">{{ username }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
                 <v-list>
                     <v-text-field
                         @keydown.enter.prevent="search"
@@ -16,16 +26,8 @@
                 </v-list>
                 <v-list class="pt-0" dense>
                     <v-divider></v-divider>
-                    <v-list-item @click.prevent="guestLogin">
-                        <v-list-item-action>
-                            <v-icon>verified_user</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                            <v-list-item-title>ゲストログイン</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
                     <v-list-item
-                        v-for="item in items"
+                        v-for="item in userItems"
                         :key="item.title"
                         :to="item.to"
                     >
@@ -61,30 +63,17 @@
                     >
                     </v-text-field>
                     <v-btn text>
-                        <v-icon>verified_user</v-icon>
-                        <button @click.prevent="guestLogin">
-                            ゲストログイン
-                        </button>
-                    </v-btn>
-                    <v-btn text>
-                        <v-icon>home</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/">
+                        <RouterLink class="button button--link black--text" to="/">
                             ホーム
                         </RouterLink>
                     </v-btn>
-                    <v-btn text>
-                        <v-icon>how_to_reg</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/register">
-                            新規登録
-                        </RouterLink>
-                    </v-btn>
-                    <v-btn text>
-                        <v-icon>account_box</v-icon>
-                        <RouterLink style="text-decoration: none;" class="black--text" to="/login">
-                            ログイン
-                        </RouterLink>
-                    </v-btn>
                 </v-toolbar-items>
+                <v-btn text to="/mypage" style="text-decoration: none;">
+                    {{ username }}
+                    <v-avatar size="30px">
+                        <img :src="image">
+                    </v-avatar>
+                </v-btn>
             </v-app-bar>
         </div>
 </template>
@@ -103,10 +92,10 @@ export default {
             },
             drawer: null,
             showSearchInput: false,
-            items: [
-                { title: "Home", icon: "home", to: "/", event: '' },
-                { title: "Register", icon: "how_to_reg", to: "/register" },
-                { title: "Login", icon: "account_box", to: "/login" },
+            userItems: [
+                { title: "Home", icon: "home", to: "/post"},
+                { title: "Post", icon: "question_answer", to: "/posting" },
+                { title: "Mypage", icon: "dashboard", to: "/mypage"},
             ]
         }
     },
