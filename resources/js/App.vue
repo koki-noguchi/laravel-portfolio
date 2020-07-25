@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <v-app>
     <header>
-      <Navbar />
+      <AfterLoginNavbar v-if="isLogin" />
+      <Navbar v-else />
     </header>
     <Sidebar v-if="isLogin"></Sidebar>
     <main>
@@ -12,11 +13,12 @@
     <footer>
       <Footer />
     </footer>
-  </div>
+  </v-app>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
+import AfterLoginNavbar from './components/AfterLoginNavbar.vue'
 import Footer from './components/Footer.vue'
 import Sidebar from "./components/Sidebar.vue";
 import { INTERNAL_SERVER_ERROR } from './util'
@@ -24,6 +26,7 @@ import { INTERNAL_SERVER_ERROR } from './util'
 export default {
   components: {
     Navbar,
+    AfterLoginNavbar,
     Footer,
     Sidebar
   },

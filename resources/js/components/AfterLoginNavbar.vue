@@ -1,6 +1,16 @@
 <template>
         <div>
             <v-navigation-drawer v-model="drawer" absolute temporary>
+                <v-list class="pa-1">
+                    <v-list-item>
+                        <v-list-item-avatar>
+                            <v-img :src="image"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title class="title">{{ username }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
                 <v-list>
                     <v-text-field
                         @keydown.enter.prevent="search"
@@ -16,16 +26,8 @@
                 </v-list>
                 <v-list class="pt-0" dense>
                     <v-divider></v-divider>
-                    <v-list-item @click.prevent="guestLogin">
-                        <v-list-item-action>
-                            <v-icon>verified_user</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                            <v-list-item-title>Guest Login</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
                     <v-list-item
-                        v-for="item in items"
+                        v-for="item in userItems"
                         :key="item.title"
                         :to="item.to"
                     >
@@ -60,21 +62,15 @@
                     class="mt-3 shrink"
                     >
                     </v-text-field>
-                    <v-btn text @click.prevent="guestLogin">
-                        <v-icon @click.prevent="guestLogin">verified_user</v-icon>
-                            ゲストログイン
-                    </v-btn>
                     <v-btn text to="/">
                         <v-icon to="/">home</v-icon>
                             ホーム
                     </v-btn>
-                    <v-btn text to="/register">
-                        <v-icon to="/register">how_to_reg</v-icon>
-                            新規登録
-                    </v-btn>
-                    <v-btn text to="/login">
-                        <v-icon to="/login">account_box</v-icon>
-                            ログイン
+                    <v-btn text to="/mypage" style="text-decoration: none;">
+                        {{ username }}
+                        <v-avatar size="30px">
+                            <img :src="image">
+                        </v-avatar>
                     </v-btn>
                 </v-toolbar-items>
             </v-app-bar>
@@ -95,10 +91,10 @@ export default {
             },
             drawer: null,
             showSearchInput: false,
-            items: [
-                { title: "Home", icon: "home", to: "/", event: '' },
-                { title: "Register", icon: "how_to_reg", to: "/register" },
-                { title: "Login", icon: "account_box", to: "/login" },
+            userItems: [
+                { title: "Home", icon: "home", to: "/post"},
+                { title: "Post", icon: "question_answer", to: "/posting" },
+                { title: "Mypage", icon: "dashboard", to: "/mypage"},
             ]
         }
     },
