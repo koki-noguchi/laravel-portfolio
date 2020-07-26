@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-navigation-drawer v-model="drawer" absolute temporary>
+            <v-navigation-drawer app v-model="drawer" clipped>
                 <v-list>
                     <v-text-field
                         @keydown.enter.prevent="search"
@@ -38,45 +38,16 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-app-bar color="transparent" dense>
+            <v-app-bar color="transparent" app dense clipped-left>
                 <v-app-bar-nav-icon
                     @click.stop="drawer = !drawer"
-                    class="hidden-md-and-up"
                 ></v-app-bar-nav-icon>
                 <v-toolbar-title>
-                    <RouterLink style="text-decoration: none;" class="pink--text font-weight-bold" to="/">
+                    <RouterLink class="pink--text font-weight-bold text-decoration-none" to="/">
                         MessageShare
                     </RouterLink>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-toolbar-items class="hidden-sm-and-down">
-                    <v-icon class="mt-3">search</v-icon>
-                    <v-text-field
-                    @keydown.enter.prevent="search"
-                    v-model="keyword"
-                    placeholder="id or title"
-                    clearable
-                    dense
-                    class="mt-3 shrink"
-                    >
-                    </v-text-field>
-                    <v-btn text @click.prevent="guestLogin">
-                        <v-icon @click.prevent="guestLogin">verified_user</v-icon>
-                            ゲストログイン
-                    </v-btn>
-                    <v-btn text to="/">
-                        <v-icon to="/">home</v-icon>
-                            ホーム
-                    </v-btn>
-                    <v-btn text to="/register">
-                        <v-icon to="/register">how_to_reg</v-icon>
-                            新規登録
-                    </v-btn>
-                    <v-btn text to="/login">
-                        <v-icon to="/login">account_box</v-icon>
-                            ログイン
-                    </v-btn>
-                </v-toolbar-items>
             </v-app-bar>
         </div>
 </template>
@@ -96,7 +67,7 @@ export default {
             drawer: null,
             showSearchInput: false,
             items: [
-                { title: "Home", icon: "home", to: "/", event: '' },
+                { title: "Home", icon: "home", to: "/" },
                 { title: "Register", icon: "how_to_reg", to: "/register" },
                 { title: "Login", icon: "account_box", to: "/login" },
             ]

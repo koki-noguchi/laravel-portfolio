@@ -1,18 +1,16 @@
 <template>
   <v-app>
-    <header>
-      <AfterLoginNavbar v-if="isLogin" />
-      <Navbar v-else />
-    </header>
-    <Sidebar v-if="isLogin"></Sidebar>
-    <main>
-      <div class="container">
+    <AfterLoginNavbar v-if="isLogin" />
+    <Navbar v-else />
+    <v-main>
+      <v-container fluid>
         <RouterView />
-      </div>
-    </main>
-    <footer>
+      </v-container>
+    </v-main>
+    <v-footer padless>
       <Footer />
-    </footer>
+    </v-footer>
+    <FooterResponsive class="hidden-md-and-up" />
   </v-app>
 </template>
 
@@ -20,7 +18,7 @@
 import Navbar from './components/Navbar.vue'
 import AfterLoginNavbar from './components/AfterLoginNavbar.vue'
 import Footer from './components/Footer.vue'
-import Sidebar from "./components/Sidebar.vue";
+import FooterResponsive from './components/FooterResponsive.vue'
 import { INTERNAL_SERVER_ERROR } from './util'
 
 export default {
@@ -28,7 +26,7 @@ export default {
     Navbar,
     AfterLoginNavbar,
     Footer,
-    Sidebar
+    FooterResponsive
   },
   computed: {
     errorCode () {

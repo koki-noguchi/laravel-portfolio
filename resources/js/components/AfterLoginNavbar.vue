@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-navigation-drawer v-model="drawer" absolute temporary>
+            <v-navigation-drawer app v-model="drawer" clipped>
                 <v-list class="pa-1">
                     <v-list-item>
                         <v-list-item-avatar>
@@ -38,15 +38,22 @@
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-list-item @click="logout">
+                        <v-list-item-action>
+                            <v-icon>logout</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>Logout</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-app-bar color="transparent" dense>
+            <v-app-bar color="transparent" app dense clipped-left>
                 <v-app-bar-nav-icon
-                    @click.stop="drawer = !drawer"
-                    class="hidden-md-and-up"
+                    @click = "drawer = !drawer"
                 ></v-app-bar-nav-icon>
                 <v-toolbar-title>
-                    <RouterLink style="text-decoration: none;" class="pink--text font-weight-bold" to="/">
+                    <RouterLink class="pink--text font-weight-bold text-decoration-none" to="/">
                         MessageShare
                     </RouterLink>
                 </v-toolbar-title>
@@ -66,7 +73,7 @@
                         <v-icon to="/">home</v-icon>
                             ホーム
                     </v-btn>
-                    <v-btn text to="/mypage" style="text-decoration: none;">
+                    <v-btn text to="/mypage" class="text-decoration-none">
                         {{ username }}
                         <v-avatar size="30px">
                             <img :src="image">
@@ -120,6 +127,11 @@ export default {
         },
         clearError () {
             this.$store.commit('auth/setLoginErrorMessages', null)
+        },
+        async logout () {
+            await this.$store.dispatch('auth/logout')
+
+            this.$router.push('/login')
         }
     },
     created () {
