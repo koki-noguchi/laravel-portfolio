@@ -4,7 +4,18 @@
     <Navbar v-else />
     <v-main>
       <v-container fluid>
-        <RouterView />
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="12"
+            sm="8"
+            md="4"
+          >
+            <RouterView class="mt-5" />
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
     <v-footer padless>

@@ -2026,6 +2026,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2087,6 +2098,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2713,6 +2731,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -8342,7 +8361,28 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-main",
-        [_c("v-container", { attrs: { fluid: "" } }, [_c("RouterView")], 1)],
+        [
+          _c(
+            "v-container",
+            { attrs: { fluid: "" } },
+            [
+              _c(
+                "v-row",
+                { attrs: { align: "center", justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "8", md: "4" } },
+                    [_c("RouterView", { staticClass: "mt-5" })],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -8466,7 +8506,10 @@ var render = function() {
               _vm._l(_vm.userItems, function(item) {
                 return _c(
                   "v-list-item",
-                  { key: item.title, attrs: { to: item.to } },
+                  {
+                    key: item.title,
+                    attrs: { to: item.to, "active-class": "pink lighten-4" }
+                  },
                   [
                     _c(
                       "v-list-item-action",
@@ -8578,7 +8621,9 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { text: "", to: "/" } },
+                {
+                  attrs: { text: "", to: "/", "active-class": "pink lighten-4" }
+                },
                 [
                   _c("v-icon", { attrs: { to: "/" } }, [_vm._v("home")]),
                   _vm._v("\n                    ホーム\n            ")
@@ -8590,7 +8635,11 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "text-decoration-none",
-                  attrs: { text: "", to: "/mypage" }
+                  attrs: {
+                    text: "",
+                    to: "/mypage",
+                    "active-class": "pink lighten-4"
+                  }
                 },
                 [
                   _vm._v(
@@ -8963,7 +9012,10 @@ var render = function() {
               _vm._l(_vm.items, function(item) {
                 return _c(
                   "v-list-item",
-                  { key: item.title, attrs: { to: item.to } },
+                  {
+                    key: item.title,
+                    attrs: { to: item.to, "active-class": "pink lighten-4" }
+                  },
                   [
                     _c(
                       "v-list-item-action",

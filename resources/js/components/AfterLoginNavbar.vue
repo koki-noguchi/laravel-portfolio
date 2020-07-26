@@ -30,6 +30,7 @@
                         v-for="item in userItems"
                         :key="item.title"
                         :to="item.to"
+                        active-class="pink lighten-4"
                     >
                         <v-list-item-action>
                             <v-icon>{{ item.icon }}</v-icon>
@@ -69,11 +70,17 @@
                     class="mt-3 shrink"
                     >
                     </v-text-field>
-                    <v-btn text to="/">
+                    <v-btn
+                        text to="/"
+                        active-class="pink lighten-4">
                         <v-icon to="/">home</v-icon>
                             ホーム
                     </v-btn>
-                    <v-btn text to="/mypage" class="text-decoration-none">
+                    <v-btn
+                        text to="/mypage"
+                        class="text-decoration-none"
+                        active-class="pink lighten-4"
+                    >
                         {{ username }}
                         <v-avatar size="30px">
                             <img :src="image">
