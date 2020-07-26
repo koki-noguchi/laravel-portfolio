@@ -1,10 +1,10 @@
 <template>
-    <footer class="footer">
-         <button v-if="isLogin" class="button button--link" @click="logout">Logout</button>
-        <RouterLink v-else class="button button--link" to="/login">
-            Login
-        </RouterLink>
-    </footer>
+   <v-col
+      class="text-center pink lighten-5"
+      cols="12"
+    >
+      {{ new Date().getFullYear() }} — <strong>MessageShare</strong>
+    </v-col>
 </template>
 
 <script>
