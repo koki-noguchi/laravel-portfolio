@@ -32,6 +32,7 @@ class PostListApiTest extends TestCase
                 'password_judge' => $post->post_password ? true : false,
                 'user' => [
                     'name' => $post->user->name,
+                    'url' => '/images/default-image.jpeg',
                 ],
                 'bookmarked_by_user' => false,
             ];
