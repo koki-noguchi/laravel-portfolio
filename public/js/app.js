@@ -4327,13 +4327,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       post_title: '',
       post_password: '',
       min_number: '',
-      max_number: ''
+      max_number: '',
+      show1: false,
+      files: []
     };
   },
   methods: {
@@ -9922,13 +9975,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "post-form" }, [
-    _c("h2", { staticClass: "title" }, [_vm._v("メッセージを募集する")]),
+  return _c("div", { staticClass: "post-form text-center" }, [
+    _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
     _vm._v(" "),
     _c(
       "form",
       {
-        staticClass: "form",
+        staticClass: "form mt-10",
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -9937,113 +9990,161 @@ var render = function() {
         }
       },
       [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.post_title,
-              expression: "post_title"
-            }
-          ],
-          staticClass: "form__item",
-          attrs: { type: "text", placeholder: "タイトル" },
-          domProps: { value: _vm.post_title },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c(
+          "v-col",
+          { attrs: { cols: "12" } },
+          [
+            _c("v-text-field", {
+              attrs: {
+                rules: _vm.rules,
+                counter: "",
+                maxlength: "100",
+                clearable: "",
+                label: "タイトル"
+              },
+              model: {
+                value: _vm.post_title,
+                callback: function($$v) {
+                  _vm.post_title = $$v
+                },
+                expression: "post_title"
               }
-              _vm.post_title = $event.target.value
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-col",
+          { attrs: { cols: "12" } },
+          [
+            _c("v-text-field", {
+              attrs: {
+                "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
+                type: _vm.show1 ? "text" : "password",
+                clearable: "",
+                label: "パスワード"
+              },
+              on: {
+                "click:append": function($event) {
+                  _vm.show1 = !_vm.show1
+                }
+              },
+              model: {
+                value: _vm.post_password,
+                callback: function($$v) {
+                  _vm.post_password = $$v
+                },
+                expression: "post_password"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-col",
+          { attrs: { cols: "6" } },
+          [
+            _c("v-text-field", {
+              attrs: { type: "number", clearable: "", label: "最大人数" },
+              scopedSlots: _vm._u([
+                {
+                  key: "prepend",
+                  fn: function() {
+                    return [
+                      _c(
+                        "v-tooltip",
+                        {
+                          attrs: { bottom: "" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c("v-icon", _vm._g({}, on), [
+                                    _vm._v("mdi-help-circle-outline")
+                                  ])
+                                ]
+                              }
+                            }
+                          ])
+                        },
+                        [
+                          _vm._v(
+                            "\n              メッセージ数が最大人数分に達すると募集が締めきられます。\n            "
+                          )
+                        ]
+                      )
+                    ]
+                  },
+                  proxy: true
+                }
+              ]),
+              model: {
+                value: _vm.max_number,
+                callback: function($$v) {
+                  _vm.max_number = $$v
+                },
+                expression: "max_number"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("v-file-input", {
+          attrs: {
+            placeholder: "Upload your images",
+            label: "画像のアップロード",
+            multiple: "",
+            "prepend-icon": "mdi-paperclip",
+            "show-size": ""
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "selection",
+              fn: function(ref) {
+                var text = ref.text
+                return [
+                  _c(
+                    "v-chip",
+                    { attrs: { small: "", label: "", color: "primary" } },
+                    [_vm._v("\n          " + _vm._s(text) + "\n        ")]
+                  )
+                ]
+              }
             }
+          ]),
+          model: {
+            value: _vm.files,
+            callback: function($$v) {
+              _vm.files = $$v
+            },
+            expression: "files"
           }
         }),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.post_password,
-              expression: "post_password"
+        _c(
+          "v-btn",
+          {
+            staticClass: "ma-2 mt-10",
+            attrs: {
+              type: "submit",
+              width: "160",
+              outlined: "",
+              color: "pink lighten-1"
             }
-          ],
-          staticClass: "form__item",
-          attrs: { type: "password", placeholder: "パスワード" },
-          domProps: { value: _vm.post_password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.post_password = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.min_number,
-              expression: "min_number"
-            }
-          ],
-          staticClass: "form__item",
-          attrs: { type: "number", placeholder: "最低人数" },
-          domProps: { value: _vm.min_number },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.min_number = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.max_number,
-              expression: "max_number"
-            }
-          ],
-          staticClass: "form__item",
-          attrs: { type: "number", placeholder: "最大人数" },
-          domProps: { value: _vm.max_number },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.max_number = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
+          },
+          [_vm._v("送信")]
+        )
+      ],
+      1
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
-      _c(
-        "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
-        [_vm._v("送信")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
