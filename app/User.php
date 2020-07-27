@@ -21,7 +21,7 @@ class User extends Authenticatable
     ];
 
     protected $visible = [
-        'name', 'user_image',
+        'name', 'url'
     ];
 
     protected $appends = [
@@ -43,7 +43,15 @@ class User extends Authenticatable
      */
     public function getUrlAttribute()
     {
-        return Storage::cloud()->url($this->attributes['user_image']);
+        if (empty($this->user_image)) {
+            return '/images/default-image.jpeg';
+        }
+
+        if ($this->user_image === '/images/default-image.jpeg') {
+            return $this->user_image;
+        } else {
+            return Storage::cloud()->url($this->attributes['user_image']);
+        }
     }
 
     /**

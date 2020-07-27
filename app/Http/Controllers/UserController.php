@@ -71,14 +71,10 @@ class UserController extends Controller
      */
     public function show()
     {
-        $user_image = Auth::user()->url;
-        if (Auth::user()->user_image === null || Auth::user()->user_image === '/images/default-image.jpeg') {
-            $user_image = '/images/default-image.jpeg';
-        }
         return response()->json([
             'login_id' => Auth::user()->login_id,
             'name' => Auth::user()->name,
-            'user_image' => $user_image
+            'url' => Auth::user()->url,
         ]);
     }
 
