@@ -28,6 +28,7 @@
                         v-for="item in items"
                         :key="item.title"
                         :to="item.to"
+                        active-class="pink lighten-4"
                     >
                         <v-list-item-action>
                             <v-icon>{{ item.icon }}</v-icon>
