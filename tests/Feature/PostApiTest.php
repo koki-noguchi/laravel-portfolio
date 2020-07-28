@@ -4,8 +4,12 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Post;
+use App\Photo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class PostSubmitApiTest extends TestCase
@@ -28,7 +32,6 @@ class PostSubmitApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
-            'min_number' => '1',
             'max_number' => '5'
         ];
 
@@ -81,5 +84,76 @@ class PostSubmitApiTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson(['post_title' => $data['post_title']]);
+    }
+
+    /**
+     * @test
+     */
+    public function should_写真をアップロードできる()
+    {
+        Storage::fake('s3');
+
+        $data = [
+            'post_title' => 'postsample',
+            'post_password' => 'sample',
+            'max_number' => '5',
+            'post_photo' => UploadedFile::fake()->image('photo.jpg'),
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->json('POST', route('posting.create'), $data);
+
+        $response->assertStatus(201);
+        $photo = Photo::first();
+
+        Storage::cloud()->assertExists($photo->post_photo);
+    }
+
+    /**
+     * @test
+     */
+    public function should_データベースにエラーがある場合は保存しない()
+    {
+        Schema::drop('photos');
+
+        Storage::fake('s3');
+
+        $data = [
+            'post_title' => 'postsample',
+            'post_password' => 'sample',
+            'max_number' => '5',
+            'post_photo' => UploadedFile::fake()->image('photo.jpg'),
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->json('POST', route('posting.create'), $data);
+
+        $response->assertStatus(500);
+
+        $this->assertEquals(0, count(Storage::cloud()->files()));
+    }
+
+    /**
+     * @test
+     */
+    public function should_ファイル保存エラーの場合はDBに保存しない()
+    {
+        Storage::shouldReceive('cloud')
+            ->once()
+            ->andReturnNull();
+
+        $data = [
+            'post_title' => 'postsample',
+            'post_password' => 'sample',
+            'max_number' => '5',
+            'post_photo' => UploadedFile::fake()->image('photo.jpg'),
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->json('POST', route('posting.create'), $data);
+
+        $response->assertStatus(500);
+
+        $this->assertEmpty(Photo::all());
     }
 }
