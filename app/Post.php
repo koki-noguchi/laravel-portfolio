@@ -13,7 +13,7 @@ class Post extends Model
     ];
 
     protected $hidden = [
-        'user_id','post_password', 'min_number', 'max_number', 'share_judge',
+        'user_id','post_password', 'max_number', 'share_judge',
         self::CREATED_AT, self::UPDATED_AT,
     ];
 

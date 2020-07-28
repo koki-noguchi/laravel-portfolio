@@ -25,8 +25,7 @@ class StorePost extends FormRequest
     {
         return [
             'post_title' => 'required|max:32',
-            'min_number' => 'required|numeric',
-            'max_number' => 'required|numeric|gte:min_number',
+            'max_number' => 'required|numeric',
             'about' => 'max:2000'
         ];
     }

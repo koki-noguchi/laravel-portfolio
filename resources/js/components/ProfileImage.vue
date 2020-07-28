@@ -48,7 +48,7 @@ export default {
             }
             this.generateImg = ''
 
-            this.$router.push('/mypage')
+            this.$router.push('/mypage').catch(()=>{})
         },
         onFileTypeMismatch () {
             Swal.fire({

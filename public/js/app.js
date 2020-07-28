@@ -3079,7 +3079,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 _this.generateImg = '';
 
-                _this.$router.push('/mypage');
+                _this.$router.push('/mypage')["catch"](function () {});
 
               case 9:
               case "end":
@@ -72219,7 +72219,7 @@ var getters = {
     return state.user ? state.user.name : '';
   },
   image: function image(state) {
-    return state.user ? state.user.user_image : '';
+    return state.user ? state.user.url : '';
   }
 };
 var mutations = {

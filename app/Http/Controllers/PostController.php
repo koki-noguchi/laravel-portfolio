@@ -32,7 +32,6 @@ class PostController extends Controller
         } else {
             $post->post_password = ($request->get('post_password'));
         }
-        $post->min_number = $request->get('min_number');
         $post->max_number = $request->get('max_number');
         $post->share_judge = 0;
         $post->about = '';
