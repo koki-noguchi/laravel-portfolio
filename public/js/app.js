@@ -3079,7 +3079,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 _this.generateImg = '';
 
-                _this.$router.push('/mypage');
+                _this.$router.push('/mypage')["catch"](function () {});
 
               case 9:
               case "end":
@@ -4378,15 +4378,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       post_title: '',
       post_password: '',
-      min_number: '',
       max_number: '',
+      post_photo: [],
       show1: false,
-      files: []
+      files: [],
+      readers: [],
+      index: '',
+      rules: [function (value) {
+        return !value.length || value.reduce(function (size, file) {
+          return size + file.size;
+        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+      }]
     };
   },
   methods: {
@@ -4394,35 +4417,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var formData, index, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.post('/api/posting', {
-                  post_title: _this.post_title,
-                  post_password: _this.post_password,
-                  min_number: _this.min_number,
-                  max_number: _this.max_number
-                });
+                formData = new FormData();
+                formData.append('post_title', _this.post_title);
+                formData.append('post_password', _this.post_password);
+                formData.append('max_number', _this.max_number);
 
-              case 2:
+                if (_this.files.length > 0) {
+                  for (index = 0; index < _this.files.length; index++) {
+                    formData.append('post_photo[]', _this.post_photo[index]);
+                  }
+                }
+
+                _context.next = 7;
+                return axios.post('/api/posting', formData);
+
+              case 7:
                 response = _context.sent;
                 _this.post_title = '';
                 _this.post_password = '';
-                _this.min_number = '';
                 _this.max_number = '';
+                _this.post_photo = '';
 
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 8:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    remove: function remove(index) {
+      this.files.splice(index, 1);
+    },
+    onFileChange: function onFileChange() {
+      var _this2 = this;
+
+      this.files.forEach(function (file, f) {
+        _this2.readers[f] = new FileReader();
+
+        _this2.readers[f].onloadend = function (e) {
+          var fileData = _this2.readers[f].result;
+          var imgRef = _this2.$refs.file[f];
+          imgRef.src = fileData;
+        };
+
+        _this2.readers[f].readAsDataURL(_this2.files[f]);
+
+        _this2.post_photo[f] = _this2.files[f];
+      });
     }
   }
 });
@@ -9996,7 +10045,6 @@ var render = function() {
           [
             _c("v-text-field", {
               attrs: {
-                rules: _vm.rules,
                 counter: "",
                 maxlength: "100",
                 clearable: "",
@@ -10094,37 +10142,72 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("v-file-input", {
-          attrs: {
-            placeholder: "Upload your images",
-            label: "画像のアップロード",
-            multiple: "",
-            "prepend-icon": "mdi-paperclip",
-            "show-size": ""
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "selection",
-              fn: function(ref) {
-                var text = ref.text
-                return [
-                  _c(
-                    "v-chip",
-                    { attrs: { small: "", label: "", color: "primary" } },
-                    [_vm._v("\n          " + _vm._s(text) + "\n        ")]
-                  )
-                ]
-              }
-            }
-          ]),
-          model: {
-            value: _vm.files,
-            callback: function($$v) {
-              _vm.files = $$v
+        _c(
+          "v-file-input",
+          {
+            attrs: {
+              rules: _vm.rules,
+              accept: "image/*",
+              label: "画像のアップロード",
+              "prepend-icon": "photo",
+              multiple: "",
+              "show-size": "",
+              counter: ""
             },
-            expression: "files"
-          }
-        }),
+            on: { change: _vm.onFileChange },
+            scopedSlots: _vm._u([
+              {
+                key: "selection",
+                fn: function(ref) {
+                  var text = ref.text
+                  return [
+                    _c(
+                      "v-chip",
+                      {
+                        attrs: {
+                          small: "",
+                          label: "",
+                          color: "primary",
+                          close: ""
+                        },
+                        on: {
+                          "click:close": function($event) {
+                            return _vm.remove(_vm.index)
+                          }
+                        }
+                      },
+                      [_vm._v("\n            " + _vm._s(text) + "\n          ")]
+                    )
+                  ]
+                }
+              }
+            ]),
+            model: {
+              value: _vm.files,
+              callback: function($$v) {
+                _vm.files = $$v
+              },
+              expression: "files"
+            }
+          },
+          [_vm._v("\n      >\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "v-row",
+          _vm._l(_vm.files, function(file, f) {
+            return _c("v-col", { key: f, attrs: { sm: "4" } }, [
+              _vm._v("\n            " + _vm._s(file.name) + "\n            "),
+              _c("img", {
+                ref: "file",
+                refInFor: true,
+                staticClass: "img-fluid",
+                attrs: { src: "", title: "file" + f }
+              })
+            ])
+          }),
+          1
+        ),
         _vm._v(" "),
         _c(
           "v-btn",
@@ -72219,7 +72302,7 @@ var getters = {
     return state.user ? state.user.name : '';
   },
   image: function image(state) {
-    return state.user ? state.user.user_image : '';
+    return state.user ? state.user.url : '';
   }
 };
 var mutations = {

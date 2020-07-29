@@ -6,10 +6,12 @@ use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
 use App\Post;
 use App\User;
+use App\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -26,18 +28,44 @@ class PostController extends Controller
     public function create(StorePost $request)
     {
         $post = new Post();
+
         $post->post_title = $request->get('post_title');
         if ($request->get('post_password') !== null){
             $post->post_password = Hash::make($request->get('post_password'));
         } else {
             $post->post_password = ($request->get('post_password'));
         }
-        $post->min_number = $request->get('min_number');
+
         $post->max_number = $request->get('max_number');
         $post->share_judge = 0;
         $post->about = '';
         $post->user_id = Auth::user()->id;
         $post->save();
+
+        $images = $request->post_photo;
+
+        if ($images) {
+            foreach ($images as $image ) {
+                $photo = new Photo();
+                $extension = $image->extension();
+
+                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
+
+                Storage::cloud()->put($photo->post_photo, $image, 'public');
+
+                DB::beginTransaction();
+
+                try {
+                    $post->photos()->save($photo);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+
+                    Storage::cloud()->delete($photo->post_photo);
+                    throw $exception;
+                }
+            }
+        }
 
         return response($post, 201);
     }

@@ -10,7 +10,7 @@ const state = {
 const getters = {
     check: state => !! state.user,
     username: state => state.user ? state.user.name : '',
-    image: state => state.user ? state.user.user_image : '',
+    image: state => state.user ? state.user.url : '',
 }
 
 const mutations = {
