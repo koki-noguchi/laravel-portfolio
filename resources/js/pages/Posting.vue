@@ -5,7 +5,6 @@
       <v-col cols="12">
           <v-text-field
             v-model="post_title"
-            :rules="rules"
             counter
             maxlength="100"
             clearable
@@ -41,25 +40,42 @@
             </template>
           </v-text-field>
       </v-col>
-      <v-file-input
-        v-model="files"
-        placeholder="Upload your images"
-        label="画像のアップロード"
-        multiple
-        prepend-icon="mdi-paperclip"
-        show-size
-      >
-        <template v-slot:selection="{ text }">
-          <v-chip
-            small
-            label
-            color="primary"
+        <v-file-input
+            :rules="rules"
+            accept="image/*"
+            label="画像のアップロード"
+            prepend-icon="photo"
+            multiple
+            v-model="files"
+            @change="onFileChange"
+            show-size
+            counter
           >
-            {{ text }}
-          </v-chip>
-        </template>
-      </v-file-input>
-        <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
+        >
+          <template v-slot:selection="{ text }">
+            <v-chip
+              small
+              label
+              color="primary"
+              close
+              @click:close="remove(index)"
+            >
+              {{ text }}
+            </v-chip>
+          </template>
+        </v-file-input>
+      <v-row>
+          <v-col sm="4" v-for="(file,f) in files" :key="f">
+              {{file.name}}
+              <img
+                :ref="'file'"
+                src=""
+                class="img-fluid"
+                :title="'file' + f"
+              />
+          </v-col>
+      </v-row>
+      <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
     </form>
   </div>
 </template>
@@ -74,6 +90,11 @@ export default {
             max_number: '',
             show1: false,
             files: [],
+            readers: [],
+            index: '',
+            rules: [
+              value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
+            ]
         }
     },
     methods: {
@@ -90,6 +111,21 @@ export default {
             this.max_number = ''
 
             this.$router.push(`/post/${response.data.id}`)
+        },
+        remove (index) {
+          this.files.splice(index, 1)
+        },
+        onFileChange () {
+            this.files.forEach((file, f) => {
+                this.readers[f] = new FileReader();
+                this.readers[f].onloadend = (e) => {
+                    let fileData = this.readers[f].result
+                    let imgRef = this.$refs.file[f]
+                    imgRef.src = fileData
+                }
+
+                this.readers[f].readAsDataURL(this.files[f]);
+            })
         }
     }
 }

@@ -4378,6 +4378,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4386,7 +4402,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       min_number: '',
       max_number: '',
       show1: false,
-      files: []
+      files: [],
+      readers: [],
+      index: '',
+      rules: [function (value) {
+        return !value.length || value.reduce(function (size, file) {
+          return size + file.size;
+        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+      }]
     };
   },
   methods: {
@@ -4423,6 +4446,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    remove: function remove(index) {
+      this.files.splice(index, 1);
+    },
+    onFileChange: function onFileChange() {
+      var _this2 = this;
+
+      this.files.forEach(function (file, f) {
+        _this2.readers[f] = new FileReader();
+
+        _this2.readers[f].onloadend = function (e) {
+          var fileData = _this2.readers[f].result;
+          var imgRef = _this2.$refs.file[f];
+          imgRef.src = fileData;
+        };
+
+        _this2.readers[f].readAsDataURL(_this2.files[f]);
+      });
     }
   }
 });
@@ -9996,7 +10037,6 @@ var render = function() {
           [
             _c("v-text-field", {
               attrs: {
-                rules: _vm.rules,
                 counter: "",
                 maxlength: "100",
                 clearable: "",
@@ -10094,37 +10134,72 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("v-file-input", {
-          attrs: {
-            placeholder: "Upload your images",
-            label: "画像のアップロード",
-            multiple: "",
-            "prepend-icon": "mdi-paperclip",
-            "show-size": ""
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "selection",
-              fn: function(ref) {
-                var text = ref.text
-                return [
-                  _c(
-                    "v-chip",
-                    { attrs: { small: "", label: "", color: "primary" } },
-                    [_vm._v("\n          " + _vm._s(text) + "\n        ")]
-                  )
-                ]
-              }
-            }
-          ]),
-          model: {
-            value: _vm.files,
-            callback: function($$v) {
-              _vm.files = $$v
+        _c(
+          "v-file-input",
+          {
+            attrs: {
+              rules: _vm.rules,
+              accept: "image/*",
+              label: "画像のアップロード",
+              "prepend-icon": "photo",
+              multiple: "",
+              "show-size": "",
+              counter: ""
             },
-            expression: "files"
-          }
-        }),
+            on: { change: _vm.onFileChange },
+            scopedSlots: _vm._u([
+              {
+                key: "selection",
+                fn: function(ref) {
+                  var text = ref.text
+                  return [
+                    _c(
+                      "v-chip",
+                      {
+                        attrs: {
+                          small: "",
+                          label: "",
+                          color: "primary",
+                          close: ""
+                        },
+                        on: {
+                          "click:close": function($event) {
+                            return _vm.remove(_vm.index)
+                          }
+                        }
+                      },
+                      [_vm._v("\n            " + _vm._s(text) + "\n          ")]
+                    )
+                  ]
+                }
+              }
+            ]),
+            model: {
+              value: _vm.files,
+              callback: function($$v) {
+                _vm.files = $$v
+              },
+              expression: "files"
+            }
+          },
+          [_vm._v("\n      >\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "v-row",
+          _vm._l(_vm.files, function(file, f) {
+            return _c("v-col", { key: f, attrs: { sm: "4" } }, [
+              _vm._v("\n            " + _vm._s(file.name) + "\n            "),
+              _c("img", {
+                ref: "file",
+                refInFor: true,
+                staticClass: "img-fluid",
+                attrs: { src: "", title: "file" + f }
+              })
+            ])
+          }),
+          1
+        ),
         _vm._v(" "),
         _c(
           "v-btn",
