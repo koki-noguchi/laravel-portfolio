@@ -86,8 +86,8 @@ export default {
         return {
             post_title: '',
             post_password: '',
-            min_number: '',
             max_number: '',
+            post_photo: [],
             show1: false,
             files: [],
             readers: [],
@@ -99,18 +99,26 @@ export default {
     },
     methods: {
         async createPost () {
-            const response = await axios.post('/api/posting', {
-                post_title: this.post_title,
-                post_password: this.post_password,
-                min_number: this.min_number,
-                max_number: this.max_number,
-                })
-            this.post_title = ''
-            this.post_password = ''
-            this.min_number = ''
-            this.max_number = ''
+          const formData = new FormData()
 
-            this.$router.push(`/post/${response.data.id}`)
+          formData.append('post_title', this.post_title)
+          formData.append('post_password', this.post_password)
+          formData.append('max_number', this.max_number)
+
+          if (this.files.length > 0) {
+
+            for (let index = 0; index < this.files.length; index++) {
+              formData.append('post_photo[]', this.post_photo[index])
+            }
+          }
+
+          const response = await axios.post('/api/posting', formData)
+          this.post_title = ''
+          this.post_password = ''
+          this.max_number = ''
+          this.post_photo = ''
+
+          this.$router.push(`/post/${response.data.id}`)
         },
         remove (index) {
           this.files.splice(index, 1)
@@ -125,6 +133,7 @@ export default {
                 }
 
                 this.readers[f].readAsDataURL(this.files[f]);
+                this.post_photo[f] = this.files[f]
             })
         }
     }

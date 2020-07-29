@@ -4399,8 +4399,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       post_title: '',
       post_password: '',
-      min_number: '',
       max_number: '',
+      post_photo: [],
       show1: false,
       files: [],
       readers: [],
@@ -4417,29 +4417,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var formData, index, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.post('/api/posting', {
-                  post_title: _this.post_title,
-                  post_password: _this.post_password,
-                  min_number: _this.min_number,
-                  max_number: _this.max_number
-                });
+                formData = new FormData();
+                formData.append('post_title', _this.post_title);
+                formData.append('post_password', _this.post_password);
+                formData.append('max_number', _this.max_number);
 
-              case 2:
+                if (_this.files.length > 0) {
+                  for (index = 0; index < _this.files.length; index++) {
+                    formData.append('post_photo[]', _this.post_photo[index]);
+                  }
+                }
+
+                _context.next = 7;
+                return axios.post('/api/posting', formData);
+
+              case 7:
                 response = _context.sent;
                 _this.post_title = '';
                 _this.post_password = '';
-                _this.min_number = '';
                 _this.max_number = '';
+                _this.post_photo = '';
 
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 8:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -4463,6 +4469,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         };
 
         _this2.readers[f].readAsDataURL(_this2.files[f]);
+
+        _this2.post_photo[f] = _this2.files[f];
       });
     }
   }
