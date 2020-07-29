@@ -4,9 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
+    protected $visible = [
+        'photos_url',
+    ];
+
+    protected $appends = [
+        'photos_url',
+    ];
+
+    /**
+     * アクセサ - photos_url
+     * @return boolean
+     */
+    public function getPhotosUrlAttribute()
+    {
+        return Storage::cloud()->url($this->attributes['post_photo']);
+    }
 
     protected $keyType = 'string';
 

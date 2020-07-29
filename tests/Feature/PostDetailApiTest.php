@@ -5,8 +5,10 @@ namespace Tests\Feature;
 use App\User;
 use App\Post;
 use App\Message;
+use App\Photo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PostDetailApiTest extends TestCase
@@ -59,5 +61,40 @@ class PostDetailApiTest extends TestCase
                         ];
                     })->all(),
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function should_画像一覧を取得()
+    {
+        factory(Post::class)->create()->each(function ($post) {
+            $post->photos()->saveMany(factory(Photo::class, 3)->make());
+        });
+
+        $post = Post::first();
+
+        $response = $this->actingAs($this->user)->json('GET', route('post.show', [
+            'id' => $post->id,
+        ]));
+
+        $response->assertStatus(200)
+        ->assertJsonFragment([
+            'id' => $post->id,
+            'post_title' => $post->post_title,
+            'about' => $post->about,
+            'password_judge' => true,
+            'bookmarked_by_user' => false,
+            'user' => [
+                'name' => $post->user->name,
+                'url' => '/images/default-image.jpeg',
+            ],
+            'photos' => $post->photos
+                    ->map(function ($photo) {
+                        return [
+                            'photos_url' => Storage::cloud()->url($photo->post_photo),
+                        ];
+                    })->all(),
+        ]);
     }
 }
