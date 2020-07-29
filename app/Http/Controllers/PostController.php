@@ -49,9 +49,10 @@ class PostController extends Controller
                 $photo = new Photo();
                 $extension = $image->extension();
 
-                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
+                $photo->post_photo = $photo->id . '.' . $extension;
 
-                Storage::cloud()->put($photo->post_photo, $image, 'public');
+                Storage::cloud()->putFileAs('post_photo', $image, $photo->post_photo, 'public');
+                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
 
                 DB::beginTransaction();
 
