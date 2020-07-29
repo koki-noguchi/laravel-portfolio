@@ -28,7 +28,6 @@ class PostController extends Controller
     public function create(StorePost $request)
     {
         $post = new Post();
-        $photo = new Photo();
 
         $post->post_title = $request->get('post_title');
         if ($request->get('post_password') !== null){
@@ -43,23 +42,28 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->save();
 
-        if ($request->post_photo) {
-            $extension = $request->post_photo->extension();
+        $images = $request->post_photo;
 
-            $photo->post_photo = $photo->id . '.' . $extension;
+        if ($images) {
+            foreach ($images as $image ) {
+                $photo = new Photo();
+                $extension = $image->extension();
 
-            Storage::cloud()->putFileAs('', $request->post_photo, $photo->post_photo, 'public');
+                $photo->post_photo = $photo->id . '.' . $extension;
 
-            DB::beginTransaction();
+                Storage::cloud()->putFileAs('', $image, $photo->post_photo, 'public');
 
-            try {
-                $post->photos()->save($photo);
-                DB::commit();
-            } catch (\Exception $exception) {
-                DB::rollBack();
+                DB::beginTransaction();
 
-                Storage::cloud()->delete($photo->post_photo);
-                throw $exception;
+                try {
+                    $post->photos()->save($photo);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+
+                    Storage::cloud()->delete($photo->post_photo);
+                    throw $exception;
+                }
             }
         }
 
