@@ -9,6 +9,7 @@
             <i class="icon ion-md-heart">bookmark</i>
         </button>
         <h1 class="post-detail__title">{{ post.post_title }}</h1>
+        <PostPhoto :photos="post.photos"></PostPhoto>
         <div class="post-detail__about">
             {{ post.about }}
         </div>
@@ -53,11 +54,13 @@
 import { OK } from '../util'
 import PostModal from '../components/PostModal.vue'
 import MessageModal from '../components/MessageModal.vue'
+import PostPhoto from '../components/PostPhoto.vue'
 
 export default {
     components: {
         PostModal,
-        MessageModal
+        MessageModal,
+        PostPhoto
     },
     props: {
         id: {
