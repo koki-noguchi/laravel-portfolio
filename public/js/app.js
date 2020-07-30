@@ -2449,8 +2449,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2988,6 +2986,54 @@ __webpack_require__.r(__webpack_exports__);
         post_title: this.post_title,
         about: this.about
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPhoto.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    photos: {
+      type: Array
+    }
+  },
+  methods: {
+    next: function next() {
+      this.onboarding = this.onboarding + 1 === this.length ? 0 : this.onboarding + 1;
+    },
+    prev: function prev() {
+      this.onboarding = this.onboarding - 1 < 0 ? this.length - 1 : this.onboarding - 1;
     }
   }
 });
@@ -3698,6 +3744,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 /* harmony import */ var _components_PostModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/PostModal.vue */ "./resources/js/components/PostModal.vue");
 /* harmony import */ var _components_MessageModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/MessageModal.vue */ "./resources/js/components/MessageModal.vue");
+/* harmony import */ var _components_PostPhoto_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/PostPhoto.vue */ "./resources/js/components/PostPhoto.vue");
 
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -3767,13 +3814,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     PostModal: _components_PostModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    MessageModal: _components_MessageModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    MessageModal: _components_MessageModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    PostPhoto: _components_PostPhoto_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     id: {
@@ -4312,6 +4362,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
 //
 //
 //
@@ -8474,7 +8527,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", sm: "8", md: "4" } },
+                    { attrs: { cols: "12", sm: "10", md: "10" } },
                     [_c("RouterView", { staticClass: "mt-5" })],
                     1
                   )
@@ -8818,92 +8871,83 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      !_vm.isLogin
-        ? _c(
-            "v-bottom-navigation",
-            { attrs: { absolute: "" } },
+  return !_vm.isLogin
+    ? _c(
+        "v-bottom-navigation",
+        { attrs: { fixed: "" } },
+        [
+          _vm._l(_vm.items, function(item) {
+            return _c(
+              "v-btn",
+              {
+                key: item.title,
+                staticClass: "text-decoration-none",
+                attrs: { to: item.to }
+              },
+              [
+                _c("span", [_vm._v(_vm._s(item.title))]),
+                _vm._v(" "),
+                _c("v-icon", [_vm._v(_vm._s(item.icon))])
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              staticClass: "text-decoration-none",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.guestLogin($event)
+                }
+              }
+            },
             [
-              _vm._l(_vm.items, function(item) {
-                return _c(
-                  "v-btn",
-                  {
-                    key: item.title,
-                    staticClass: "text-decoration-none",
-                    attrs: { to: item.to }
-                  },
-                  [
-                    _c("span", [_vm._v(_vm._s(item.title))]),
-                    _vm._v(" "),
-                    _c("v-icon", [_vm._v(_vm._s(item.icon))])
-                  ],
-                  1
-                )
-              }),
+              _c("span", [_vm._v("Guest Login")]),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "text-decoration-none",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.guestLogin($event)
-                    }
-                  }
-                },
-                [
-                  _c("span", [_vm._v("Guest Login")]),
-                  _vm._v(" "),
-                  _c("v-icon", [_vm._v("verified_user")])
-                ],
-                1
-              )
+              _c("v-icon", [_vm._v("verified_user")])
             ],
-            2
+            1
           )
-        : _c(
-            "v-bottom-navigation",
-            { attrs: { absolute: "" } },
+        ],
+        2
+      )
+    : _c(
+        "v-bottom-navigation",
+        { attrs: { fixed: "" } },
+        [
+          _vm._l(_vm.userItems, function(item) {
+            return _c(
+              "v-btn",
+              {
+                key: item.title,
+                staticClass: "text-decoration-none",
+                attrs: { to: item.to }
+              },
+              [
+                _c("span", [_vm._v(_vm._s(item.title))]),
+                _vm._v(" "),
+                _c("v-icon", [_vm._v(_vm._s(item.icon))])
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { staticClass: "text-decoration-none", on: { click: _vm.logout } },
             [
-              _vm._l(_vm.userItems, function(item) {
-                return _c(
-                  "v-btn",
-                  {
-                    key: item.title,
-                    staticClass: "text-decoration-none",
-                    attrs: { to: item.to }
-                  },
-                  [
-                    _c("span", [_vm._v(_vm._s(item.title))]),
-                    _vm._v(" "),
-                    _c("v-icon", [_vm._v(_vm._s(item.icon))])
-                  ],
-                  1
-                )
-              }),
+              _c("span", [_vm._v("Logout")]),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "text-decoration-none",
-                  on: { click: _vm.logout }
-                },
-                [
-                  _c("span", [_vm._v("Logout")]),
-                  _vm._v(" "),
-                  _c("v-icon", [_vm._v("logout")])
-                ],
-                1
-              )
+              _c("v-icon", [_vm._v("logout")])
             ],
-            2
+            1
           )
-    ],
-    1
-  )
+        ],
+        2
+      )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -9328,6 +9372,61 @@ var render = function() {
       )
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm.photos.length > 0
+        ? _c(
+            "v-carousel",
+            {
+              staticClass: "grey darken-4",
+              attrs: {
+                "hide-delimiter-background": "",
+                "show-arrows-on-hover": "",
+                height: "300"
+              }
+            },
+            _vm._l(_vm.photos, function(photo) {
+              return _c(
+                "v-carousel-item",
+                { key: photo.photos_url },
+                [
+                  _c("v-img", {
+                    attrs: { src: photo.photos_url, contain: "", height: "300" }
+                  })
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -9866,6 +9965,8 @@ var render = function() {
             _vm._v(_vm._s(_vm.post.post_title))
           ]),
           _vm._v(" "),
+          _c("PostPhoto", { attrs: { photos: _vm.post.photos } }),
+          _vm._v(" "),
           _c("div", { staticClass: "post-detail__about" }, [
             _vm._v("\n        " + _vm._s(_vm.post.about) + "\n    ")
           ]),
@@ -10024,208 +10125,207 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "post-form text-center" }, [
-    _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        staticClass: "form mt-10",
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.createPost($event)
-          }
-        }
-      },
-      [
-        _c(
-          "v-col",
-          { attrs: { cols: "12" } },
-          [
-            _c("v-text-field", {
-              attrs: {
-                counter: "",
-                maxlength: "100",
-                clearable: "",
-                label: "タイトル"
-              },
-              model: {
-                value: _vm.post_title,
-                callback: function($$v) {
-                  _vm.post_title = $$v
-                },
-                expression: "post_title"
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-col",
-          { attrs: { cols: "12" } },
-          [
-            _c("v-text-field", {
-              attrs: {
-                "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
-                type: _vm.show1 ? "text" : "password",
-                clearable: "",
-                label: "パスワード"
-              },
+  return _c(
+    "v-row",
+    { attrs: { justify: "center" } },
+    [
+      _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
+        _c("div", { staticClass: "post-form text-center" }, [
+          _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              staticClass: "form mt-10",
               on: {
-                "click:append": function($event) {
-                  _vm.show1 = !_vm.show1
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.createPost($event)
                 }
-              },
-              model: {
-                value: _vm.post_password,
-                callback: function($$v) {
-                  _vm.post_password = $$v
-                },
-                expression: "post_password"
               }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-col",
-          { attrs: { cols: "6" } },
-          [
-            _c("v-text-field", {
-              attrs: { type: "number", clearable: "", label: "最大人数" },
-              scopedSlots: _vm._u([
-                {
-                  key: "prepend",
-                  fn: function() {
-                    return [
-                      _c(
-                        "v-tooltip",
-                        {
-                          attrs: { bottom: "" },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "activator",
-                              fn: function(ref) {
-                                var on = ref.on
-                                return [
-                                  _c("v-icon", _vm._g({}, on), [
-                                    _vm._v("mdi-help-circle-outline")
-                                  ])
-                                ]
+            },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  counter: "",
+                  maxlength: "100",
+                  clearable: "",
+                  label: "タイトル"
+                },
+                model: {
+                  value: _vm.post_title,
+                  callback: function($$v) {
+                    _vm.post_title = $$v
+                  },
+                  expression: "post_title"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
+                  type: _vm.show1 ? "text" : "password",
+                  clearable: "",
+                  label: "パスワード"
+                },
+                on: {
+                  "click:append": function($event) {
+                    _vm.show1 = !_vm.show1
+                  }
+                },
+                model: {
+                  value: _vm.post_password,
+                  callback: function($$v) {
+                    _vm.post_password = $$v
+                  },
+                  expression: "post_password"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { lg6: "", md6: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: { type: "number", clearable: "", label: "最大人数" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "prepend",
+                        fn: function() {
+                          return [
+                            _c(
+                              "v-tooltip",
+                              {
+                                attrs: { bottom: "" },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      return [
+                                        _c("v-icon", _vm._g({}, on), [
+                                          _vm._v("mdi-help-circle-outline")
+                                        ])
+                                      ]
+                                    }
+                                  }
+                                ])
+                              },
+                              [
+                                _vm._v(
+                                  "\n                メッセージ数が最大人数分に達すると募集が締めきられます。\n              "
+                                )
+                              ]
+                            )
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ]),
+                    model: {
+                      value: _vm.max_number,
+                      callback: function($$v) {
+                        _vm.max_number = $$v
+                      },
+                      expression: "max_number"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-file-input", {
+                attrs: {
+                  rules: _vm.rules,
+                  accept: "image/*",
+                  label: "画像のアップロード",
+                  "prepend-icon": "photo",
+                  multiple: "",
+                  "show-size": "",
+                  counter: ""
+                },
+                on: { change: _vm.onFileChange },
+                scopedSlots: _vm._u([
+                  {
+                    key: "selection",
+                    fn: function(ref) {
+                      var text = ref.text
+                      return [
+                        _c(
+                          "v-chip",
+                          {
+                            attrs: {
+                              small: "",
+                              label: "",
+                              color: "primary",
+                              close: ""
+                            },
+                            on: {
+                              "click:close": function($event) {
+                                return _vm.remove(_vm.index)
                               }
                             }
-                          ])
-                        },
-                        [
-                          _vm._v(
-                            "\n              メッセージ数が最大人数分に達すると募集が締めきられます。\n            "
-                          )
-                        ]
-                      )
-                    ]
+                          },
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(text) +
+                                "\n            "
+                            )
+                          ]
+                        )
+                      ]
+                    }
+                  }
+                ]),
+                model: {
+                  value: _vm.files,
+                  callback: function($$v) {
+                    _vm.files = $$v
                   },
-                  proxy: true
+                  expression: "files"
                 }
-              ]),
-              model: {
-                value: _vm.max_number,
-                callback: function($$v) {
-                  _vm.max_number = $$v
+              }),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                _vm._l(_vm.files, function(file, f) {
+                  return _c("v-col", { key: f, attrs: { sm: "4" } }, [
+                    _vm._v(
+                      "\n            " + _vm._s(file.name) + "\n            "
+                    ),
+                    _c("img", {
+                      ref: "file",
+                      refInFor: true,
+                      staticClass: "img-fluid",
+                      attrs: { src: "", title: "file" + f }
+                    })
+                  ])
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "ma-2 mt-10",
+                  attrs: {
+                    type: "submit",
+                    width: "160",
+                    outlined: "",
+                    color: "pink lighten-1"
+                  }
                 },
-                expression: "max_number"
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-file-input",
-          {
-            attrs: {
-              rules: _vm.rules,
-              accept: "image/*",
-              label: "画像のアップロード",
-              "prepend-icon": "photo",
-              multiple: "",
-              "show-size": "",
-              counter: ""
-            },
-            on: { change: _vm.onFileChange },
-            scopedSlots: _vm._u([
-              {
-                key: "selection",
-                fn: function(ref) {
-                  var text = ref.text
-                  return [
-                    _c(
-                      "v-chip",
-                      {
-                        attrs: {
-                          small: "",
-                          label: "",
-                          color: "primary",
-                          close: ""
-                        },
-                        on: {
-                          "click:close": function($event) {
-                            return _vm.remove(_vm.index)
-                          }
-                        }
-                      },
-                      [_vm._v("\n            " + _vm._s(text) + "\n          ")]
-                    )
-                  ]
-                }
-              }
-            ]),
-            model: {
-              value: _vm.files,
-              callback: function($$v) {
-                _vm.files = $$v
-              },
-              expression: "files"
-            }
-          },
-          [_vm._v("\n      >\n        ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "v-row",
-          _vm._l(_vm.files, function(file, f) {
-            return _c("v-col", { key: f, attrs: { sm: "4" } }, [
-              _vm._v("\n            " + _vm._s(file.name) + "\n            "),
-              _c("img", {
-                ref: "file",
-                refInFor: true,
-                staticClass: "img-fluid",
-                attrs: { src: "", title: "file" + f }
-              })
-            ])
-          }),
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-btn",
-          {
-            staticClass: "ma-2 mt-10",
-            attrs: {
-              type: "submit",
-              width: "160",
-              outlined: "",
-              color: "pink lighten-1"
-            }
-          },
-          [_vm._v("送信")]
-        )
-      ],
-      1
-    )
-  ])
+                [_vm._v("送信")]
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -71353,6 +71453,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostModal_vue_vue_type_template_id_69dec192___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostModal_vue_vue_type_template_id_69dec192___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPhoto.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/PostPhoto.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostPhoto.vue?vue&type=template&id=94028ad2& */ "./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2&");
+/* harmony import */ var _PostPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostPhoto.vue?vue&type=script&lang=js& */ "./resources/js/components/PostPhoto.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PostPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PostPhoto.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPhoto.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/PostPhoto.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPhoto.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPhoto.vue?vue&type=template&id=94028ad2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPhoto_vue_vue_type_template_id_94028ad2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

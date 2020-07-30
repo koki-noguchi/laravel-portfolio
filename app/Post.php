@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
     protected $visible = [
         'id', 'post_title', 'about', 'user', 'password_judge', 'messages',
-        'bookmarked_by_user',
+        'bookmarked_by_user', 'photos',
     ];
 
     protected $hidden = [

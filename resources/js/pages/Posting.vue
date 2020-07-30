@@ -1,83 +1,86 @@
 <template>
-  <div class="post-form text-center">
-    <div class="h2">メッセージを募集する</div>
-    <form class="form mt-10" @submit.prevent="createPost">
-      <v-col cols="12">
-          <v-text-field
-            v-model="post_title"
-            counter
-            maxlength="100"
-            clearable
-            label="タイトル"
-          ></v-text-field>
-      </v-col>
-      <v-col cols="12">
-          <v-text-field
-            v-model="post_password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="show1 ? 'text' : 'password'"
-            @click:append="show1 = !show1"
-            clearable
-            label="パスワード"
-          ></v-text-field>
-      </v-col>
-      <v-col cols="6">
-          <v-text-field
-            v-model="max_number"
-            type="number"
-            clearable
-            label="最大人数"
-          >
-            <template v-slot:prepend>
-              <v-tooltip
-                bottom
+    <v-row
+      justify="center">
+      <v-col
+        cols="12"
+        sm="8"
+        md="6">
+        <div class="post-form text-center">
+          <div class="h2">メッセージを募集する</div>
+          <form class="form mt-10" @submit.prevent="createPost">
+            <v-text-field
+              v-model="post_title"
+              counter
+              maxlength="100"
+              clearable
+              label="タイトル"
+            ></v-text-field>
+            <v-text-field
+              v-model="post_password"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              @click:append="show1 = !show1"
+              clearable
+              label="パスワード"
+            ></v-text-field>
+            <v-flex lg6 md6>
+              <v-text-field
+                v-model="max_number"
+                type="number"
+                clearable
+                label="最大人数"
               >
-                <template v-slot:activator="{ on }">
-                  <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                <template v-slot:prepend>
+                  <v-tooltip
+                    bottom
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    メッセージ数が最大人数分に達すると募集が締めきられます。
+                  </v-tooltip>
                 </template>
-                メッセージ数が最大人数分に達すると募集が締めきられます。
-              </v-tooltip>
-            </template>
-          </v-text-field>
-      </v-col>
-        <v-file-input
-            :rules="rules"
-            accept="image/*"
-            label="画像のアップロード"
-            prepend-icon="photo"
-            multiple
-            v-model="files"
-            @change="onFileChange"
-            show-size
-            counter
-          >
-        >
-          <template v-slot:selection="{ text }">
-            <v-chip
-              small
-              label
-              color="primary"
-              close
-              @click:close="remove(index)"
+              </v-text-field>
+            </v-flex>
+            <v-file-input
+                :rules="rules"
+                accept="image/*"
+                label="画像のアップロード"
+                prepend-icon="photo"
+                multiple
+                v-model="files"
+                @change="onFileChange"
+                show-size
+                counter
             >
-              {{ text }}
-            </v-chip>
-          </template>
-        </v-file-input>
-      <v-row>
-          <v-col sm="4" v-for="(file,f) in files" :key="f">
-              {{file.name}}
-              <img
-                :ref="'file'"
-                src=""
-                class="img-fluid"
-                :title="'file' + f"
-              />
-          </v-col>
-      </v-row>
-      <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
-    </form>
-  </div>
+              <template v-slot:selection="{ text }">
+                <v-chip
+                  small
+                  label
+                  color="primary"
+                  close
+                  @click:close="remove(index)"
+                >
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+            <v-row>
+            <v-col sm="4" v-for="(file,f) in files" :key="f">
+                {{file.name}}
+                <img
+                  :ref="'file'"
+                  src=""
+                  class="img-fluid"
+                  :title="'file' + f"
+                />
+            </v-col>
+            </v-row>
+            <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
+          </form>
+        </div>
+      </v-col>
+    </v-row>
 </template>
 
 <script>

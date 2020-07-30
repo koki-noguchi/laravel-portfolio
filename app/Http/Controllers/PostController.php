@@ -49,9 +49,10 @@ class PostController extends Controller
                 $photo = new Photo();
                 $extension = $image->extension();
 
-                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
+                $photo->post_photo = $photo->id . '.' . $extension;
 
-                Storage::cloud()->put($photo->post_photo, $image, 'public');
+                Storage::cloud()->putFileAs('post_photo', $image, $photo->post_photo, 'public');
+                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
 
                 DB::beginTransaction();
 
@@ -92,7 +93,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::where('id', $id)->with(['user', 'messages.author', 'bookmarks'])->first();
+        $post = Post::where('id', $id)->with(['user', 'messages.author', 'bookmarks', 'photos'])->first();
 
         return $post ?? abort(404);
     }
