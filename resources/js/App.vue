@@ -10,8 +10,8 @@
         >
           <v-col
             cols="12"
-            sm="8"
-            md="4"
+            sm="10"
+            md="10"
           >
             <RouterView class="mt-5" />
           </v-col>
