@@ -1,12 +1,21 @@
 <template>
 <div>
-    <v-carousel height="400" width="600">
-        <v-carousel-item
-            v-for="photo in photos"
-            :key="photo.photos_url"
-            :src="photo.photos_url"
-        ></v-carousel-item>
-    </v-carousel>
+    <v-carousel
+        hide-delimiter-background
+        show-arrows-on-hover
+        height="300"
+        class="grey darken-4"
+        v-if="photos.length > 0">
+    <v-carousel-item
+        v-for="photo in photos"
+        :key="photo.photos_url"
+    >
+        <v-img
+        :src="photo.photos_url"
+        contain
+        height="300"></v-img>
+    </v-carousel-item>
+  </v-carousel>
 </div>
 </template>
 
