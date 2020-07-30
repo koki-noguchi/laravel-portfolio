@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <v-bottom-navigation absolute v-if="!isLogin">
+        <v-bottom-navigation fixed v-if="!isLogin">
             <v-btn
                 v-for="item in items"
                 :key="item.title"
@@ -16,7 +15,7 @@
                 <v-icon>verified_user</v-icon>
             </v-btn>
         </v-bottom-navigation>
-        <v-bottom-navigation absolute v-else>
+        <v-bottom-navigation fixed v-else>
             <v-btn
                 v-for="item in userItems"
                 :key="item.title"
@@ -32,7 +31,6 @@
                 <v-icon>logout</v-icon>
             </v-btn>
         </v-bottom-navigation>
-    </div>
 </template>
 
 <script>
