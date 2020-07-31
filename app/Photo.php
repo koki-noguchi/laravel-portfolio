@@ -64,4 +64,13 @@ class Photo extends Model
 
         return $id;
     }
+
+    /**
+     * リレーションシップ - postsテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function postBy()
+    {
+        return $this->belongsTo('App\Post', 'post_id', 'id', 'posts');
+    }
 }

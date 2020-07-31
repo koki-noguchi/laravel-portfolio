@@ -50,7 +50,10 @@ class PostSubmitApiTest extends TestCase
      */
     public function should_メッセージ募集を削除できる()
     {
-        factory(Post::class)->create();
+        factory(Post::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+
         $this->post = Post::first();
 
         $response = $this->actingAs($this->user)
@@ -69,7 +72,9 @@ class PostSubmitApiTest extends TestCase
      */
     public function should_メッセージ募集を更新できる()
     {
-        factory(Post::class)->create();
+        factory(Post::class)->create([
+            'user_id' => $this->user->id,
+        ]);
         $this->post = Post::first();
 
         $data = [
@@ -162,17 +167,21 @@ class PostSubmitApiTest extends TestCase
      */
     public function should_写真を削除できる()
     {
+        factory(Post::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+        $post = Post::first();
+
         Storage::fake('s3');
 
         $data = [
-            'post_title' => 'postsample',
-            'post_password' => 'sample',
-            'max_number' => '5',
             'post_photo' => array(UploadedFile::fake()->image('photo.jpg'), UploadedFile::fake()->image('photos.jpg')),
         ];
 
         $this->actingAs($this->user)
-            ->json('POST', route('posting.create'), $data);
+            ->json('POST', route('photo.create',[
+                'id' => $post->id,
+            ]), $data);
 
         $photo = Photo::first();
 
@@ -194,7 +203,9 @@ class PostSubmitApiTest extends TestCase
      */
     public function should_写真のみ取得してアップロードできる()
     {
-        factory(Post::class)->create();
+        factory(Post::class)->create([
+            'user_id' => $this->user->id,
+        ]);
         $post = Post::first();
 
         Storage::fake('s3');
