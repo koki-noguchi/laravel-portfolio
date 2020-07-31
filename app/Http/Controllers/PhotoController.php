@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Photo;
+use App\Post;
+use App\Http\Requests\StorePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +30,44 @@ class PhotoController extends Controller
             $photo->delete();
         } else {
             abort(404);
+        }
+    }
+
+    /**
+     * 画像追加
+     * @params string $id
+     * @param StorePhoto $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(string $id, StorePhoto $request)
+    {
+        $images = $request->post_photo;
+
+        if ($images) {
+            foreach ($images as $image ) {
+                $photo = new Photo();
+                $extension = $image->extension();
+
+                $photo->post_photo = $photo->id . '.' . $extension;
+
+                Storage::cloud()->putFileAs('post_photo', $image, $photo->post_photo, 'public');
+                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
+
+                DB::beginTransaction();
+
+                try {
+                    $photo->post_id = $id;
+                    $photo->save();
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+
+                    Storage::cloud()->delete($photo->post_photo);
+                    throw $exception;
+                }
+            }
+
+            return response($photo, 201);
         }
     }
 }

@@ -188,4 +188,29 @@ class PostSubmitApiTest extends TestCase
 
         $this->assertEquals(0, count(Storage::cloud()->files()));
     }
+
+    /**
+     * @test
+     */
+    public function should_写真のみ取得してアップロードできる()
+    {
+        factory(Post::class)->create();
+        $post = Post::first();
+
+        Storage::fake('s3');
+
+        $data = [
+            'post_photo' => array(UploadedFile::fake()->image('photo.jpg'), UploadedFile::fake()->image('photos.jpg')),
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->json('POST', route('photo.create',[
+                'id' => $post->id,
+            ]), $data);
+
+        $response->assertStatus(201);
+        $photo = Photo::first();
+
+        Storage::cloud()->assertExists($photo->post_photo);
+    }
 }
