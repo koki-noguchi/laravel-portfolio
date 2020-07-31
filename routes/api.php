@@ -35,3 +35,4 @@ Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('boo
 Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');
 Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');
 Route::delete('/reply/{id}', 'ReplyController@delete')->name('reply.delete');
+Route::delete('/photo/{id}', 'PhotoController@delete')->name('photo.delete');

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Photo extends Model
 {
     protected $visible = [
-        'photos_url',
+        'id', 'photos_url',
     ];
 
     protected $appends = [

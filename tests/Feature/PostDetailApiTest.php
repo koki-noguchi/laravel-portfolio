@@ -92,6 +92,7 @@ class PostDetailApiTest extends TestCase
             'photos' => $post->photos
                     ->map(function ($photo) {
                         return [
+                            'id' => $photo->id,
                             'photos_url' => Storage::cloud()->url($photo->post_photo),
                         ];
                     })->all(),

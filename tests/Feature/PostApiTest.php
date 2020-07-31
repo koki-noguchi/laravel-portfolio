@@ -156,4 +156,36 @@ class PostSubmitApiTest extends TestCase
 
         $this->assertEmpty(Photo::all());
     }
+
+    /**
+     * @test
+     */
+    public function should_写真を削除できる()
+    {
+        Storage::fake('s3');
+
+        $data = [
+            'post_title' => 'postsample',
+            'post_password' => 'sample',
+            'max_number' => '5',
+            'post_photo' => array(UploadedFile::fake()->image('photo.jpg'), UploadedFile::fake()->image('photos.jpg')),
+        ];
+
+        $this->actingAs($this->user)
+            ->json('POST', route('posting.create'), $data);
+
+        $photo = Photo::first();
+
+        $response = $this->actingAs($this->user)
+            ->json('DELETE', route('photo.delete', [
+                'id' => $photo->id,
+            ]));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('photos', [
+            'id' => $photo->id,
+        ]);
+
+        $this->assertEquals(0, count(Storage::cloud()->files()));
+    }
 }
