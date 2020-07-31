@@ -5,6 +5,7 @@ import Index from './pages/Index.vue'
 import Register from './pages/register.vue'
 import Login from './pages/Login.vue'
 import Post from './pages/Posting.vue'
+import PostEdit from './pages/PostEdit.vue'
 import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
 import Mypage from './pages/Mypage.vue'
@@ -77,6 +78,11 @@ const routes = [
     {
         path: '/post/:id',
         component: PostDetail,
+        props: true
+    },
+    {
+        path: '/post/:id/edit',
+        component: PostEdit,
         props: true
     },
     {
