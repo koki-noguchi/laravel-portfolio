@@ -35,6 +35,7 @@ class PostListApiTest extends TestCase
                     'url' => '/images/default-image.jpeg',
                 ],
                 'bookmarked_by_user' => false,
+                'my_post' => false,
             ];
         })
         ->all();
