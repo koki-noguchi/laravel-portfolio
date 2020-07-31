@@ -2944,6 +2944,461 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditForm.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostEditForm.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      post: null,
+      post_title: '',
+      about: ''
+    };
+  },
+  methods: {
+    fetchPost: function fetchPost() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/post/".concat(_this.id));
+
+              case 2:
+                response = _context.sent;
+
+                if (!response.data.my_post) {
+                  _this.$router.push("/post/".concat(_this.id));
+                }
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 7:
+                _this.post = response.data;
+                _this.post_title = _this.post.post_title;
+                _this.about = _this.post.about;
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    update: function update() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(_this2.id), {
+                  post_title: _this2.post_title,
+                  about: _this2.about
+                });
+
+              case 2:
+                response = _context2.sent;
+                _context2.next = 5;
+                return _this2.fetchPost();
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this3 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.next = 2;
+                  return _this3.fetchPost();
+
+                case 2:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      post: null,
+      photos: [],
+      post_photo: [],
+      files: [],
+      readers: [],
+      index: '',
+      rules: [function (value) {
+        return !value.length || value.reduce(function (size, file) {
+          return size + file.size;
+        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+      }]
+    };
+  },
+  methods: {
+    fetchPost: function fetchPost() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/post/".concat(_this.id));
+
+              case 2:
+                response = _context.sent;
+
+                if (!response.data.my_post) {
+                  _this.$router.push("/post/".concat(_this.id));
+                }
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 7:
+                _this.post = response.data;
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    create: function create() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var formData, index, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                formData = new FormData();
+
+                if (_this2.files.length > 0) {
+                  for (index = 0; index < _this2.files.length; index++) {
+                    formData.append('post_photo[]', _this2.post_photo[index]);
+                  }
+                }
+
+                _context2.next = 4;
+                return axios.post("/api/post/".concat(_this2.id, "/photo"), formData);
+
+              case 4:
+                response = _context2.sent;
+                _this2.post_photo = '';
+
+                _this2.$router.push("/post/".concat(_this2.id));
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    remove: function remove(index) {
+      this.files.splice(index, 1);
+    },
+    onFileChange: function onFileChange() {
+      var _this3 = this;
+
+      this.files.forEach(function (file, f) {
+        _this3.readers[f] = new FileReader();
+
+        _this3.readers[f].onloadend = function (e) {
+          var fileData = _this3.readers[f].result;
+          var imgRef = _this3.$refs.file[f];
+          imgRef.src = fileData;
+        };
+
+        _this3.readers[f].readAsDataURL(_this3.files[f]);
+
+        _this3.post_photo[f] = _this3.files[f];
+      });
+    },
+    photoDelete: function photoDelete(id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/photo/".concat(id));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this4.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this4.fetchPost();
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this5 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this5.fetchPost();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPhoto.vue?vue&type=script&lang=js& ***!
@@ -4045,6 +4500,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_PostEditForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/PostEditForm.vue */ "./resources/js/components/PostEditForm.vue");
+/* harmony import */ var _components_PostEditPhoto_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/PostEditPhoto.vue */ "./resources/js/components/PostEditPhoto.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4082,122 +4539,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    PostEditForm: _components_PostEditForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PostEditPhoto: _components_PostEditPhoto_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
   props: {
     id: {
       type: String,
@@ -4206,19 +4555,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      post: null,
-      post_title: '',
-      about: '',
-      photos: [],
-      post_photo: [],
-      files: [],
-      readers: [],
-      index: '',
-      rules: [function (value) {
-        return !value.length || value.reduce(function (size, file) {
-          return size + file.size;
-        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
-      }]
+      post: null
     };
   },
   methods: {
@@ -4252,160 +4589,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 7:
                 _this.post = response.data;
-                _this.post_title = _this.post.post_title;
-                _this.about = _this.post.about;
-                _this.photos = _this.post.photos;
 
-              case 11:
+              case 8:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
-    },
-    update: function update() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/post/".concat(_this2.id), {
-                  post_title: _this2.post_title,
-                  about: _this2.about
-                });
-
-              case 2:
-                response = _context2.sent;
-                _context2.next = 5;
-                return _this2.fetchPost();
-
-              case 5:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    create: function create() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var formData, index, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                formData = new FormData();
-
-                if (_this3.files.length > 0) {
-                  for (index = 0; index < _this3.files.length; index++) {
-                    formData.append('post_photo[]', _this3.post_photo[index]);
-                  }
-                }
-
-                _context3.next = 4;
-                return axios.post("/api/post/".concat(_this3.id, "/photo"), formData);
-
-              case 4:
-                response = _context3.sent;
-                _this3.post_photo = '';
-
-                _this3.$router.push("/post/".concat(_this3.id));
-
-              case 7:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    remove: function remove(index) {
-      this.files.splice(index, 1);
-    },
-    onFileChange: function onFileChange() {
-      var _this4 = this;
-
-      this.files.forEach(function (file, f) {
-        _this4.readers[f] = new FileReader();
-
-        _this4.readers[f].onloadend = function (e) {
-          var fileData = _this4.readers[f].result;
-          var imgRef = _this4.$refs.file[f];
-          imgRef.src = fileData;
-        };
-
-        _this4.readers[f].readAsDataURL(_this4.files[f]);
-
-        _this4.post_photo[f] = _this4.files[f];
-      });
-    },
-    photoDelete: function photoDelete(id) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return axios["delete"]("/api/photo/".concat(id));
-
-              case 2:
-                response = _context4.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context4.next = 6;
-                  break;
-                }
-
-                _this5.$store.commit('error/setCode', response.status);
-
-                return _context4.abrupt("return", false);
-
-              case 6:
-                _this5.fetchPost();
-
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    }
-  },
-  computed: {
-    isLogin: function isLogin() {
-      return this.$store.getters['auth/check'];
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this6 = this;
+        var _this2 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context5.next = 2;
-                  return _this6.fetchPost();
+                  _context2.next = 2;
+                  return _this2.fetchPost();
 
                 case 2:
                 case "end":
-                  return _context5.stop();
+                  return _context2.stop();
               }
             }
-          }, _callee5);
+          }, _callee2);
         }))();
       },
       immediate: true
@@ -9589,6 +9801,286 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-row",
+    { attrs: { justify: "center" } },
+    [
+      _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
+        _c(
+          "form",
+          {
+            staticClass: "mt-10 text-center",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.update($event)
+              }
+            }
+          },
+          [
+            _c("v-text-field", {
+              staticClass: "mt-5",
+              attrs: {
+                filled: "",
+                counter: "",
+                maxlength: "100",
+                clearable: "",
+                label: "タイトル"
+              },
+              model: {
+                value: _vm.post_title,
+                callback: function($$v) {
+                  _vm.post_title = $$v
+                },
+                expression: "post_title"
+              }
+            }),
+            _vm._v(" "),
+            _c("v-textarea", {
+              staticClass: "mt-5",
+              attrs: {
+                filled: "",
+                "auto-grow": "",
+                counter: "",
+                maxlength: "2000",
+                clearable: "",
+                label: "概要"
+              },
+              model: {
+                value: _vm.about,
+                callback: function($$v) {
+                  _vm.about = $$v
+                },
+                expression: "about"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                staticClass: "mt-5",
+                attrs: {
+                  type: "submit",
+                  width: "160",
+                  outlined: "",
+                  color: "pink lighten-1"
+                }
+              },
+              [_vm._v("送信")]
+            )
+          ],
+          1
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-row",
+        { attrs: { justify: "center" } },
+        [
+          _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
+            _c(
+              "form",
+              {
+                staticClass: "mt-10 text-center",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.create($event)
+                  }
+                }
+              },
+              [
+                _c("v-file-input", {
+                  staticClass: "mt-5",
+                  attrs: {
+                    rules: _vm.rules,
+                    accept: "image/*",
+                    label: "画像の追加",
+                    "prepend-icon": "photo",
+                    multiple: "",
+                    "show-size": "",
+                    counter: ""
+                  },
+                  on: { change: _vm.onFileChange },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "selection",
+                      fn: function(ref) {
+                        var text = ref.text
+                        return [
+                          _c(
+                            "v-chip",
+                            {
+                              attrs: {
+                                small: "",
+                                label: "",
+                                color: "primary",
+                                close: ""
+                              },
+                              on: {
+                                "click:close": function($event) {
+                                  return _vm.remove(_vm.index)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(text) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ]
+                      }
+                    }
+                  ]),
+                  model: {
+                    value: _vm.files,
+                    callback: function($$v) {
+                      _vm.files = $$v
+                    },
+                    expression: "files"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-row",
+                  _vm._l(_vm.files, function(file, f) {
+                    return _c("v-col", { key: f, attrs: { sm: "6" } }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(file.name) +
+                          "\n                "
+                      ),
+                      _c("img", {
+                        ref: "file",
+                        refInFor: true,
+                        staticClass: "img-fluid",
+                        attrs: { src: "", title: "file" + f }
+                      })
+                    ])
+                  }),
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "ma-2 mt-10",
+                    attrs: {
+                      type: "submit",
+                      width: "160",
+                      outlined: "",
+                      color: "pink lighten-1"
+                    }
+                  },
+                  [_vm._v("送信")]
+                )
+              ],
+              1
+            )
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.photos.length > 0
+        ? _c(
+            "v-row",
+            _vm._l(_vm.photos, function(photo) {
+              return _c(
+                "v-col",
+                { key: photo.photos_url, attrs: { sm: "4" } },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c("v-img", { attrs: { src: photo.photos_url } }),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "orange", text: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.photoDelete(photo.id)
+                                }
+                              }
+                            },
+                            [_vm._v("\n            Delete\n            ")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPhoto.vue?vue&type=template&id=94028ad2& ***!
@@ -10339,82 +10831,7 @@ var render = function() {
               _c(
                 "v-tab-item",
                 { attrs: { id: "post" } },
-                [
-                  _c(
-                    "v-row",
-                    { attrs: { justify: "center" } },
-                    [
-                      _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-                        _c(
-                          "form",
-                          {
-                            staticClass: "mt-10 text-center",
-                            on: {
-                              submit: function($event) {
-                                $event.preventDefault()
-                                return _vm.update($event)
-                              }
-                            }
-                          },
-                          [
-                            _c("v-text-field", {
-                              staticClass: "mt-5",
-                              attrs: {
-                                filled: "",
-                                counter: "",
-                                maxlength: "100",
-                                clearable: "",
-                                label: "タイトル"
-                              },
-                              model: {
-                                value: _vm.post_title,
-                                callback: function($$v) {
-                                  _vm.post_title = $$v
-                                },
-                                expression: "post_title"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("v-textarea", {
-                              staticClass: "mt-5",
-                              attrs: {
-                                filled: "",
-                                "auto-grow": "",
-                                counter: "",
-                                maxlength: "2000",
-                                clearable: "",
-                                label: "概要"
-                              },
-                              model: {
-                                value: _vm.about,
-                                callback: function($$v) {
-                                  _vm.about = $$v
-                                },
-                                expression: "about"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mt-5",
-                                attrs: {
-                                  type: "submit",
-                                  width: "160",
-                                  outlined: "",
-                                  color: "pink lighten-1"
-                                }
-                              },
-                              [_vm._v("送信")]
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
+                [_c("PostEditForm", { attrs: { id: this.id } })],
                 1
               ),
               _vm._v(" "),
@@ -10425,177 +10842,7 @@ var render = function() {
               _c(
                 "v-tab-item",
                 { attrs: { id: "photo" } },
-                [
-                  _c(
-                    "v-row",
-                    { attrs: { justify: "center" } },
-                    [
-                      _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-                        _c(
-                          "form",
-                          {
-                            staticClass: "mt-10 text-center",
-                            on: {
-                              submit: function($event) {
-                                $event.preventDefault()
-                                return _vm.create($event)
-                              }
-                            }
-                          },
-                          [
-                            _c("v-file-input", {
-                              staticClass: "mt-5",
-                              attrs: {
-                                rules: _vm.rules,
-                                accept: "image/*",
-                                label: "画像の追加",
-                                "prepend-icon": "photo",
-                                multiple: "",
-                                "show-size": "",
-                                counter: ""
-                              },
-                              on: { change: _vm.onFileChange },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "selection",
-                                    fn: function(ref) {
-                                      var text = ref.text
-                                      return [
-                                        _c(
-                                          "v-chip",
-                                          {
-                                            attrs: {
-                                              small: "",
-                                              label: "",
-                                              color: "primary",
-                                              close: ""
-                                            },
-                                            on: {
-                                              "click:close": function($event) {
-                                                return _vm.remove(_vm.index)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                    " +
-                                                _vm._s(text) +
-                                                "\n                  "
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ],
-                                null,
-                                false,
-                                822009111
-                              ),
-                              model: {
-                                value: _vm.files,
-                                callback: function($$v) {
-                                  _vm.files = $$v
-                                },
-                                expression: "files"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              _vm._l(_vm.files, function(file, f) {
-                                return _c(
-                                  "v-col",
-                                  { key: f, attrs: { sm: "6" } },
-                                  [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(file.name) +
-                                        "\n                    "
-                                    ),
-                                    _c("img", {
-                                      ref: "file",
-                                      refInFor: true,
-                                      staticClass: "img-fluid",
-                                      attrs: { src: "", title: "file" + f }
-                                    })
-                                  ]
-                                )
-                              }),
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "ma-2 mt-10",
-                                attrs: {
-                                  type: "submit",
-                                  width: "160",
-                                  outlined: "",
-                                  color: "pink lighten-1"
-                                }
-                              },
-                              [_vm._v("送信")]
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm.photos.length > 0
-                    ? _c(
-                        "v-row",
-                        _vm._l(_vm.photos, function(photo) {
-                          return _c(
-                            "v-col",
-                            { key: photo.photos_url, attrs: { sm: "4" } },
-                            [
-                              _c(
-                                "v-card",
-                                [
-                                  _c("v-img", {
-                                    attrs: { src: photo.photos_url }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-card-actions",
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: { color: "orange", text: "" },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.photoDelete(photo.id)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                Delete\n                "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        }),
-                        1
-                      )
-                    : _vm._e()
-                ],
+                [_c("PostEditPhoto", { attrs: { id: this.id } })],
                 1
               )
             ],
@@ -71925,6 +72172,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Post_vue_vue_type_template_id_5e8280ea___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Post_vue_vue_type_template_id_5e8280ea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditForm.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/PostEditForm.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostEditForm.vue?vue&type=template&id=582fa399& */ "./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399&");
+/* harmony import */ var _PostEditForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostEditForm.vue?vue&type=script&lang=js& */ "./resources/js/components/PostEditForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PostEditForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PostEditForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditForm.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/PostEditForm.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostEditForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PostEditForm.vue?vue&type=template&id=582fa399& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditForm.vue?vue&type=template&id=582fa399&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditForm_vue_vue_type_template_id_582fa399___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditPhoto.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/PostEditPhoto.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostEditPhoto.vue?vue&type=template&id=11fb692d& */ "./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d&");
+/* harmony import */ var _PostEditPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostEditPhoto.vue?vue&type=script&lang=js& */ "./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PostEditPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PostEditPhoto.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostEditPhoto.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditPhoto.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditPhoto_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PostEditPhoto.vue?vue&type=template&id=11fb692d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostEditPhoto.vue?vue&type=template&id=11fb692d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostEditPhoto_vue_vue_type_template_id_11fb692d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
