@@ -36,3 +36,4 @@ Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('r
 Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');
 Route::delete('/reply/{id}', 'ReplyController@delete')->name('reply.delete');
 Route::delete('/photo/{id}', 'PhotoController@delete')->name('photo.delete');
+Route::post('/post/{id}/photo', 'PhotoController@create')->name('photo.create');
