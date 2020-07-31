@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     protected $visible = [
-        'id', 'post_title', 'about', 'user', 'password_judge', 'messages',
+        'id', 'post_title', 'about', 'user','my_post', 'password_judge', 'messages',
         'bookmarked_by_user', 'photos',
     ];
 
@@ -18,7 +18,7 @@ class Post extends Model
         self::CREATED_AT, self::UPDATED_AT,
     ];
 
-    protected $appends = ['password_judge', 'bookmarked_by_user'];
+    protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post'];
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +51,19 @@ class Post extends Model
         return $this->bookmarks->contains(function ($user) {
             return $user->id === Auth::user()->id;
         });
+    }
+
+    /**
+     * アクセサ - my_post
+     * @return boolean
+     */
+    public function getMyPostAttribute()
+    {
+        if (Auth::guest()) {
+            return false;
+        }
+
+        return (int) $this->user_id === Auth::user()->id;
     }
 
     /**

@@ -107,8 +107,14 @@ class PostController extends Controller
     {
         $post = Post::where('id', $id)->first();
 
+        if ((int) $post->user_id !== Auth::user()->id) {
+            abort(401);
+            return;
+        }
+
         if (! $post) {
             abort(404);
+            return;
         }
 
         $post->delete();
@@ -123,6 +129,12 @@ class PostController extends Controller
     public function update(string $id, UpdatePost $request)
     {
         $post = Post::find($id);
+
+        if ((int) $post->user_id !== Auth::user()->id) {
+            abort(401);
+            return;
+        }
+
         $post->fill($request->all())->save();
 
         $new_post = Post::where('id', $post->id)->first();

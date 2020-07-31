@@ -6,6 +6,7 @@ use App\Photo;
 use App\Post;
 use App\Http\Requests\StorePhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,12 @@ class PhotoController extends Controller
     public function delete(string $id)
     {
         $photo = Photo::where('id', $id)->first();
+        $post_user = $photo->postBy->user_id;
+
+        if ((int) $post_user !== Auth::user()->id) {
+            abort(401);
+            return;
+        }
 
         if (!$photo) {
             abort(404);
@@ -42,6 +49,13 @@ class PhotoController extends Controller
     public function create(string $id, StorePhoto $request)
     {
         $images = $request->post_photo;
+
+        $post = Post::where('id', $id)->first();
+
+        if ((int) $post->user_id !== Auth::user()->id) {
+            abort(401);
+            return;
+        }
 
         if ($images) {
             foreach ($images as $image ) {

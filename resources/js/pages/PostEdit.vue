@@ -172,6 +172,10 @@ export default {
     async fetchPost () {
       const response = await axios.get(`/api/post/${this.id}`)
 
+      if (!response.data.my_post) {
+        this.$router.push(`/post/${this.id}`)
+      }
+
       if (response.status !== OK) {
           this.$store.commit('error/setCode', response.status)
           return false
@@ -242,7 +246,7 @@ export default {
             await this.fetchPost()
         },
         immediate: true
-    }
+    },
   }
 }
 </script>

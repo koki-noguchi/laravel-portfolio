@@ -4237,8 +4237,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context.sent;
 
+                if (!response.data.my_post) {
+                  _this.$router.push("/post/".concat(_this.id));
+                }
+
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
@@ -4246,13 +4250,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this.post = response.data;
                 _this.post_title = _this.post.post_title;
                 _this.about = _this.post.about;
                 _this.photos = _this.post.photos;
 
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -10255,9 +10259,11 @@ var render = function() {
               )
             : _c("p", [_vm._v("No messages yet.")]),
           _vm._v(" "),
-          _c("RouterLink", { attrs: { to: "/post/" + _vm.id + "/edit" } }, [
-            _vm._v("edit")
-          ]),
+          _vm.post.my_post
+            ? _c("RouterLink", { attrs: { to: "/post/" + _vm.id + "/edit" } }, [
+                _vm._v("edit")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("button", [_vm._v("message")]),
           _vm._v(" "),

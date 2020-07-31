@@ -38,7 +38,7 @@
             </li>
         </ul>
         <p v-else>No messages yet.</p>
-        <RouterLink :to="`/post/${id}/edit`">edit</RouterLink>
+        <RouterLink v-if="post.my_post" :to="`/post/${id}/edit`">edit</RouterLink>
         <button>message</button>
         <MessageModal
           @create="createMessage"
