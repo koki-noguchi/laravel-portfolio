@@ -38,11 +38,7 @@
             </li>
         </ul>
         <p v-else>No messages yet.</p>
-        <button >edit</button>
-        <PostModal
-          :post="post"
-          @update="updatePost"
-        ></PostModal>
+        <RouterLink :to="`/post/${id}/edit`">edit</RouterLink>
         <button>message</button>
         <MessageModal
           @create="createMessage"
@@ -52,13 +48,11 @@
 
 <script>
 import { OK } from '../util'
-import PostModal from '../components/PostModal.vue'
 import MessageModal from '../components/MessageModal.vue'
 import PostPhoto from '../components/PostPhoto.vue'
 
 export default {
     components: {
-        PostModal,
         MessageModal,
         PostPhoto
     },
@@ -93,17 +87,6 @@ export default {
             }
 
             this.$router.push('/post')
-        },
-        updatePost ({ post_title, about }) {
-            this.update(post_title, about)
-        },
-        async update (post_title, about) {
-            const response = await axios.put(`/api/post/${this.id}`,
-            {
-                post_title: post_title,
-                about: about
-            })
-            await this.fetchPost()
         },
         createMessage ({ text }) {
             this.create(text)

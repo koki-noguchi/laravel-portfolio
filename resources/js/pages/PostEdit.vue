@@ -1,9 +1,17 @@
 <template>
     <div v-if="post">
       <h1 class="text-center">編集ページ</h1>
+      <v-row justify="center">
+        <v-col
+          cols="12"
+          sm="8"
+          md="6"
+        >
+          <v-btn @click.prevent="$router.go(-1)">戻る</v-btn>
+        </v-col>
+      </v-row>
       <v-tabs
         centered
-        class="mt-8"
       >
           <v-tab href="#post">
             Post
@@ -110,18 +118,19 @@
             </v-row>
             <v-row v-if="photos.length > 0">
               <v-col sm="4"
-                v-for="(item,i) in items"
-                :key="i"
+                v-for="photo in photos"
+                :key="photo.photos_url"
               >
                 <v-card>
                   <v-img
-                    :src="item.src"
+                    :src="photo.photos_url"
                   >
                   </v-img>
                   <v-card-actions>
                     <v-btn
                       color="orange"
                       text
+                      @click.prevent="photoDelete(photo.id)"
                     >
                     Delete
                     </v-btn>
@@ -131,16 +140,6 @@
             </v-row>
           </v-tab-item>
       </v-tabs>
-      <!-- <v-row v-if="photos.length > 0">
-        <v-col sm="4" v-for="photo in photos" :key="photo.photos_url">
-          <v-img
-            :src="photo.photos_url"
-            contain
-            height="200"
-          >
-          </v-img>
-        </v-col>
-      </v-row> -->
     </div>
 </template>
 
@@ -160,20 +159,6 @@ export default {
       post_title: '',
       about: '',
       photos: [],
-      items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          },
-        ],
       post_photo: [],
       files: [],
         readers: [],
@@ -234,6 +219,16 @@ export default {
         this.readers[f].readAsDataURL(this.files[f]);
         this.post_photo[f] = this.files[f]
       })
+    },
+    async photoDelete (id) {
+      const response = await axios.delete(`/api/photo/${id}`)
+
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+
+      this.fetchPost()
     }
   },
   computed: {
