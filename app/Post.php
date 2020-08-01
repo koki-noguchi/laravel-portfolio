@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     protected $visible = [
-        'id', 'post_title', 'about', 'user','my_post', 'password_judge', 'messages',
+        'id', 'post_title', 'about', self::UPDATED_AT, 'user','my_post', 'password_judge', 'messages',
         'bookmarked_by_user', 'photos',
     ];
 
     protected $hidden = [
         'user_id','post_password', 'max_number', 'share_judge',
-        self::CREATED_AT, self::UPDATED_AT,
+        self::CREATED_AT,
     ];
 
     protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post'];
