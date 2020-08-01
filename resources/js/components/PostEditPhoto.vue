@@ -55,25 +55,26 @@
             </v-col>
         </v-row>
         <v-row v-if="photos.length > 0">
-            <v-col sm="4"
+            <v-col
+            sm="4"
             v-for="photo in photos"
             :key="photo.photos_url"
             >
-            <v-card>
-                <v-img
-                :src="photo.photos_url"
-                >
-                </v-img>
-                <v-card-actions>
-                <v-btn
-                    color="orange"
-                    text
-                    @click.prevent="photoDelete(photo.id)"
-                >
-                Delete
-                </v-btn>
-                </v-card-actions>
-            </v-card>
+                <v-card>
+                    <v-img
+                    :src="photo.photos_url"
+                    >
+                    </v-img>
+                    <v-card-actions>
+                    <v-btn
+                        color="orange"
+                        text
+                        @click.prevent="photoDelete(photo.id)"
+                    >
+                    Delete
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
             </v-col>
         </v-row>
     </div>

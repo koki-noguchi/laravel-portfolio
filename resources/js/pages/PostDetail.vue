@@ -1,48 +1,58 @@
 <template>
     <div v-if="post" class="post-detail">
-        <button
-          class="button button--bookmark"
-          :class="{ 'button--bookmark': post.bookmarked_by_user }"
-          title="Bookmark post"
-          @click="onBookmarkClick"
-        >
-            <i class="icon ion-md-heart">bookmark</i>
-        </button>
-        <h1 class="post-detail__title">{{ post.post_title }}</h1>
-        <PostPhoto :photos="post.photos"></PostPhoto>
-        <div class="post-detail__about">
-            {{ post.about }}
+        <div class="text-right">
+            <v-btn
+                v-if="post.my_post"
+                class="ma-2 white--text text-decoration-none"
+                color="blue lighten-2"
+                :to="`/post/${id}/edit`"
+            >edit
+                <v-icon color="white">edit</v-icon>
+            </v-btn>
+            <v-btn
+                class="my-2 white--text text-decoration-none"
+                :color="post.bookmarked_by_user === true ? 'grey' : 'orange'"
+                @click="onBookmarkClick"
+            >bookmark
+                <v-icon color="white">bookmark</v-icon>
+            </v-btn>
         </div>
-        <div class="post-detail__name">
-            {{ post.user.name}}
+        <div class="text-right">{{ post.updated_at }} 更新</div>
+        <h1>{{ post.post_title }}</h1>
+        <div class="text-right">
+            posted_by
+            <v-avatar size="30px">
+                <img :src="post.user.url">
+            </v-avatar>
+            {{ post.user.name }}
         </div>
-        <button @click.prevent="deletePost">募集ページの削除</button>
-        <h2 class="post-detail__title">Messages</h2>
-        <ul v-if="post.messages.length > 0" class="post-detail__messages">
-            <li
-              v-for="message in post.messages"
-              :key="message.message_text"
-              class="post-detail__messageItem"
+        <PostPhoto :photos="post.photos" class="mt-5"></PostPhoto>
+        <v-row justify="center">
+            <v-col
+            cols="12"
+            sm="8"
+            md="6"
             >
-            <p class="post-detail__messageBody">
-                {{ message.message_text }}
-            </p>
-            <p class="post-detail__messageBody">
-                {{ message.author.name}}
-            </p>
-            <button
-              v-if="message.my_message"
-              @click.prevent="deleteMessage(message.id)"
-            >削除</button>
-            <RouterLink :to="`/post/${id}/message/${message.id}`">reply</RouterLink>
-            </li>
-        </ul>
-        <p v-else>No messages yet.</p>
-        <RouterLink v-if="post.my_post" :to="`/post/${id}/edit`">edit</RouterLink>
-        <button>message</button>
-        <MessageModal
-          @create="createMessage"
-        ></MessageModal>
+                <v-card
+                    shaped
+                    class="mt-5"
+                >
+                    <v-card-title class="text-center">about</v-card-title>
+                    <v-card-text>{{ post.about }}</v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+        <h2 class="text-center mt-10">Messages</h2>
+        <v-divider ></v-divider>
+        <MessageList
+            :id="this.id"></MessageList>
+        <v-row
+            v-if="post.messages.length === 0"
+            justify="center">
+            <v-col cols="12" class="text-center">
+                <strong class="orange--text">No messages yet.</strong>
+            </v-col>
+        </v-row>
     </div>
 </template>
 
@@ -50,11 +60,13 @@
 import { OK } from '../util'
 import MessageModal from '../components/MessageModal.vue'
 import PostPhoto from '../components/PostPhoto.vue'
+import MessageList from '../components/MessageList.vue'
 
 export default {
     components: {
         MessageModal,
-        PostPhoto
+        PostPhoto,
+        MessageList
     },
     props: {
         id: {
@@ -77,40 +89,6 @@ export default {
             }
 
             this.post = response.data
-        },
-        async deletePost () {
-            const response = await axios.delete(`/api/post/${this.id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.$router.push('/post')
-        },
-        createMessage ({ text }) {
-            this.create(text)
-        },
-        async create (text) {
-            const response = await axios.post(`/api/post/${this.id}/messages`,
-            {
-                message_text: text
-            })
-
-            this.post.messages = [
-                response.data,
-                ...this.post.messages
-            ]
-        },
-        async deleteMessage(id) {
-            const response = await axios.delete(`/api/message/${id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.fetchPost()
         },
         onBookmarkClick () {
             if (! this.isLogin) {
@@ -143,6 +121,9 @@ export default {
             }
 
             this.post.bookmarked_by_user = false
+        },
+        showDialog () {
+            this.$refs.dialog.open()
         }
     },
     computed: {

@@ -30,6 +30,7 @@ class PostListApiTest extends TestCase
                 'about' => $post->about,
                 'post_title' => $post->post_title,
                 'password_judge' => $post->post_password ? true : false,
+                'updated_at' => $post->updated_at,
                 'user' => [
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
