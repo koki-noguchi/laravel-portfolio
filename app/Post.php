@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class Post extends Model
 {
     protected $visible = [
-        'id', 'post_title', 'about', self::UPDATED_AT, 'user','my_post', 'password_judge', 'messages',
+        'id', 'post_title', 'about', 'updated_at', 'user','my_post', 'password_judge', 'messages',
         'bookmarked_by_user', 'photos',
     ];
 
@@ -18,7 +19,7 @@ class Post extends Model
         self::CREATED_AT,
     ];
 
-    protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post'];
+    protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post', 'updated_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +29,11 @@ class Post extends Model
     protected $fillable = [
         'post_title', 'about', 'share_judge',
     ];
+
+    public function getUpdatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['updated_at'])->format('Y年m月d日');
+    }
 
     /**
      * アクセサ - password_judge
