@@ -22,19 +22,51 @@
                     </v-list-item>
                 </v-card-actions>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
                     <v-btn
                         icon
                         :to="`/post/${id}/message/${message.id}`"
-                        class="text-decoration-none mr-1">
+                        class="text-decoration-none ml-3">
                         <v-icon>add_comment</v-icon>
                     </v-btn>
-                    <v-btn icon @click.prevent="deleteMessage(message.id)"
-                        class="mr-1">
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        v-if="message.my_message"
+                        icon
+                        class="mr-1"
+                        @click.stop="dialog = true"
+                    >
                         <v-icon>delete</v-icon>
                     </v-btn>
                 </v-card-actions>
-            </v-card>
+                </v-card>
+                    <v-dialog
+                    v-model="dialog"
+                    max-width="400"
+                    >
+                    <v-card>
+                    <v-card-title class="headline">メッセージを削除してもよろしいですか？</v-card-title>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                        color="green darken-1"
+                        text
+                        @click="dialog = false"
+                        @click.prevent="deleteMessage(message.id)"
+                        >
+                        Yes
+                        </v-btn>
+
+                        <v-btn
+                        color="red darken-1"
+                        text
+                        @click="dialog = false"
+                        >
+                        No
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+        </v-dialog>
         </v-col>
         <v-btn
             fixed
@@ -71,7 +103,8 @@ export default {
     },
     data () {
         return {
-            messages: null
+            messages: null,
+            dialog: false,
         }
     },
     methods: {

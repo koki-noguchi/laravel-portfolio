@@ -2741,6 +2741,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2755,7 +2787,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      messages: null
+      messages: null,
+      dialog: false
     };
   },
   methods: {
@@ -9799,12 +9832,10 @@ var render = function() {
                 _c(
                   "v-card-actions",
                   [
-                    _c("v-spacer"),
-                    _vm._v(" "),
                     _c(
                       "v-btn",
                       {
-                        staticClass: "text-decoration-none mr-1",
+                        staticClass: "text-decoration-none ml-3",
                         attrs: {
                           icon: "",
                           to: "/post/" + _vm.id + "/message/" + message.id
@@ -9814,19 +9845,97 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
+                    _c("v-spacer"),
+                    _vm._v(" "),
+                    message.my_message
+                      ? _c(
+                          "v-btn",
+                          {
+                            staticClass: "mr-1",
+                            attrs: { icon: "" },
+                            on: {
+                              click: function($event) {
+                                $event.stopPropagation()
+                                _vm.dialog = true
+                              }
+                            }
+                          },
+                          [_c("v-icon", [_vm._v("delete")])],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-dialog",
+              {
+                attrs: { "max-width": "400" },
+                model: {
+                  value: _vm.dialog,
+                  callback: function($$v) {
+                    _vm.dialog = $$v
+                  },
+                  expression: "dialog"
+                }
+              },
+              [
+                _c(
+                  "v-card",
+                  [
+                    _c("v-card-title", { staticClass: "headline" }, [
+                      _vm._v("メッセージを削除してもよろしいですか？")
+                    ]),
+                    _vm._v(" "),
                     _c(
-                      "v-btn",
-                      {
-                        staticClass: "mr-1",
-                        attrs: { icon: "" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.deleteMessage(message.id)
-                          }
-                        }
-                      },
-                      [_c("v-icon", [_vm._v("delete")])],
+                      "v-card-actions",
+                      [
+                        _c("v-spacer"),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { color: "green darken-1", text: "" },
+                            on: {
+                              click: [
+                                function($event) {
+                                  _vm.dialog = false
+                                },
+                                function($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteMessage(message.id)
+                                }
+                              ]
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Yes\n                    "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { color: "red darken-1", text: "" },
+                            on: {
+                              click: function($event) {
+                                _vm.dialog = false
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    No\n                    "
+                            )
+                          ]
+                        )
+                      ],
                       1
                     )
                   ],
