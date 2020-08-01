@@ -37,6 +37,47 @@
             outlined color="pink lighten-1"
             >送信</v-btn>
         </form>
+        <div class="text-right">
+        <v-btn
+            dark
+            fab
+            bottom
+            right
+            color="red"
+            @click.stop="dialog = true"
+            class="mt-12"
+        >
+            <v-icon>delete_sweep</v-icon>
+        </v-btn>
+        </div>
+        <v-dialog
+            v-model="dialog"
+            max-width="400"
+        >
+            <v-card>
+            <v-card-title class="headline">メッセージ募集ページを削除してもよろしいですか？</v-card-title>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                color="green darken-1"
+                text
+                @click="dialog = false"
+                @click.prevent="deletePost"
+                >
+                Yes
+                </v-btn>
+
+                <v-btn
+                color="red darken-1"
+                text
+                @click="dialog = false"
+                >
+                No
+                </v-btn>
+            </v-card-actions>
+            </v-card>
+        </v-dialog>
         </v-col>
     </v-row>
 </template>
@@ -56,6 +97,7 @@ export default {
             post: null,
             post_title: '',
             about: '',
+            dialog: false,
         }
     },
     methods: {
@@ -82,6 +124,16 @@ export default {
                 about: this.about
             })
             await this.fetchPost()
+        },
+        async deletePost () {
+            const response = await axios.delete(`/api/post/${this.id}`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.$router.push('/post')
         },
     },
     watch: {

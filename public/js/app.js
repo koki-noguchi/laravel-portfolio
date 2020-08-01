@@ -3256,6 +3256,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3268,7 +3309,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       post: null,
       post_title: '',
-      about: ''
+      about: '',
+      dialog: false
     };
   },
   methods: {
@@ -3340,27 +3382,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    deletePost: function deletePost() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(_this3.id));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this3.$router.push('/post');
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this3 = this;
+        var _this4 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context3.prev = _context3.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context3.next = 2;
-                  return _this3.fetchPost();
+                  _context4.next = 2;
+                  return _this4.fetchPost();
 
                 case 2:
                 case "end":
-                  return _context3.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee3);
+          }, _callee4);
         }))();
       },
       immediate: true
@@ -4525,7 +4602,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    deletePost: function deletePost() {
+    onBookmarkClick: function onBookmarkClick() {
+      if (!this.isLogin) {
+        alert('ブックマーク機能を使うにはログインが必要です。');
+        return false;
+      }
+
+      if (this.post.bookmarked_by_user) {
+        this.deleteBookmark();
+      } else {
+        this.bookmark();
+      }
+    },
+    bookmark: function bookmark() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -4535,7 +4624,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios["delete"]("/api/post/".concat(_this2.id));
+                return axios.put("/api/post/".concat(_this2.id, "/bookmark"));
 
               case 2:
                 response = _context2.sent;
@@ -4550,7 +4639,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context2.abrupt("return", false);
 
               case 6:
-                _this2.$router.push('/post');
+                _this2.post.bookmarked_by_user = true;
 
               case 7:
               case "end":
@@ -4560,19 +4649,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    onBookmarkClick: function onBookmarkClick() {
-      if (!this.isLogin) {
-        alert('ブックマーク機能を使うにはログインが必要です。');
-        return false;
-      }
-
-      if (this.post.bookmarked_by_user) {
-        this.deleteBookmark();
-      } else {
-        this.bookmark();
-      }
-    },
-    bookmark: function bookmark() {
+    deleteBookmark: function deleteBookmark() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -4582,7 +4659,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.put("/api/post/".concat(_this3.id, "/bookmark"));
+                return axios["delete"]("/api/post/".concat(_this3.id, "/bookmark"));
 
               case 2:
                 response = _context3.sent;
@@ -4597,7 +4674,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return", false);
 
               case 6:
-                _this3.post.bookmarked_by_user = true;
+                _this3.post.bookmarked_by_user = false;
 
               case 7:
               case "end":
@@ -4605,41 +4682,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee3);
-      }))();
-    },
-    deleteBookmark: function deleteBookmark() {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return axios["delete"]("/api/post/".concat(_this4.id, "/bookmark"));
-
-              case 2:
-                response = _context4.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context4.next = 6;
-                  break;
-                }
-
-                _this4.$store.commit('error/setCode', response.status);
-
-                return _context4.abrupt("return", false);
-
-              case 6:
-                _this4.post.bookmarked_by_user = false;
-
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
       }))();
     },
     showDialog: function showDialog() {
@@ -4654,22 +4696,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     $route: {
       handler: function handler() {
-        var _this5 = this;
+        var _this4 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context5.next = 2;
-                  return _this5.fetchPost();
+                  _context4.next = 2;
+                  return _this4.fetchPost();
 
                 case 2:
                 case "end":
-                  return _context5.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee5);
+          }, _callee4);
         }))();
       },
       immediate: true
@@ -10195,73 +10237,173 @@ var render = function() {
     "v-row",
     { attrs: { justify: "center" } },
     [
-      _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-        _c(
-          "form",
-          {
-            staticClass: "mt-10 text-center",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.update($event)
+      _c(
+        "v-col",
+        { attrs: { cols: "12", sm: "8", md: "6" } },
+        [
+          _c(
+            "form",
+            {
+              staticClass: "mt-10 text-center",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.update($event)
+                }
               }
-            }
-          },
-          [
-            _c("v-text-field", {
-              staticClass: "mt-5",
-              attrs: {
-                filled: "",
-                counter: "",
-                maxlength: "100",
-                clearable: "",
-                label: "タイトル"
-              },
-              model: {
-                value: _vm.post_title,
-                callback: function($$v) {
-                  _vm.post_title = $$v
-                },
-                expression: "post_title"
-              }
-            }),
-            _vm._v(" "),
-            _c("v-textarea", {
-              staticClass: "mt-5",
-              attrs: {
-                filled: "",
-                "auto-grow": "",
-                counter: "",
-                maxlength: "2000",
-                clearable: "",
-                label: "概要"
-              },
-              model: {
-                value: _vm.about,
-                callback: function($$v) {
-                  _vm.about = $$v
-                },
-                expression: "about"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
+            },
+            [
+              _c("v-text-field", {
                 staticClass: "mt-5",
                 attrs: {
-                  type: "submit",
-                  width: "160",
-                  outlined: "",
-                  color: "pink lighten-1"
+                  filled: "",
+                  counter: "",
+                  maxlength: "100",
+                  clearable: "",
+                  label: "タイトル"
+                },
+                model: {
+                  value: _vm.post_title,
+                  callback: function($$v) {
+                    _vm.post_title = $$v
+                  },
+                  expression: "post_title"
                 }
-              },
-              [_vm._v("送信")]
-            )
-          ],
-          1
-        )
-      ])
+              }),
+              _vm._v(" "),
+              _c("v-textarea", {
+                staticClass: "mt-5",
+                attrs: {
+                  filled: "",
+                  "auto-grow": "",
+                  counter: "",
+                  maxlength: "2000",
+                  clearable: "",
+                  label: "概要"
+                },
+                model: {
+                  value: _vm.about,
+                  callback: function($$v) {
+                    _vm.about = $$v
+                  },
+                  expression: "about"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mt-5",
+                  attrs: {
+                    type: "submit",
+                    width: "160",
+                    outlined: "",
+                    color: "pink lighten-1"
+                  }
+                },
+                [_vm._v("送信")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "text-right" },
+            [
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mt-12",
+                  attrs: {
+                    dark: "",
+                    fab: "",
+                    bottom: "",
+                    right: "",
+                    color: "red"
+                  },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("delete_sweep")])],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "400" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", { staticClass: "headline" }, [
+                    _vm._v("メッセージ募集ページを削除してもよろしいですか？")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "green darken-1", text: "" },
+                          on: {
+                            click: [
+                              function($event) {
+                                _vm.dialog = false
+                              },
+                              function($event) {
+                                $event.preventDefault()
+                                return _vm.deletePost($event)
+                              }
+                            ]
+                          }
+                        },
+                        [_vm._v("\n            Yes\n            ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red darken-1", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("\n            No\n            ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -11091,7 +11233,10 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("PostPhoto", { attrs: { photos: _vm.post.photos } }),
+          _c("PostPhoto", {
+            staticClass: "mt-5",
+            attrs: { photos: _vm.post.photos }
+          }),
           _vm._v(" "),
           _c(
             "v-row",
@@ -11120,26 +11265,14 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.deletePost($event)
-                }
-              }
-            },
-            [_vm._v("募集ページの削除")]
-          ),
-          _vm._v(" "),
           _c("h2", { staticClass: "text-center mt-10" }, [_vm._v("Messages")]),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _vm.post.messages.length > 0
-            ? _c("MessageList", { attrs: { id: this.id } })
-            : _c(
+          _c("MessageList", { attrs: { id: this.id } }),
+          _vm._v(" "),
+          _vm.post.messages.length === 0
+            ? _c(
                 "v-row",
                 { attrs: { justify: "center" } },
                 [
@@ -11155,6 +11288,7 @@ var render = function() {
                 ],
                 1
               )
+            : _vm._e()
         ],
         1
       )

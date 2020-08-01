@@ -26,7 +26,7 @@
             </v-avatar>
             {{ post.user.name }}
         </div>
-        <PostPhoto :photos="post.photos"></PostPhoto>
+        <PostPhoto :photos="post.photos" class="mt-5"></PostPhoto>
         <v-row justify="center">
             <v-col
             cols="12"
@@ -42,13 +42,13 @@
                 </v-card>
             </v-col>
         </v-row>
-        <button @click.prevent="deletePost">募集ページの削除</button>
         <h2 class="text-center mt-10">Messages</h2>
         <v-divider ></v-divider>
         <MessageList
-            v-if="post.messages.length > 0"
             :id="this.id"></MessageList>
-        <v-row v-else justify="center">
+        <v-row
+            v-if="post.messages.length === 0"
+            justify="center">
             <v-col cols="12" class="text-center">
                 <strong class="orange--text">No messages yet.</strong>
             </v-col>
@@ -89,16 +89,6 @@ export default {
             }
 
             this.post = response.data
-        },
-        async deletePost () {
-            const response = await axios.delete(`/api/post/${this.id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.$router.push('/post')
         },
         onBookmarkClick () {
             if (! this.isLogin) {
