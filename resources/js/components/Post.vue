@@ -1,18 +1,45 @@
 <template>
   <div class="post">
-      <button
-        class="post__action post__action--bookmark"
-        :class="{ 'post__action--bookmarked': item.bookmarked_by_user }"
-        title="Bookmark post"
-        @click.prevent="bookmark"
+    <v-card :to="`/post/${item.id}`" class="text-decoration-none my-10">
+      <div class="text-right text-body-2 mr-3 pt-2">{{ item.updated_at }}</div>
+      <div class="d-flex flex-no-wrap justify-space-between">
+        <div>
+          <v-card-title class="headline ml-2">{{ item.post_title }}</v-card-title>
+          <v-row>
+            <v-col
+              cols="2"
+              sm="2"
+              md="3"
+              class="text-truncate">
+              <v-card-subtitle class="ml-6">{{ item.about }}</v-card-subtitle>
+            </v-col>
+          </v-row>
+          <v-card-actions>
+            <v-list-item>
+                <v-list-item-avatar size="30px">
+                    <v-img
+                        :src="item.user.url"
+                    ></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title
+                        class="text-body-2 text-wrap">
+                        {{ item.user.name }}
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+          </v-card-actions>
+        </div>
+        <v-avatar
+          class="ma-3"
+          size="150"
+          tile
+          v-if="item.photos.length > 0"
         >
-      <i class="icon ion-md-heart">bookmark</i></button>
-      <p class="post-user">{{ item.user.name }}</p>
-      <div class="post-title">
-          <RouterLink :to="`/post/${item.id}`">{{ item.post_title }}</RouterLink>
+          <v-img :src="item.photos[0].photos_url"></v-img>
+        </v-avatar>
       </div>
-      <div class="post-about">{{ item.about }}</div>
-      <p v-if="item.password_judge === true" class="post-judge">※パスワードあり</p>
+    </v-card>
   </div>
 </template>
 
@@ -24,13 +51,5 @@ export default {
       required: true
     }
   },
-  methods: {
-    bookmark () {
-      this.$emit('bookmark', {
-        id: this.item.id,
-        bookmarked: this.item.bookmarked_by_user
-      })
-    }
-  }
 }
 </script>

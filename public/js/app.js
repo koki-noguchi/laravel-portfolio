@@ -3253,19 +3253,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    bookmark: function bookmark() {
-      this.$emit('bookmark', {
-        id: this.item.id,
-        bookmarked: this.item.bookmarked_by_user
-      });
     }
   }
 });
@@ -5080,9 +5099,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5147,124 +5163,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
-    },
-    onBookmarkClick: function onBookmarkClick(_ref) {
-      var id = _ref.id,
-          bookmarked = _ref.bookmarked;
-
-      if (!this.$store.getters['auth/check']) {
-        alert('ブックマーク機能を使うにはログインが必要です。');
-        return false;
-      }
-
-      if (bookmarked) {
-        this.deleteBookmark(id);
-      } else {
-        this.bookmark(id);
-      }
-    },
-    bookmark: function bookmark(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/post/".concat(id, "/bookmark"));
-
-              case 2:
-                response = _context2.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                _this2.$store.commit('error/setCode', response.status);
-
-                return _context2.abrupt("return", false);
-
-              case 6:
-                _this2.posts = _this2.posts.map(function (post) {
-                  if (post.id === response.data.post_id) {
-                    post.bookmarked_by_user = true;
-                  }
-
-                  return post;
-                });
-
-              case 7:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    deleteBookmark: function deleteBookmark(id) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
-
-              case 2:
-                response = _context3.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 6;
-                  break;
-                }
-
-                _this3.$store.commit('error/setCode', response.status);
-
-                return _context3.abrupt("return", false);
-
-              case 6:
-                _this3.posts = _this3.posts.map(function (post) {
-                  if (post.id === response.data.post_id) {
-                    post.bookmarked_by_user = false;
-                  }
-
-                  return post;
-                });
-
-              case 7:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this4 = this;
+        var _this2 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
             while (1) {
-              switch (_context4.prev = _context4.next) {
+              switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context4.next = 2;
-                  return _this4.fetchPosts();
+                  _context2.next = 2;
+                  return _this2.fetchPosts();
 
                 case 2:
                 case "end":
-                  return _context4.stop();
+                  return _context2.stop();
               }
             }
-          }, _callee4);
+          }, _callee2);
         }))();
       },
       immediate: true
@@ -10512,42 +10431,114 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "post" }, [
-    _c(
-      "button",
-      {
-        staticClass: "post__action post__action--bookmark",
-        class: { "post__action--bookmarked": _vm.item.bookmarked_by_user },
-        attrs: { title: "Bookmark post" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.bookmark($event)
-          }
-        }
-      },
-      [_c("i", { staticClass: "icon ion-md-heart" }, [_vm._v("bookmark")])]
-    ),
-    _vm._v(" "),
-    _c("p", { staticClass: "post-user" }, [_vm._v(_vm._s(_vm.item.user.name))]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "post-title" },
-      [
-        _c("RouterLink", { attrs: { to: "/post/" + _vm.item.id } }, [
-          _vm._v(_vm._s(_vm.item.post_title))
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "post-about" }, [_vm._v(_vm._s(_vm.item.about))]),
-    _vm._v(" "),
-    _vm.item.password_judge === true
-      ? _c("p", { staticClass: "post-judge" }, [_vm._v("※パスワードあり")])
-      : _vm._e()
-  ])
+  return _c(
+    "div",
+    { staticClass: "post" },
+    [
+      _c(
+        "v-card",
+        {
+          staticClass: "text-decoration-none my-10",
+          attrs: { to: "/post/" + _vm.item.id }
+        },
+        [
+          _c("div", { staticClass: "text-right text-body-2 mr-3 pt-2" }, [
+            _vm._v(_vm._s(_vm.item.updated_at))
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "d-flex flex-no-wrap justify-space-between" },
+            [
+              _c(
+                "div",
+                [
+                  _c("v-card-title", { staticClass: "headline ml-2" }, [
+                    _vm._v(_vm._s(_vm.item.post_title))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-truncate",
+                          attrs: { cols: "2", sm: "2", md: "3" }
+                        },
+                        [
+                          _c("v-card-subtitle", { staticClass: "ml-6" }, [
+                            _vm._v(_vm._s(_vm.item.about))
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-list-item",
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            { attrs: { size: "30px" } },
+                            [
+                              _c("v-img", { attrs: { src: _vm.item.user.url } })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c(
+                                "v-list-item-title",
+                                { staticClass: "text-body-2 text-wrap" },
+                                [
+                                  _vm._v(
+                                    "\n                      " +
+                                      _vm._s(_vm.item.user.name) +
+                                      "\n                  "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.item.photos.length > 0
+                ? _c(
+                    "v-avatar",
+                    { staticClass: "ma-3", attrs: { size: "150", tile: "" } },
+                    [
+                      _c("v-img", {
+                        attrs: { src: _vm.item.photos[0].photos_url }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -10883,10 +10874,10 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.photos.length > 0
+      _vm.post.photos.length > 0
         ? _c(
             "v-row",
-            _vm._l(_vm.photos, function(photo) {
+            _vm._l(_vm.post.photos, function(photo) {
               return _c(
                 "v-col",
                 { key: photo.photos_url, attrs: { sm: "4" } },
@@ -11904,21 +11895,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "post-list" }, [
-    _c(
-      "div",
-      { staticClass: "grid" },
-      _vm._l(_vm.posts, function(post) {
-        return _c("Post", {
-          key: post.id,
-          staticClass: "grid__item",
-          attrs: { item: post },
-          on: { bookmark: _vm.onBookmarkClick }
-        })
-      }),
-      1
-    )
-  ])
+  return _c(
+    "div",
+    { staticClass: "post-list" },
+    _vm._l(_vm.posts, function(post) {
+      return _c("Post", { key: post.id, attrs: { item: post } })
+    }),
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
