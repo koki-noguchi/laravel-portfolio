@@ -79,9 +79,9 @@ class PostController extends Controller
         $keyword = $request->input('keyword');
         if ($request->has('keyword')) {
             $posts = Post::where('id', 'like', '%'.$keyword.'%')->orWhere('post_title', 'like', '%'.$keyword.'%')
-                ->with(['user', 'bookmarks'])->orderBy('created_at', 'desc')->paginate();
+                ->with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
         } else {
-            $posts = Post::with(['user', 'bookmarks'])->orderBy('created_at', 'desc')->paginate();
+            $posts = Post::with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
         }
         return $posts;
     }
