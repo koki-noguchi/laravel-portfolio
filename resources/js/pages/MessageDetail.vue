@@ -1,44 +1,48 @@
 <template>
-    <div v-if="message" class="message-detail">
-        <div class="message-detail__content">
-            {{ message.message_text }}
-        </div>
-        <div>
-            {{ message.author.name }}
-        </div>
-        <ul v-if="message.replies.length > 0">
-            <li
-              v-for="reply in message.replies"
-              :key="reply.reply_text"
-              class="message-detail__replyItem">
-                <div class="message-detail__content">
-                    {{ reply.reply_text }}
-                </div>
-                <div class="message-detail__name">
-                    {{ reply.reply_user.name }}
-                </div>
-                <button 
-                  v-if="reply.my_reply"
-                  @click.prevent="deleteReply(reply.id)"
-                >削除</button>
-            </li>
-        </ul>
-        <div>
-            <MessageModal
-              @create="createReply"
-            ></MessageModal>
-        </div>
-
-    </div>
+    <v-row justify="center" v-if="message">
+        <v-col
+            cols="12"
+            sm="8"
+            md="6"
+        >
+            <Message :message="message"></Message>
+            <v-btn
+                dark
+                fab
+                center
+                color="pink"
+                class="mb-12 mt-5"
+                @click.stop="showDialog"
+            >
+                <v-icon>insert_comment</v-icon>
+            </v-btn>
+            <h2 class="text-center mt-10">Replies</h2>
+            <v-divider ></v-divider>
+            <Message-modal
+                ref="dialog"
+                @create="createReply"
+            >Reply</Message-modal>
+            <Reply
+                v-for="reply in message.replies"
+                :key="reply.id"
+                :reply="reply"
+                @deleteReply="deleteReply"
+            ></Reply>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
 import { OK } from '../util'
 import MessageModal from '../components/MessageModal.vue'
+import Message from '../components/Message.vue'
+import Reply from '../components/Reply.vue'
 
 export default {
     components: {
         MessageModal,
+        Message,
+        Reply
     },
     props: {
         post_id: {
@@ -83,7 +87,10 @@ export default {
                 ...this.message.replies
             ]
         },
-        async deleteReply (id) {
+        deleteReply ({ id }) {
+            this.delete(id)
+        },
+        async delete (id) {
             const response = await axios.delete(`/api/reply/${id}`)
 
             if (response.status !== OK) {
@@ -92,6 +99,9 @@ export default {
             }
 
             this.fetchReply()
+        },
+        showDialog () {
+            this.$refs.dialog.open()
         }
     },
     computed: {

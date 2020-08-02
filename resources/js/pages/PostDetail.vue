@@ -121,9 +121,6 @@ export default {
             }
 
             this.post.bookmarked_by_user = false
-        },
-        showDialog () {
-            this.$refs.dialog.open()
         }
     },
     computed: {
