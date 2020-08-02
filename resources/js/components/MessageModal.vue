@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" width="500">
       <v-card>
-        <v-card-title class="justify-center">Message</v-card-title>
+        <v-card-title class="justify-center"><slot>Message</slot></v-card-title>
         <v-textarea
           class="ma-5"
           v-model="text"
