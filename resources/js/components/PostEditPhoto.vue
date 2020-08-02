@@ -54,10 +54,10 @@
             </form>
             </v-col>
         </v-row>
-        <v-row v-if="photos.length > 0">
+        <v-row v-if="post.photos.length > 0">
             <v-col
             sm="4"
-            v-for="photo in photos"
+            v-for="photo in post.photos"
             :key="photo.photos_url"
             >
                 <v-card>
