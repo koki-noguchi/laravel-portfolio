@@ -15,7 +15,7 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('user_id', Auth::id())->with(['user'])->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('user_id', Auth::id())->with(['user', 'photos'])->orderBy('created_at', 'desc')->get();
         return $posts;
     }
 }
