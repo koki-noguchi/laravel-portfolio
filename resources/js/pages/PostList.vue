@@ -1,11 +1,10 @@
 <template>
   <div class="post-list">
-      <Post
-        v-for="post in posts"
-        :key="post.id"
-        :item="post"
-      />
-    </div>
+    <Post
+      v-for="post in posts"
+      :key="post.id"
+      :item="post"
+    />
   </div>
 </template>
 
