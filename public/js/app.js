@@ -4723,17 +4723,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    History: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Post: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     User: _components_User_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
-      histories: null
+      histories: null,
+      bookmarks: null
     };
   },
   methods: {
@@ -4771,27 +4777,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    fetchBookmark: function fetchBookmark() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/api/user/bookmark');
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                return _context2.abrupt("return", false);
+
+              case 6:
+                _this2.bookmarks = response.data;
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this2 = this;
+        var _this3 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context2.prev = _context2.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
-                  _context2.next = 2;
-                  return _this2.fetchHistory();
+                  _context3.next = 2;
+                  return _this3.fetchHistory();
 
                 case 2:
+                  _context3.next = 4;
+                  return _this3.fetchBookmark();
+
+                case 4:
                 case "end":
-                  return _context2.stop();
+                  return _context3.stop();
               }
             }
-          }, _callee2);
+          }, _callee3);
         }))();
       },
       immediate: true
@@ -11946,10 +11991,7 @@ var render = function() {
             "v-tab-item",
             { attrs: { id: "history" } },
             _vm._l(_vm.histories, function(history) {
-              return _c("History", {
-                key: history.id,
-                attrs: { item: history }
-              })
+              return _c("Post", { key: history.id, attrs: { item: history } })
             }),
             1
           ),
@@ -11958,7 +12000,14 @@ var render = function() {
             _vm._v("\n        Bookmark\n        ")
           ]),
           _vm._v(" "),
-          _c("v-tab-item", { attrs: { id: "bookmark" } })
+          _c(
+            "v-tab-item",
+            { attrs: { id: "bookmark" } },
+            _vm._l(_vm.bookmarks, function(bookmark) {
+              return _c("Post", { key: bookmark.id, attrs: { item: bookmark } })
+            }),
+            1
+          )
         ],
         1
       )

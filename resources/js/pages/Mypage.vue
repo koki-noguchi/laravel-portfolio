@@ -9,16 +9,21 @@
             History
             </v-tab>
             <v-tab-item id="history">
-            <History
-                v-for="history in histories"
-                :key="history.id"
-                :item="history"
-            ></History>
+                <Post
+                    v-for="history in histories"
+                    :key="history.id"
+                    :item="history"
+                ></Post>
             </v-tab-item>
             <v-tab href="#bookmark">
             Bookmark
             </v-tab>
             <v-tab-item id="bookmark">
+                <Post
+                    v-for="bookmark in bookmarks"
+                    :key="bookmark.id"
+                    :item="bookmark"
+                ></Post>
             </v-tab-item>
         </v-tabs>
     </div>
@@ -26,17 +31,18 @@
 
 <script>
 import { OK } from '../util'
-import History from '../components/Post.vue'
+import Post from '../components/Post.vue'
 import User from '../components/User.vue'
 
 export default {
     components: {
-        History,
+        Post,
         User
     },
     data () {
         return {
             histories: null,
+            bookmarks: null
         }
     },
     methods: {
@@ -49,12 +55,23 @@ export default {
             }
 
             this.histories = response.data
+        },
+        async fetchBookmark () {
+            const response = await axios.get('/api/user/bookmark')
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.bookmarks = response.data
         }
     },
     watch: {
         $route: {
             async handler () {
                 await this.fetchHistory()
+                await this.fetchBookmark()
             },
             immediate: true
         }
