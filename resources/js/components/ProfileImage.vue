@@ -1,23 +1,27 @@
 <template>
-    <div>
-        <form @submit.prevent="setUserPhoto">
-            <croppa
-                v-model="myCroppa"
-                :width="150"
-                :height="150"
-                placeholder="プロフィール画像をアップロード"
-                :placeholder-font-size="0"
-                :disabled="false"
-                :prevent-white-space="true"
-                :show-remove-button="true"
-                :accept="'image/*'"
-                :file-size-limit="2 * 1024 * 1024"
-                @file-size-exceed="onFileSizeExceed"
-                @file-type-mismatch="onFileTypeMismatch"
-            ></croppa>
-            <button>変更する</button>
-        </form>
-    </div>
+    <v-form @submit.prevent="setUserPhoto">
+        <v-list>
+            <v-list-item class="justify-center">
+                <croppa
+                    v-model="myCroppa"
+                    :width="150"
+                    :height="150"
+                    placeholder="プロフィール画像をアップロード"
+                    :placeholder-font-size="0"
+                    :disabled="false"
+                    :prevent-white-space="true"
+                    :show-remove-button="true"
+                    :accept="'image/*'"
+                    :file-size-limit="2 * 1024 * 1024"
+                    @file-size-exceed="onFileSizeExceed"
+                    @file-type-mismatch="onFileTypeMismatch"
+                ></croppa>
+            </v-list-item>
+            <v-list-item class="justify-center mt-2">
+                <v-btn type="submit">変更する</v-btn>
+            </v-list-item>
+        </v-list>
+    </v-form>
 </template>
 
 <script>
