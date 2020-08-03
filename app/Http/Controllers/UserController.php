@@ -75,6 +75,7 @@ class UserController extends Controller
             'login_id' => Auth::user()->login_id,
             'name' => Auth::user()->name,
             'url' => Auth::user()->url,
+            'posts' => Auth::user()->bookmark_post
         ]);
     }
 
