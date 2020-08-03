@@ -1,27 +1,68 @@
 <template>
-    <div>
-        <p>EDIT USER</p>
-        <p>login_id</p>
-        <input 
-          type="text"
-          v-model="login_id">
-        <p>name</p>
-        <input
-          type="text"
-          v-model="name">
-        <ProfileImage :imgSrc="user_image"></ProfileImage>
-        <div class="form__button">
-            <button
-                class="button button__inverse"
-                @click.prevent="update"
-            >送信</button>
-        </div>
-        <div class="form__button">
-            <button
-                @click.prevent="deleteUser"
-            >退会する</button>
-        </div>
-    </div>
+    <v-row justify="center">
+        <v-dialog v-model="dialog" width="550">
+            <v-card>
+                <v-card-title class="justify-center">User Edit</v-card-title>
+                <v-text-field
+                    filled
+                    v-model="user.login_id"
+                    clearable
+                    label="login_id"
+                    class="ma-5"
+                >
+                </v-text-field>
+                <v-text-field
+                    filled
+                    v-model="user.name"
+                    clearable
+                    label="name"
+                    class="ma-5"
+                ></v-text-field>
+                <ProfileImage :imgSrc="user.user_image"></ProfileImage>
+                <v-card-actions class="justify-center">
+                    <v-btn
+                        width="160"
+                        class="mb-5 mt-3"
+                        outlined
+                        color="pink lighten-1"
+                        @click.prevent="updateUser"
+                        @click="close"
+                    >送信</v-btn>
+                </v-card-actions>
+                <v-card-actions class="justify-end">
+                <v-btn
+                    width="60"
+                    class="mb-5 white--text"
+                    color="red"
+                    @click.stop="dialog2 = !dialog2"
+                >退会する</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialog2" width="350">
+            <v-card>
+                <v-card-title class="headline">本当にアカウントを削除してもよろしいですか？</v-card-title>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialog2 = false"
+                    @click.prevent="deleteUser"
+                    >
+                    Yes
+                    </v-btn>
+                    <v-btn
+                    color="red darken-1"
+                    text
+                    @click="dialog2 = false"
+                    >
+                    No
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-row>
 </template>
 
 <script>
@@ -32,40 +73,25 @@ export default {
     components: {
         ProfileImage
     },
+    props: {
+        user: {
+            required: true
+        }
+    },
     data () {
         return {
             login_id: '',
             name: '',
-            user_image: '',
+            dialog: false,
+            dialog2: false,
         }
     },
     methods: {
-        async fetchUser () {
-            const response = await axios.get('/api/myuser')
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.login_id = response.data.login_id
-            this.name = response.data.name
-            this.user_image = response.data.user_image
-        },
-        async update () {
-            const response = await axios.put('/api/user', {
-                name: this.name,
-                login_id: this.login_id,
+        async updateUser () {
+            this.$emit('updateUser', {
+                login_id: this.user.login_id,
+                name: this.user.name
             })
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-            this.name = ''
-            this.login_id = ''
-
-            await this.fetchUser()
         },
         async deleteUser () {
             const response = await axios.delete('/api/user')
@@ -76,14 +102,12 @@ export default {
             }
             this.$store.commit('auth/setUser', null)
             this.$router.push('/')
-        }
-    },
-    watch: {
-        $route: {
-            async handler () {
-                await this.fetchUser()
-            },
-            immediate: true
+        },
+        open () {
+            this.dialog = true
+        },
+        close () {
+            this.dialog = false
         }
     }
 }

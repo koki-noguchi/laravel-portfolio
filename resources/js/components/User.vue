@@ -17,7 +17,12 @@
                             {{ user.name }}
                         </v-card-title>
                         <v-card-actions>
-                            <v-btn class="ma-2" text icon color="white">
+                            <v-btn
+                                class="ma-2"
+                                icon
+                                color="white"
+                                @click.stop="showDialog"
+                            >
                                 <v-icon size="30">edit</v-icon>
                             </v-btn>
                         </v-card-actions>
@@ -27,6 +32,11 @@
                         <v-btn class="mr-5 ml-2">0 follower</v-btn>
                     </v-card-actions>
                 </v-col>
+                <UserEditModal
+                    ref="dialog"
+                    :user="user"
+                    @updateUser="updateUser"
+                ></UserEditModal>
             </v-row>
         </v-card>
     </v-row>
@@ -34,11 +44,16 @@
 
 <script>
 import { OK } from "../util"
+import UserEditModal from "../components/UserEditModal.vue"
 
 export default {
+    components: {
+        UserEditModal
+    },
     data () {
         return {
-            user: ''
+            user: '',
+            dialog: false,
         }
     },
     methods: {
@@ -51,6 +66,25 @@ export default {
             }
 
             this.user = response.data
+        },
+        updateUser ({ login_id, name}) {
+            this.update(login_id, name)
+        },
+        async update (login_id, name) {
+            const response = await axios.put('/api/user', {
+                login_id: login_id,
+                name: name,
+            })
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            await this.fetchUser()
+        },
+        showDialog () {
+            this.$refs.dialog.open()
         },
     },
     watch: {
