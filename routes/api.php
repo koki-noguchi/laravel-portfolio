@@ -30,6 +30,7 @@ Route::put('/post/{id}', 'PostController@update')->name('post.update');
 Route::post('/post/{post}/messages', 'MessageController@addMessage')->name('post.message');
 Route::delete('/message/{id}', 'MessageController@delete')->name('message.delete');
 Route::get('/history', 'HistoryController@index')->name('history.index');
+Route::get('/user/bookmark', 'UserController@bookmark')->name('bookmark.get');
 Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add');
 Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
 Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');

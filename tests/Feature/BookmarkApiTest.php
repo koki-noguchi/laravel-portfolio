@@ -70,4 +70,35 @@ class BookmarkApiTest extends TestCase
 
         $this->assertEquals(0, $this->post->bookmarks()->count());
     }
+
+    /**
+     * @test
+     */
+    public function should_ログイン中ユーザーのブックマークを取得()
+    {
+        $this->actingAs($this->user)
+            ->json('PUT', route('bookmark.add', [
+                'id' => $this->post->id,
+            ]));
+
+        $response = $this->actingAs($this->user)
+            ->json('GET', route('bookmark.get'));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $this->post->id,
+                'about' => $this->post->about,
+                'post_title' => $this->post->post_title,
+                'password_judge' => $this->post->post_password ? true : false,
+                'updated_at' => $this->post->updated_at,
+                'user' => [
+                    'name' => $this->post->user->name,
+                    'url' => '/images/default-image.jpeg',
+                ],
+                'photos' => [],
+                'bookmarked_by_user' => true,
+                'my_post' => false,
+            ]);
+    }
 }
