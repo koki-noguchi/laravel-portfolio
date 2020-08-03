@@ -75,7 +75,6 @@ class UserController extends Controller
             'login_id' => Auth::user()->login_id,
             'name' => Auth::user()->name,
             'url' => Auth::user()->url,
-            'posts' => Auth::user()->bookmark_post
         ]);
     }
 
@@ -88,6 +87,21 @@ class UserController extends Controller
             User::where('id', Auth::id())->delete();
         } else {
             abort(401);
+        }
+    }
+
+    /**
+     * ブックマークの取得
+     */
+    public function bookmark()
+    {
+        $bookmark = Auth::user()->bookmark_post;
+        $bookmark->load('photos', 'user');
+
+        if ($bookmark) {
+            return $bookmark;
+        } else {
+            abort(404);
         }
     }
 }
