@@ -62,4 +62,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+
+    /**
+     * リレーションシップ - postsテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function bookmark_post()
+    {
+        return $this->belongsToMany('App\Post', 'bookmarks')->withTimestamps();
+    }
 }
