@@ -45,7 +45,7 @@ class MyPostListApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
-            'min_number' => '1',
+            'about' => 'about',
             'max_number' => '5'
         ];
         $this->actingAs($this->user)
