@@ -15,7 +15,7 @@ class Post extends Model
     ];
 
     protected $hidden = [
-        'user_id','post_password', 'max_number', 'share_judge',
+        'user_id','post_password', 'max_number',
         self::CREATED_AT,
     ];
 
@@ -27,7 +27,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'post_title', 'about', 'share_judge',
+        'post_title', 'about',
     ];
 
     public function getUpdatedAtAttribute()
