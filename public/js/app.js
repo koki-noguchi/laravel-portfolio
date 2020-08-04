@@ -5730,11 +5730,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       post_title: '',
       post_password: '',
+      about: '',
       max_number: '',
       post_photo: [],
       show1: false,
@@ -5761,6 +5772,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 formData = new FormData();
                 formData.append('post_title', _this.post_title);
                 formData.append('post_password', _this.post_password);
+                formData.append('about', _this.about);
                 formData.append('max_number', _this.max_number);
 
                 if (_this.files.length > 0) {
@@ -5769,19 +5781,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }
 
-                _context.next = 7;
+                _context.next = 8;
                 return axios.post('/api/posting', formData);
 
-              case 7:
+              case 8:
                 response = _context.sent;
                 _this.post_title = '';
                 _this.post_password = '';
+                _this.about = '';
                 _this.max_number = '';
                 _this.post_photo = '';
 
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 13:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -12783,6 +12796,25 @@ var render = function() {
                     _vm.post_password = $$v
                   },
                   expression: "post_password"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-textarea", {
+                staticClass: "mt-5",
+                attrs: {
+                  filled: "",
+                  "auto-grow": "",
+                  counter: "",
+                  maxlength: "2000",
+                  clearable: "",
+                  label: "募集の概要： ルールや説明などを入力してください。"
+                },
+                model: {
+                  value: _vm.about,
+                  callback: function($$v) {
+                    _vm.about = $$v
+                  },
+                  expression: "about"
                 }
               }),
               _vm._v(" "),
