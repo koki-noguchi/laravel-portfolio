@@ -20,6 +20,11 @@ class MessageController extends Controller
      */
     public function addMessage(Post $post, StoreMessage $request)
     {
+        if ($post->messages->count() >= $post->max_number) {
+            abort(401);
+            return;
+        }
+
         $message = new Message();
         $message->message_text = $request->get('message_text');
         $message->user_id = Auth::user()->id;
