@@ -1,21 +1,44 @@
 <template>
-    <form class="form" @submit.prevent="login">
-        <div v-if="loginErrors" class="errors">
-            <ul v-if="loginErrors.login_id">
-            <li v-for="msg in loginErrors.login_id" :key="msg">{{ msg }}</li>
-            </ul>
-            <ul v-if="loginErrors.password">
-            <li v-for="msg in loginErrors.password" :key="msg">{{ msg }}</li>
-            </ul>
-        </div>
-        <label for="login-id">ID</label>
-        <input type="text" class="form__item" id="login-id" v-model="loginForm.login_id">
-        <label for="login-password">Password</label>
-        <input type="password" class="form__item" id="login-password" v-model="loginForm.password">
-        <div class="form__button">
-        <button type="submit" class="button button--inverse">login</button>
-        </div>
-    </form>
+    <v-row
+        justify="center">
+        <v-col
+            cols="12"
+            sm="8"
+            md="6">
+            <v-card>
+                <v-card-title class="justify-center">Login</v-card-title>
+                <form class="pa-8" @submit.prevent="login">
+                    <div v-if="loginErrors" class="errors">
+                        <ul v-if="loginErrors.login_id">
+                        <li v-for="msg in loginErrors.login_id" :key="msg">{{ msg }}</li>
+                        </ul>
+                        <ul v-if="loginErrors.password">
+                        <li v-for="msg in loginErrors.password" :key="msg">{{ msg }}</li>
+                        </ul>
+                    </div>
+                    <v-text-field
+                        v-model="loginForm.login_id"
+                        :rules="[rules.required]"
+                        clearable
+                        label="ログインID"
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="loginForm.password"
+                        counter
+                        :rules="[rules.required]"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
+                        clearable
+                        label="パスワード"
+                    ></v-text-field>
+                    <div class="text-center">
+                        <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
+                    </div>
+                </form>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -27,6 +50,10 @@ export default {
             loginForm: {
                 login_id: '',
                 password: '',
+            },
+            show1: false,
+            rules: {
+                required: value => !!value || '必須項目です。',
             }
         }
     },

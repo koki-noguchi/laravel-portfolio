@@ -4431,6 +4431,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -4438,6 +4461,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loginForm: {
         login_id: '',
         password: ''
+      },
+      show1: false,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        }
       }
     };
   },
@@ -12130,107 +12159,132 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "form",
-    {
-      staticClass: "form",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.login($event)
-        }
-      }
-    },
+    "v-row",
+    { attrs: { justify: "center" } },
     [
-      _vm.loginErrors
-        ? _c("div", { staticClass: "errors" }, [
-            _vm.loginErrors.login_id
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.loginErrors.login_id, function(msg) {
-                    return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+      _c(
+        "v-col",
+        { attrs: { cols: "12", sm: "8", md: "6" } },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "justify-center" }, [
+                _vm._v("Login")
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "pa-8",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.login($event)
+                    }
+                  }
+                },
+                [
+                  _vm.loginErrors
+                    ? _c("div", { staticClass: "errors" }, [
+                        _vm.loginErrors.login_id
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.loginErrors.login_id, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.loginErrors.password
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.loginErrors.password, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      rules: [_vm.rules.required],
+                      clearable: "",
+                      label: "ログインID"
+                    },
+                    model: {
+                      value: _vm.loginForm.login_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.loginForm, "login_id", $$v)
+                      },
+                      expression: "loginForm.login_id"
+                    }
                   }),
-                  0
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.loginErrors.password
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.loginErrors.password, function(msg) {
-                    return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      counter: "",
+                      rules: [_vm.rules.required],
+                      "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
+                      type: _vm.show1 ? "text" : "password",
+                      clearable: "",
+                      label: "パスワード"
+                    },
+                    on: {
+                      "click:append": function($event) {
+                        _vm.show1 = !_vm.show1
+                      }
+                    },
+                    model: {
+                      value: _vm.loginForm.password,
+                      callback: function($$v) {
+                        _vm.$set(_vm.loginForm, "password", $$v)
+                      },
+                      expression: "loginForm.password"
+                    }
                   }),
-                  0
-                )
-              : _vm._e()
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "login-id" } }, [_vm._v("ID")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.loginForm.login_id,
-            expression: "loginForm.login_id"
-          }
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ma-2 mt-10",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            outlined: "",
+                            color: "pink lighten-1"
+                          }
+                        },
+                        [_vm._v("送信")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
-        staticClass: "form__item",
-        attrs: { type: "text", id: "login-id" },
-        domProps: { value: _vm.loginForm.login_id },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.loginForm, "login_id", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "login-password" } }, [_vm._v("Password")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.loginForm.password,
-            expression: "loginForm.password"
-          }
-        ],
-        staticClass: "form__item",
-        attrs: { type: "password", id: "login-password" },
-        domProps: { value: _vm.loginForm.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.loginForm, "password", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _vm._m(0)
-    ]
+        1
+      )
+    ],
+    1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
-      _c(
-        "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
-        [_vm._v("login")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
