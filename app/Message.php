@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $visible = [
-        'id', 'author', 'message_text', 'replies', 'my_message'
+        'id', 'author', 'message_text', 'replies', 'my_message', 'replies_count'
     ];
 
     protected $appends = [
-        'my_message'
+        'my_message', 'replies_count'
     ];
 
     /**
@@ -22,6 +22,15 @@ class Message extends Model
     public function getMyMessageAttribute()
     {
         return (int) $this->user_id === Auth::user()->id;
+    }
+
+    /**
+     * アクセサ - replies_count
+     * @return boolean
+     */
+    public function getRepliesCountAttribute()
+    {
+        return $this->replies->count();
     }
 
     /**
