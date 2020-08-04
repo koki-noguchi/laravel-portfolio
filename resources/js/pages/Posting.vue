@@ -31,6 +31,7 @@
                 type="number"
                 clearable
                 label="最大人数"
+                oninput="if(this.value < 1) this.value = 1"
               >
                 <template v-slot:prepend>
                   <v-tooltip
