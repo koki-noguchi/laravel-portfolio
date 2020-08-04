@@ -5733,13 +5733,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -12778,27 +12771,6 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("v-text-field", {
-                attrs: {
-                  "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
-                  type: _vm.show1 ? "text" : "password",
-                  clearable: "",
-                  label: "パスワード"
-                },
-                on: {
-                  "click:append": function($event) {
-                    _vm.show1 = !_vm.show1
-                  }
-                },
-                model: {
-                  value: _vm.post_password,
-                  callback: function($$v) {
-                    _vm.post_password = $$v
-                  },
-                  expression: "post_password"
-                }
-              }),
-              _vm._v(" "),
               _c("v-textarea", {
                 staticClass: "mt-5",
                 attrs: {
@@ -12823,7 +12795,12 @@ var render = function() {
                 { attrs: { lg6: "", md6: "" } },
                 [
                   _c("v-text-field", {
-                    attrs: { type: "number", clearable: "", label: "最大人数" },
+                    attrs: {
+                      type: "number",
+                      clearable: "",
+                      label: "最大人数",
+                      oninput: "if(this.value < 1) this.value = 1"
+                    },
                     scopedSlots: _vm._u([
                       {
                         key: "prepend",

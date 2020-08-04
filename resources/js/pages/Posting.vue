@@ -15,14 +15,6 @@
               clearable
               label="タイトル"
             ></v-text-field>
-            <v-text-field
-              v-model="post_password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              @click:append="show1 = !show1"
-              clearable
-              label="パスワード"
-            ></v-text-field>
             <v-textarea
               class="mt-5"
               v-model="about"
@@ -39,6 +31,7 @@
                 type="number"
                 clearable
                 label="最大人数"
+                oninput="if(this.value < 1) this.value = 1"
               >
                 <template v-slot:prepend>
                   <v-tooltip
