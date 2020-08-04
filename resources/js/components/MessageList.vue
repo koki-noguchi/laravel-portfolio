@@ -38,30 +38,29 @@
                         v-if="message.my_message"
                         icon
                         class="mr-1"
-                        @click.stop="dialog = true"
+                        @click.stop="onClickBtn(message.id)"
                     >
                         <v-icon>delete</v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
-            <v-dialog
+        </v-col>
+        <v-dialog
             v-model="dialog"
             max-width="400"
             >
                 <v-card>
                     <v-card-title class="headline">メッセージを削除してもよろしいですか？</v-card-title>
-
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
                         color="green darken-1"
                         text
                         @click="dialog = false"
-                        @click.prevent="deleteMessage(message.id)"
+                        @click.prevent="deleteMessage()"
                         >
                         Yes
                         </v-btn>
-
                         <v-btn
                         color="red darken-1"
                         text
@@ -72,7 +71,6 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-        </v-col>
         <v-btn
             fixed
             dark
@@ -110,6 +108,7 @@ export default {
         return {
             messages: null,
             dialog: false,
+            message_id: ''
         }
     },
     methods: {
@@ -134,8 +133,8 @@ export default {
 
             this.fetchMessages()
         },
-        async deleteMessage (id) {
-            const response = await axios.delete(`/api/message/${id}`)
+        async deleteMessage () {
+            const response = await axios.delete(`/api/message/${this.message_id}`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
@@ -146,6 +145,10 @@ export default {
         },
         showDialog () {
             this.$refs.dialog.open()
+        },
+        onClickBtn (id) {
+            this.message_id = id
+            this.dialog = true
         }
     },
     watch: {

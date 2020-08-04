@@ -2710,8 +2710,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2727,7 +2725,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       messages: null,
-      dialog: false
+      dialog: false,
+      message_id: ''
     };
   },
   methods: {
@@ -2797,7 +2796,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    deleteMessage: function deleteMessage(id) {
+    deleteMessage: function deleteMessage() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -2807,7 +2806,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios["delete"]("/api/message/".concat(id));
+                return axios["delete"]("/api/message/".concat(_this3.message_id));
 
               case 2:
                 response = _context3.sent;
@@ -2834,6 +2833,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     showDialog: function showDialog() {
       this.$refs.dialog.open();
+    },
+    onClickBtn: function onClickBtn(id) {
+      this.message_id = id;
+      this.dialog = true;
     }
   },
   watch: {
@@ -10381,7 +10384,7 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.stopPropagation()
-                                _vm.dialog = true
+                                return _vm.onClickBtn(message.id)
                               }
                             }
                           },
@@ -10394,85 +10397,77 @@ var render = function() {
                 )
               ],
               1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { "max-width": "400" },
-                model: {
-                  value: _vm.dialog,
-                  callback: function($$v) {
-                    _vm.dialog = $$v
-                  },
-                  expression: "dialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
-                  [
-                    _c("v-card-title", { staticClass: "headline" }, [
-                      _vm._v("メッセージを削除してもよろしいですか？")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "green darken-1", text: "" },
-                            on: {
-                              click: [
-                                function($event) {
-                                  _vm.dialog = false
-                                },
-                                function($event) {
-                                  $event.preventDefault()
-                                  return _vm.deleteMessage(message.id)
-                                }
-                              ]
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    Yes\n                    "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "red darken-1", text: "" },
-                            on: {
-                              click: function($event) {
-                                _vm.dialog = false
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    No\n                    "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
             )
           ],
           1
         )
       }),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "400" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("メッセージを削除してもよろしいですか？")
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", text: "" },
+                      on: {
+                        click: [
+                          function($event) {
+                            _vm.dialog = false
+                          },
+                          function($event) {
+                            $event.preventDefault()
+                            return _vm.deleteMessage()
+                          }
+                        ]
+                      }
+                    },
+                    [_vm._v("\n                    Yes\n                    ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "red darken-1", text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    No\n                    ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-btn",
