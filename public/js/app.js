@@ -5830,6 +5830,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5839,6 +5875,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         login_id: '',
         password: '',
         password_confirmation: ''
+      },
+      show1: false,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        min: function min(v) {
+          return v.length >= 8 || '8文字以上入力してください。';
+        }
       }
     };
   },
@@ -12879,171 +12924,187 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "form",
-    {
-      staticClass: "form",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.register($event)
-        }
-      }
-    },
+    "v-row",
+    { attrs: { justify: "center" } },
     [
-      _vm.registerErrors
-        ? _c("div", { staticClass: "errors" }, [
-            _vm.registerErrors.name
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.registerErrors.name, function(msg) {
-                    return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+      _c(
+        "v-col",
+        { attrs: { cols: "12", sm: "8", md: "6" } },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "justify-center" }, [
+                _vm._v("Register")
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "pa-8",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.register($event)
+                    }
+                  }
+                },
+                [
+                  _vm.registerErrors
+                    ? _c("div", { staticClass: "errors" }, [
+                        _vm.registerErrors.name
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.registerErrors.name, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.registerErrors.login_id
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.registerErrors.login_id, function(
+                                msg
+                              ) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.registerErrors.password
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.registerErrors.password, function(
+                                msg
+                              ) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      rules: [_vm.rules.required],
+                      counter: "",
+                      clearable: "",
+                      label: "名前"
+                    },
+                    model: {
+                      value: _vm.registerForm.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registerForm, "name", $$v)
+                      },
+                      expression: "registerForm.name"
+                    }
                   }),
-                  0
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.registerErrors.login_id
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.registerErrors.login_id, function(msg) {
-                    return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      counter: "",
+                      rules: [_vm.rules.required, _vm.rules.min],
+                      clearable: "",
+                      label: "ログインID"
+                    },
+                    model: {
+                      value: _vm.registerForm.login_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registerForm, "login_id", $$v)
+                      },
+                      expression: "registerForm.login_id"
+                    }
                   }),
-                  0
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.registerErrors.password
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.registerErrors.password, function(msg) {
-                    return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      counter: "",
+                      rules: [_vm.rules.required, _vm.rules.min],
+                      "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
+                      type: _vm.show1 ? "text" : "password",
+                      clearable: "",
+                      label: "パスワード"
+                    },
+                    on: {
+                      "click:append": function($event) {
+                        _vm.show1 = !_vm.show1
+                      }
+                    },
+                    model: {
+                      value: _vm.registerForm.password,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registerForm, "password", $$v)
+                      },
+                      expression: "registerForm.password"
+                    }
                   }),
-                  0
-                )
-              : _vm._e()
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "username" } }, [_vm._v("名前")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.registerForm.name,
-            expression: "registerForm.name"
-          }
+                  _c("v-text-field", {
+                    attrs: {
+                      counter: "",
+                      rules: [_vm.rules.required, _vm.rules.min],
+                      "append-icon": _vm.show1 ? "mdi-eye" : "mdi-eye-off",
+                      type: _vm.show1 ? "text" : "password",
+                      clearable: "",
+                      label: "パスワード（確認）"
+                    },
+                    on: {
+                      "click:append": function($event) {
+                        _vm.show1 = !_vm.show1
+                      }
+                    },
+                    model: {
+                      value: _vm.registerForm.password_confirmation,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registerForm, "password_confirmation", $$v)
+                      },
+                      expression: "registerForm.password_confirmation"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ma-2 mt-10",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            outlined: "",
+                            color: "pink lighten-1"
+                          }
+                        },
+                        [_vm._v("送信")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
-        staticClass: "form__item",
-        attrs: { type: "text", id: "username" },
-        domProps: { value: _vm.registerForm.name },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.registerForm, "name", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "login_id" } }, [_vm._v("ID")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.registerForm.login_id,
-            expression: "registerForm.login_id"
-          }
-        ],
-        staticClass: "form__item",
-        attrs: { type: "text", id: "login_id" },
-        domProps: { value: _vm.registerForm.login_id },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.registerForm, "login_id", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.registerForm.password,
-            expression: "registerForm.password"
-          }
-        ],
-        staticClass: "form__item",
-        attrs: { type: "password", id: "password" },
-        domProps: { value: _vm.registerForm.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.registerForm, "password", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "password-confirmation" } }, [
-        _vm._v("パスワード (確認)")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.registerForm.password_confirmation,
-            expression: "registerForm.password_confirmation"
-          }
-        ],
-        staticClass: "form__item",
-        attrs: { type: "password", id: "password-confirmation" },
-        domProps: { value: _vm.registerForm.password_confirmation },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(
-              _vm.registerForm,
-              "password_confirmation",
-              $event.target.value
-            )
-          }
-        }
-      }),
-      _vm._v(" "),
-      _vm._m(0)
-    ]
+        1
+      )
+    ],
+    1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
-      _c(
-        "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
-        [_vm._v("register")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
