@@ -13,6 +13,7 @@
                     v-for="history in histories"
                     :key="history.id"
                     :item="history"
+                    @bookmark="onBookmarkClick"
                 ></Post>
             </v-tab-item>
             <v-tab href="#bookmark">
@@ -23,6 +24,7 @@
                     v-for="bookmark in bookmarks"
                     :key="bookmark.id"
                     :item="bookmark"
+                    @bookmark="onBookmarkClick"
                 ></Post>
             </v-tab-item>
         </v-tabs>
@@ -65,7 +67,46 @@ export default {
             }
 
             this.bookmarks = response.data
-        }
+        },
+        onBookmarkClick ({id, bookmarked_by_user}) {
+            if (bookmarked_by_user) {
+                this.deleteBookmark(id)
+            } else {
+                this.bookmark(id)
+            }
+        },
+        async bookmark (id) {
+            const response = await axios.put(`/api/post/${id}/bookmark`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.histories = this.histories.map(history => {
+                if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = true
+                }
+                this.fetchBookmark()
+                return history
+            })
+        },
+        async deleteBookmark (id) {
+            const response = await axios.delete(`/api/post/${id}/bookmark`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.histories = this.histories.map(history => {
+                if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = false
+                }
+                this.fetchBookmark()
+                return history
+            })
+        },
     },
     watch: {
         $route: {
