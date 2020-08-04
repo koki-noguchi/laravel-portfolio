@@ -87,7 +87,7 @@ class Post extends Model
      */
     public function messages()
     {
-        return $this->hasMany('App\Message')->orderBy('id', 'desc');
+        return $this->hasMany('App\Message')->orderBy('id', 'asc');
     }
 
     /**
