@@ -22,12 +22,17 @@
                     </v-list-item>
                 </v-card-actions>
                 <v-card-actions>
+                    <v-layout>
                     <v-btn
                         icon
                         :to="`/post/${id}/message/${message.id}`"
                         class="text-decoration-none ml-3">
                         <v-icon>add_comment</v-icon>
                     </v-btn>
+                    <div v-if="message.replies_count > 0" class="mt-3">
+                        {{ message.replies_count }}
+                    </div>
+                    </v-layout>
                     <v-spacer></v-spacer>
                     <v-btn
                         v-if="message.my_message"

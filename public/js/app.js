@@ -2707,6 +2707,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -10337,15 +10342,31 @@ var render = function() {
                   "v-card-actions",
                   [
                     _c(
-                      "v-btn",
-                      {
-                        staticClass: "text-decoration-none ml-3",
-                        attrs: {
-                          icon: "",
-                          to: "/post/" + _vm.id + "/message/" + message.id
-                        }
-                      },
-                      [_c("v-icon", [_vm._v("add_comment")])],
+                      "v-layout",
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            staticClass: "text-decoration-none ml-3",
+                            attrs: {
+                              icon: "",
+                              to: "/post/" + _vm.id + "/message/" + message.id
+                            }
+                          },
+                          [_c("v-icon", [_vm._v("add_comment")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        message.replies_count > 0
+                          ? _c("div", { staticClass: "mt-3" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(message.replies_count) +
+                                  "\n                "
+                              )
+                            ])
+                          : _vm._e()
+                      ],
                       1
                     ),
                     _vm._v(" "),
