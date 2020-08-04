@@ -43,6 +43,8 @@ class PostDetailApiTest extends TestCase
                 'about' => $post->about,
                 'password_judge' => true,
                 'bookmarked_by_user' => false,
+                'my_post' => false,
+                'photos' => [],
                 'user' => [
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
@@ -58,6 +60,8 @@ class PostDetailApiTest extends TestCase
                                 'name' => $message->author->name,
                                 'url' => '/images/default-image.jpeg',
                             ],
+                            'replies' => [],
+                            'replies_count' => 0,
                         ];
                     })->all(),
             ]);
