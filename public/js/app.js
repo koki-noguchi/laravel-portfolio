@@ -3125,6 +3125,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 //
 //
 //
@@ -3170,11 +3171,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    bookmark: function bookmark(id, bookmarked_by_user) {
+      this.$emit('bookmark', {
+        id: id,
+        bookmarked_by_user: bookmarked_by_user
+      });
+    },
+    goToPostLink: function goToPostLink(e) {
+      if (e.target.classList.contains("bookmark")) {
+        e.stopPropagation();
+      } else {
+        this.$router.push("/post/".concat(this.item.id));
+      }
+    }
+  },
+  computed: {
+    isLogin: function isLogin() {
+      return this.$store.getters['auth/check'];
     }
   }
 });
@@ -4728,6 +4768,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -4812,31 +4854,127 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked_by_user = _ref.bookmarked_by_user;
+
+      if (bookmarked_by_user) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this3.histories = _this3.histories.map(function (history) {
+                  if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = true;
+                  }
+
+                  _this3.fetchBookmark();
+
+                  return history;
+                });
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context4.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                _this4.$store.commit('error/setCode', response.status);
+
+                return _context4.abrupt("return", false);
+
+              case 6:
+                _this4.histories = _this4.histories.map(function (history) {
+                  if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = false;
+                  }
+
+                  _this4.fetchBookmark();
+
+                  return history;
+                });
+
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this3 = this;
+        var _this5 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
             while (1) {
-              switch (_context3.prev = _context3.next) {
+              switch (_context5.prev = _context5.next) {
                 case 0:
-                  _context3.next = 2;
-                  return _this3.fetchHistory();
+                  _context5.next = 2;
+                  return _this5.fetchHistory();
 
                 case 2:
-                  _context3.next = 4;
-                  return _this3.fetchBookmark();
+                  _context5.next = 4;
+                  return _this5.fetchBookmark();
 
                 case 4:
                 case "end":
-                  return _context3.stop();
+                  return _context5.stop();
               }
             }
-          }, _callee3);
+          }, _callee5);
         }))();
       },
       immediate: true
@@ -5266,6 +5404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5330,27 +5469,119 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked_by_user = _ref.bookmarked_by_user;
+
+      if (bookmarked_by_user) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                return _context2.abrupt("return", false);
+
+              case 6:
+                _this2.posts = _this2.posts.map(function (post) {
+                  if (post.id === response.data.post_id) {
+                    post.bookmarked_by_user = true;
+                  }
+
+                  return post;
+                });
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                return _context3.abrupt("return", false);
+
+              case 6:
+                _this3.posts = _this3.posts.map(function (post) {
+                  if (post.id === response.data.post_id) {
+                    post.bookmarked_by_user = false;
+                  }
+
+                  return post;
+                });
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this2 = this;
+        var _this4 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context2.prev = _context2.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context2.next = 2;
-                  return _this2.fetchPosts();
+                  _context4.next = 2;
+                  return _this4.fetchPosts();
 
                 case 2:
                 case "end":
-                  return _context2.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee2);
+          }, _callee4);
         }))();
       },
       immediate: true
@@ -10567,15 +10798,76 @@ var render = function() {
         "v-card",
         {
           staticClass: "text-decoration-none my-10",
-          attrs: { to: "/post/" + _vm.item.id }
+          on: { click: _vm.goToPostLink }
         },
         [
-          _c("div", { staticClass: "text-right text-body-2 mr-3 pt-2" }, [
-            _vm._v(_vm._s(_vm.item.updated_at))
-          ]),
+          _c(
+            "v-row",
+            { staticClass: "text-body-2 pt-2" },
+            [
+              _c(
+                "v-col",
+                [
+                  _c("v-card-text", { staticClass: "ml-3 justify-center" }, [
+                    _vm._v(
+                      "\n          " +
+                        _vm._s(_vm.item.updated_at) +
+                        "\n        "
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                [
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "bookmark justify-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text text-decoration-none",
+                          attrs: {
+                            color:
+                              _vm.item.bookmarked_by_user === true
+                                ? "grey"
+                                : "orange"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              return _vm.bookmark(
+                                _vm.item.id,
+                                _vm.item.bookmarked_by_user
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v("bookmark\n            "),
+                          _c("v-icon", { attrs: { color: "white" } }, [
+                            _vm._v("bookmark")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
-            "div",
+            "v-list",
             { staticClass: "d-flex flex-no-wrap justify-space-between" },
             [
               _c(
@@ -10662,7 +10954,8 @@ var render = function() {
             ],
             1
           )
-        ]
+        ],
+        1
       )
     ],
     1
@@ -11991,7 +12284,11 @@ var render = function() {
             "v-tab-item",
             { attrs: { id: "history" } },
             _vm._l(_vm.histories, function(history) {
-              return _c("Post", { key: history.id, attrs: { item: history } })
+              return _c("Post", {
+                key: history.id,
+                attrs: { item: history },
+                on: { bookmark: _vm.onBookmarkClick }
+              })
             }),
             1
           ),
@@ -12004,7 +12301,11 @@ var render = function() {
             "v-tab-item",
             { attrs: { id: "bookmark" } },
             _vm._l(_vm.bookmarks, function(bookmark) {
-              return _c("Post", { key: bookmark.id, attrs: { item: bookmark } })
+              return _c("Post", {
+                key: bookmark.id,
+                attrs: { item: bookmark },
+                on: { bookmark: _vm.onBookmarkClick }
+              })
             }),
             1
           )
@@ -12282,7 +12583,11 @@ var render = function() {
     "div",
     { staticClass: "post-list" },
     _vm._l(_vm.posts, function(post) {
-      return _c("Post", { key: post.id, attrs: { item: post } })
+      return _c("Post", {
+        key: post.id,
+        attrs: { item: post },
+        on: { bookmark: _vm.onBookmarkClick }
+      })
     }),
     1
   )
