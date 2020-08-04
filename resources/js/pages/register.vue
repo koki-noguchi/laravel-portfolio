@@ -1,28 +1,64 @@
 <template>
-  <form class="form" @submit.prevent="register">
-    <div v-if="registerErrors" class="errors">
-      <ul v-if="registerErrors.name">
-        <li v-for="msg in registerErrors.name" :key="msg">{{ msg }}</li>
-      </ul>
-      <ul v-if="registerErrors.login_id">
-        <li v-for="msg in registerErrors.login_id" :key="msg">{{ msg }}</li>
-      </ul>
-      <ul v-if="registerErrors.password">
-        <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
-      </ul>
-    </div>
-    <label for="username">名前</label>
-    <input type="text" class="form__item" id="username" v-model="registerForm.name">
-    <label for="login_id">ID</label>
-    <input type="text" class="form__item" id="login_id" v-model="registerForm.login_id">
-    <label for="password">パスワード</label>
-    <input type="password" class="form__item" id="password" v-model="registerForm.password">
-    <label for="password-confirmation">パスワード (確認)</label>
-    <input type="password" class="form__item" id="password-confirmation" v-model="registerForm.password_confirmation">
-    <div class="form__button">
-      <button type="submit" class="button button--inverse">register</button>
-    </div>
-  </form>
+  <v-row
+    justify="center">
+    <v-col
+      cols="12"
+      sm="8"
+      md="6">
+        <v-card>
+          <v-card-title class="justify-center">Register</v-card-title>
+          <form class="pa-8" @submit.prevent="register">
+            <div v-if="registerErrors" class="errors">
+              <ul v-if="registerErrors.name">
+                <li v-for="msg in registerErrors.name" :key="msg">{{ msg }}</li>
+              </ul>
+              <ul v-if="registerErrors.login_id">
+                <li v-for="msg in registerErrors.login_id" :key="msg">{{ msg }}</li>
+              </ul>
+              <ul v-if="registerErrors.password">
+                <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
+              </ul>
+            </div>
+            <v-text-field
+              v-model="registerForm.name"
+              :rules="[rules.required]"
+              counter
+              clearable
+              label="名前"
+            ></v-text-field>
+            <v-text-field
+              v-model="registerForm.login_id"
+              counter
+              :rules="[rules.required, rules.min]"
+              clearable
+              label="ログインID"
+            ></v-text-field>
+            <v-text-field
+              v-model="registerForm.password"
+              counter
+              :rules="[rules.required, rules.min]"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              @click:append="show1 = !show1"
+              clearable
+              label="パスワード"
+            ></v-text-field><v-text-field
+              v-model="registerForm.password_confirmation"
+              counter
+              :rules="[rules.required, rules.min]"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              @click:append="show1 = !show1"
+              clearable
+              label="パスワード（確認）"
+            ></v-text-field>
+            <div class="text-center">
+              <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
+            </div>
+          </form>
+        </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -35,7 +71,12 @@ export default {
         name: '',
         login_id: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+      },
+      show1: false,
+      rules: {
+          required: value => !!value || '必須項目です。',
+          min: v => v.length >= 8 || '8文字以上入力してください。',
       }
     }
   },
