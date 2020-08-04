@@ -32,6 +32,7 @@ class PostSubmitApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
+            'about' => 'about',
             'max_number' => '5'
         ];
 
@@ -101,6 +102,7 @@ class PostSubmitApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
+            'about' => 'about',
             'max_number' => '5',
             'post_photo' => array(UploadedFile::fake()->image('photo.jpg'), UploadedFile::fake()->image('photos.jpg')),
         ];
@@ -126,6 +128,7 @@ class PostSubmitApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
+            'about' => 'about',
             'max_number' => '5',
             'post_photo' => array(UploadedFile::fake()->image('photo.jpg')),
         ];
@@ -150,6 +153,7 @@ class PostSubmitApiTest extends TestCase
         $data = [
             'post_title' => 'postsample',
             'post_password' => 'sample',
+            'about' => 'about',
             'max_number' => '5',
             'post_photo' => array(UploadedFile::fake()->image('photo.jpg')),
         ];

@@ -23,6 +23,16 @@
               clearable
               label="パスワード"
             ></v-text-field>
+            <v-textarea
+              class="mt-5"
+              v-model="about"
+              filled=""
+              auto-grow
+              counter
+              maxlength="2000"
+              clearable
+              label="募集の概要： ルールや説明などを入力してください。"
+            ></v-textarea>
             <v-flex lg6 md6>
               <v-text-field
                 v-model="max_number"
@@ -89,6 +99,7 @@ export default {
         return {
             post_title: '',
             post_password: '',
+            about: '',
             max_number: '',
             post_photo: [],
             show1: false,
@@ -106,6 +117,7 @@ export default {
 
           formData.append('post_title', this.post_title)
           formData.append('post_password', this.post_password)
+          formData.append('about', this.about)
           formData.append('max_number', this.max_number)
 
           if (this.files.length > 0) {
@@ -118,6 +130,7 @@ export default {
           const response = await axios.post('/api/posting', formData)
           this.post_title = ''
           this.post_password = ''
+          this.about = ''
           this.max_number = ''
           this.post_photo = ''
 
