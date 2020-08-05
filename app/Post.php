@@ -11,15 +11,15 @@ class Post extends Model
 {
     protected $visible = [
         'id', 'post_title', 'about', 'updated_at', 'user','my_post', 'password_judge', 'messages',
-        'bookmarked_by_user', 'photos',
+        'bookmarked_by_user', 'photos', 'limit_judge'
     ];
 
     protected $hidden = [
-        'user_id','post_password', 'max_number', 'share_judge',
+        'user_id','post_password', 'max_number',
         self::CREATED_AT,
     ];
 
-    protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post', 'updated_at'];
+    protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post', 'updated_at', 'limit_judge'];
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'post_title', 'about', 'share_judge',
+        'post_title', 'about',
     ];
 
     public function getUpdatedAtAttribute()
@@ -70,6 +70,19 @@ class Post extends Model
         }
 
         return (int) $this->user_id === Auth::user()->id;
+    }
+
+    /**
+     * アクセサ - limit_judge
+     * @return boolean
+     */
+    public function getLimitJudgeAttribute()
+    {
+        if ($this->messages->count() >= $this->max_number) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

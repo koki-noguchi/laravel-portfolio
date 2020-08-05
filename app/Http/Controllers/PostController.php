@@ -37,7 +37,6 @@ class PostController extends Controller
         }
 
         $post->max_number = $request->get('max_number');
-        $post->share_judge = 0;
         $post->about = $request->get('about');
         $post->user_id = Auth::user()->id;
         $post->save();

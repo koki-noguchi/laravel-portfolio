@@ -31,10 +31,12 @@ class PostListApiTest extends TestCase
                 'post_title' => $post->post_title,
                 'password_judge' => $post->post_password ? true : false,
                 'updated_at' => $post->updated_at,
+                'limit_judge' => false,
                 'user' => [
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],
+                'messages' => [],
                 'photos' => [],
                 'bookmarked_by_user' => false,
                 'my_post' => false,

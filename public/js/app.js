@@ -2710,6 +2710,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2726,7 +2727,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       messages: null,
       dialog: false,
-      message_id: ''
+      message_id: '',
+      limit_judge: false
     };
   },
   methods: {
@@ -2756,8 +2758,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this.messages = response.data.messages;
+                _this.limit_judge = response.data.limit_judge;
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -10549,28 +10552,30 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          staticClass: "mb-12",
-          attrs: {
-            fixed: "",
-            dark: "",
-            fab: "",
-            bottom: "",
-            right: "",
-            color: "pink"
-          },
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              return _vm.showDialog($event)
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("mdi-plus")])],
-        1
-      ),
+      _vm.limit_judge !== true
+        ? _c(
+            "v-btn",
+            {
+              staticClass: "mb-12",
+              attrs: {
+                fixed: "",
+                dark: "",
+                fab: "",
+                bottom: "",
+                right: "",
+                color: "pink"
+              },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  return _vm.showDialog($event)
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-plus")])],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("Message-modal", { ref: "dialog", on: { create: _vm.createMessage } })
     ],
