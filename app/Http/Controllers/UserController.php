@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Http\Request;
 use App\User;
+use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -100,6 +101,24 @@ class UserController extends Controller
 
         if ($bookmark) {
             return $bookmark;
+        } else {
+            abort(404);
+        }
+    }
+
+    /**
+     * ユーザーの取得
+     * @params string $id
+     * @return User
+     */
+    public function profile(string $id)
+    {
+        $posts = Post::where('user_id', $id)->with(['user', 'photos'])->get();
+
+        if ($posts) {
+            return  response()->json([
+                'posts' => $posts,
+            ]);
         } else {
             abort(404);
         }

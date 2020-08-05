@@ -20,6 +20,7 @@ Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/posting', 'PostController@create')->name('posting.create');
 Route::get('/user', fn() => Auth::user())->name('user');
+Route::get('/users/{id}', 'UserController@profile')->name('user.profile');
 Route::put('/user', 'UserController@update')->name('user.update');
 Route::get('/myuser','UserController@show')->name('user.show');
 Route::delete('/user', 'UserController@delete')->name('user.delete');
