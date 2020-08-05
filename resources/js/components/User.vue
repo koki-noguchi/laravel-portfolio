@@ -50,6 +50,12 @@ export default {
     components: {
         UserEditModal
     },
+    props: {
+        id: {
+            type: Number,
+            required: true
+        }
+    },
     data () {
         return {
             user: '',
@@ -58,7 +64,7 @@ export default {
     },
     methods: {
         async fetchUser () {
-            const response = await axios.get('/api/myuser')
+            const response = await axios.get(`/api/myuser/${this.id}`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)

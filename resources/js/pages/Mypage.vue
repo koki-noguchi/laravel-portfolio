@@ -1,6 +1,6 @@
 <template>
     <div>
-        <User></User>
+        <User :id="myId"></User>
         <v-tabs
             centered
             class="mt-5"
@@ -107,6 +107,11 @@ export default {
                 return history
             })
         },
+    },
+    computed: {
+        myId () {
+            return this.$store.getters['auth/id']
+        }
     },
     watch: {
         $route: {
