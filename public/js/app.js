@@ -2711,6 +2711,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5045,12 +5048,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10381,6 +10378,14 @@ var render = function() {
     "v-row",
     { staticClass: "mt-12" },
     [
+      _vm.messages.length === 0
+        ? _c("v-col", { staticClass: "text-center", attrs: { cols: "12" } }, [
+            _c("strong", { staticClass: "orange--text" }, [
+              _vm._v("No messages yet.")
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm._l(_vm.messages, function(message, i) {
         return _c(
           "v-col",
@@ -12570,26 +12575,7 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _c("MessageList", { attrs: { id: this.id } }),
-          _vm._v(" "),
-          _vm.post.messages.length === 0
-            ? _c(
-                "v-row",
-                { attrs: { justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    { staticClass: "text-center", attrs: { cols: "12" } },
-                    [
-                      _c("strong", { staticClass: "orange--text" }, [
-                        _vm._v("No messages yet.")
-                      ])
-                    ]
-                  )
-                ],
-                1
-              )
-            : _vm._e()
+          _c("MessageList", { attrs: { id: this.id } })
         ],
         1
       )
