@@ -45,6 +45,7 @@ class ReplyApiTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonFragment([
                 "reply_user" => [
+                    "id" => $this->user->id,
                     "name" => $this->user->name,
                     "url" => '/images/default-image.jpeg'
                 ],
@@ -80,11 +81,13 @@ class ReplyApiTest extends TestCase
             ->assertJsonFragment([
                 'id' => $reply->id,
                 'author' => [
+                    'id' => $this->message->author->id,
                     'name' => $this->message->author->name,
                     'url' => '/images/default-image.jpeg',
                 ],
                 'message_text' => $this->message->message_text,
                 'reply_user' => [
+                    'id' => $this->user->id,
                     'name' => $this->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],
