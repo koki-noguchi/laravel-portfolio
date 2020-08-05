@@ -1,6 +1,6 @@
 <template>
     <v-row class="mt-12">
-        <v-col cols="12" class="text-center" v-if="messages.length === 0">
+        <v-col cols="12" class="text-center" v-if="messages.length < 1">
             <strong class="orange--text">No messages yet.</strong>
         </v-col>
         <v-col
@@ -110,7 +110,7 @@ export default {
     },
     data () {
         return {
-            messages: null,
+            messages: '',
             dialog: false,
             message_id: '',
             limit_judge: false,

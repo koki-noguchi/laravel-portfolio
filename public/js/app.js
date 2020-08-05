@@ -2728,7 +2728,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      messages: null,
+      messages: '',
       dialog: false,
       message_id: '',
       limit_judge: false
@@ -10378,7 +10378,7 @@ var render = function() {
     "v-row",
     { staticClass: "mt-12" },
     [
-      _vm.messages.length === 0
+      _vm.messages.length < 1
         ? _c("v-col", { staticClass: "text-center", attrs: { cols: "12" } }, [
             _c("strong", { staticClass: "orange--text" }, [
               _vm._v("No messages yet.")
