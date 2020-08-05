@@ -69,16 +69,13 @@ class UserController extends Controller
 
     /**
      * ユーザー情報取得
-     *  * @params string $id
-     * @return User
      */
-    public function show(string $id)
+    public function show()
     {
-        $user = User::where('id', $id)->first();
         return response()->json([
-            'login_id' => $user->login_id,
-            'name' => $user->name,
-            'url' => $user->url,
+            'login_id' => Auth::user()->login_id,
+            'name' => Auth::user()->name,
+            'url' => Auth::user()->url,
         ]);
     }
 

@@ -11,6 +11,7 @@ const getters = {
     check: state => !! state.user,
     username: state => state.user ? state.user.name : '',
     image: state => state.user ? state.user.url : '',
+    id: state => state.user ? state.user.id : '',
 }
 
 const mutations = {
