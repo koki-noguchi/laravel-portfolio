@@ -10,6 +10,7 @@ import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
 import Mypage from './pages/Mypage.vue'
 import MessageDetail from './pages/MessageDetail.vue'
+import UserProfile from './pages/UserProfile.vue'
 
 import store from './store'
 
@@ -88,6 +89,11 @@ const routes = [
     {
         path: '/post/:post_id/message/:message_id',
         component: MessageDetail,
+        props: true
+    },
+    {
+        path: '/users/:id',
+        component: UserProfile,
         props: true
     },
     {
