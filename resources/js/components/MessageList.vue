@@ -72,6 +72,7 @@
                 </v-card>
             </v-dialog>
         <v-btn
+            v-if="limit_judge !== true"
             fixed
             dark
             fab
@@ -108,7 +109,8 @@ export default {
         return {
             messages: null,
             dialog: false,
-            message_id: ''
+            message_id: '',
+            limit_judge: false,
         }
     },
     methods: {
@@ -121,6 +123,7 @@ export default {
             }
 
             this.messages = response.data.messages
+            this.limit_judge = response.data.limit_judge
         },
         createMessage ({ text }) {
             this.create(text)
