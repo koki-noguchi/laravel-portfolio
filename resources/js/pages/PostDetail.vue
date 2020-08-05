@@ -45,14 +45,8 @@
         <h2 class="text-center mt-10">Messages</h2>
         <v-divider ></v-divider>
         <MessageList
-            :id="this.id"></MessageList>
-        <v-row
-            v-if="post.messages.length === 0"
-            justify="center">
-            <v-col cols="12" class="text-center">
-                <strong class="orange--text">No messages yet.</strong>
-            </v-col>
-        </v-row>
+            :id="this.id">
+        </MessageList>
     </div>
 </template>
 

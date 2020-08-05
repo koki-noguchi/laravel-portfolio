@@ -1,5 +1,8 @@
 <template>
     <v-row class="mt-12">
+        <v-col cols="12" class="text-center" v-if="messages.length === 0">
+            <strong class="orange--text">No messages yet.</strong>
+        </v-col>
         <v-col
             cols="12"
             sm="12"
