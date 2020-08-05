@@ -21,7 +21,7 @@ class User extends Authenticatable
     ];
 
     protected $visible = [
-        'name', 'url'
+        'name', 'url', 'id'
     ];
 
     protected $appends = [
@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     /**
-     * リレーションシップ - photosテーブル
+     * リレーションシップ - postsテーブル
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts()

@@ -40,6 +40,7 @@ class MessageApiTest extends TestCase
         $response->assertStatus(201)
                 ->assertJsonFragment([
                     "author" => [
+                        'id' => $this->user->id,
                         "name" => $this->user->name,
                         "url" => '/images/default-image.jpeg',
                     ],

@@ -93,6 +93,7 @@ class BookmarkApiTest extends TestCase
                 'password_judge' => $this->post->post_password ? true : false,
                 'updated_at' => $this->post->updated_at,
                 'user' => [
+                    'id' => $this->post->user->id,
                     'name' => $this->post->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],

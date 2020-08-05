@@ -44,8 +44,10 @@ class PostDetailApiTest extends TestCase
                 'password_judge' => true,
                 'bookmarked_by_user' => false,
                 'my_post' => false,
+                'limit_judge' => true,
                 'photos' => [],
                 'user' => [
+                    'id' => $post->user->id,
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],
@@ -57,6 +59,7 @@ class PostDetailApiTest extends TestCase
                             'message_text' => $message->message_text,
                             'my_message' => false,
                             'author' => [
+                                'id' => $message->author->id,
                                 'name' => $message->author->name,
                                 'url' => '/images/default-image.jpeg',
                             ],
@@ -90,6 +93,7 @@ class PostDetailApiTest extends TestCase
             'password_judge' => true,
             'bookmarked_by_user' => false,
             'user' => [
+                'id' => $post->user->id,
                 'name' => $post->user->name,
                 'url' => '/images/default-image.jpeg',
             ],

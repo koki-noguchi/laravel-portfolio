@@ -33,6 +33,7 @@ class PostListApiTest extends TestCase
                 'updated_at' => $post->updated_at,
                 'limit_judge' => false,
                 'user' => [
+                    'id' => $post->user->id,
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],
