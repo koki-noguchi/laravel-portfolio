@@ -54,10 +54,10 @@
             </form>
             </v-col>
         </v-row>
-        <v-row v-if="post.photos.length > 0">
+        <v-row v-if="photos_list.length > 0">
             <v-col
             sm="4"
-            v-for="photo in post.photos"
+            v-for="photo in photos_list"
             :key="photo.photos_url"
             >
                 <v-card>
@@ -85,6 +85,10 @@ import { OK } from '../util'
 
 export default {
     props: {
+        photos_list: {
+            type: Array,
+            required: true
+        },
         id: {
             type: String,
             required: true
@@ -92,7 +96,6 @@ export default {
     },
     data () {
         return {
-        post: null,
         photos: [],
         post_photo: [],
         files: [],
@@ -104,20 +107,6 @@ export default {
         }
     },
     methods: {
-        async fetchPost () {
-            const response = await axios.get(`/api/post/${this.id}`)
-
-            if (!response.data.my_post) {
-                this.$router.push(`/post/${this.id}`)
-            }
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.post = response.data
-        },
         async create () {
             const formData = new FormData()
 
@@ -148,24 +137,11 @@ export default {
                 this.post_photo[f] = this.files[f]
             })
         },
-        async photoDelete (id) {
-            const response = await axios.delete(`/api/photo/${id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.fetchPost()
+        photoDelete (photo_id) {
+            this.$emit('photoDelete', {
+                photo_id: photo_id
+            })
         }
     },
-    watch: {
-        $route: {
-            async handler () {
-                await this.fetchPost()
-            },
-            immediate: true
-        },
-    }
 }
 </script>

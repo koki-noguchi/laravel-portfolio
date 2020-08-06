@@ -5,9 +5,8 @@
         sm="8"
         md="6"
         >
-        <form
+        <div
             class="mt-10 text-center"
-            @submit.prevent="update"
         >
             <v-text-field
             class="mt-5"
@@ -35,8 +34,9 @@
             class="mt-5"
             width="160"
             outlined color="pink lighten-1"
+            @click.prevent="update"
             >送信</v-btn>
-        </form>
+        </div>
         <div class="text-right">
         <v-btn
             dark
@@ -87,6 +87,14 @@ import { OK } from '../util'
 
 export default {
     props: {
+        item_title: {
+            type: String,
+            required: true
+        },
+        item_about: {
+            type: String,
+            required: true
+        },
         id: {
             type: String,
             required: true
@@ -94,36 +102,17 @@ export default {
     },
     data () {
         return {
-            post: null,
             post_title: '',
             about: '',
             dialog: false,
         }
     },
     methods: {
-        async fetchPost () {
-            const response = await axios.get(`/api/post/${this.id}`)
-
-            if (!response.data.my_post) {
-                this.$router.push(`/post/${this.id}`)
-            }
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.post = response.data
-            this.post_title = this.post.post_title
-            this.about = this.post.about
-        },
-        async update () {
-            const response = await axios.put(`/api/post/${this.id}`,
-            {
+        update () {
+            this.$emit('updatePost', {
                 post_title: this.post_title,
                 about: this.about
             })
-            await this.fetchPost()
         },
         async deletePost () {
             const response = await axios.delete(`/api/post/${this.id}`)
@@ -137,12 +126,18 @@ export default {
         },
     },
     watch: {
-        $route: {
-            async handler () {
-                await this.fetchPost()
-            },
-            immediate: true
+        item_title: {
+            immediate:true,
+            handler(value) {
+                this.post_title = value
+            }
         },
+        item_about: {
+            immediate:true,
+            handler(value) {
+                this.about = value
+            }
+        }
     }
 }
 </script>
