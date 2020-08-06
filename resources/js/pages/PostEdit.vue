@@ -17,13 +17,22 @@
             Post
           </v-tab>
           <v-tab-item id="post">
-            <PostEditForm :id="this.id"></PostEditForm>
+            <PostEditForm
+              :item_title="post.post_title"
+              :item_about="post.about"
+              :id="id"
+              @updatePost="updatePost"
+            ></PostEditForm>
           </v-tab-item>
           <v-tab href="#photo">
             Photo
           </v-tab>
           <v-tab-item id="photo">
-            <PostEditPhoto :id="this.id"></PostEditPhoto>
+            <PostEditPhoto
+              :photos_list="post.photos"
+              :id="this.id"
+              @photoDelete="photoDelete"
+            ></PostEditPhoto>
           </v-tab-item>
       </v-tabs>
     </div>
@@ -64,6 +73,25 @@ export default {
       }
 
       this.post = response.data
+    },
+    async updatePost ({ post_title, about }) {
+      const response = await axios.put(`/api/post/${this.id}`,
+        {
+            post_title: post_title,
+            about: about
+        })
+
+      this.fetchPost()
+    },
+    async photoDelete ({ photo_id }) {
+      const response = await axios.delete(`/api/photo/${photo_id}`)
+
+      if (response.status !== OK) {
+          this.$store.commit('error/setCode', response.status)
+          return false
+      }
+
+      this.fetchPost()
     }
   },
   watch: {
