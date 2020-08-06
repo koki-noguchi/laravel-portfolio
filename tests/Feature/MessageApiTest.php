@@ -76,4 +76,37 @@ class MessageApiTest extends TestCase
             'id' => $message->id,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function should_メッセージ一覧を取得できる()
+    {
+        factory(Post::class)->create();
+        $post = Post::first();
+
+        $message_text = 'sample content';
+
+        $this->actingAs($this->user)
+            ->json('POST', route('post.message', [
+                'post' => $post->id,
+            ]), compact('message_text'));
+
+        $message = Message::first();
+
+        $response = $this->actingAs($this->user)
+            ->json('GET', route('message.show', [
+                'id' => $post->id,
+            ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $message->id,
+                'message_text' => $message->message_text,
+                'my_message' => true,
+                'replies_count' => 0,
+                'replies' => []
+            ]);
+    }
 }

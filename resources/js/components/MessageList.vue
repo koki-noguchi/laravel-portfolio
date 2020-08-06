@@ -7,11 +7,16 @@
             cols="12"
             sm="12"
             md="4"
-            v-for="(message, i) in messages"
-            :key="i"
         >
-            <v-card>
-                <v-card-text class="text-body-1 black--text">{{ message.message_text }}</v-card-text>
+            <v-card
+                v-for="message in messages"
+                :key="message.id"
+            >
+                <v-card-text
+                class="text-body-1 black--text"
+                >
+                    {{ message.message_text }}
+                </v-card-text>
                 <v-card-actions>
                     <v-list-item>
                         <v-list-item-avatar size="30px">
@@ -20,7 +25,10 @@
                             ></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title class="text-body-2 text-wrap">{{ message.author.name }}</v-list-item-title>
+                            <v-list-item-title
+                                class="text-body-2 text-wrap">
+                                {{ message.author.name }}
+                            </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card-actions>
@@ -60,7 +68,7 @@
                         color="green darken-1"
                         text
                         @click="dialog = false"
-                        @click.prevent="deleteMessage()"
+                        @click.stop="deleteMessage(message_id)"
                         >
                         Yes
                         </v-btn>
@@ -106,64 +114,39 @@ export default {
         id: {
             type: String,
             required: true
+        },
+        messages: {
+            type: Array,
+            required: true
+        },
+        limit_judge: {
+            required: true
         }
     },
     data () {
         return {
-            messages: '',
             dialog: false,
             message_id: '',
-            limit_judge: false,
         }
     },
     methods: {
-        async fetchMessages () {
-            const response = await axios.get(`/api/post/${this.id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.messages = response.data.messages
-            this.limit_judge = response.data.limit_judge
-        },
         createMessage ({ text }) {
-            this.create(text)
-        },
-        async create (text) {
-            const response = await axios.post(`/api/post/${this.id}/messages`,
-            {
-                message_text: text
+            this.$emit('create-message', {
+                text: text
             })
-
-            this.fetchMessages()
-        },
-        async deleteMessage () {
-            const response = await axios.delete(`/api/message/${this.message_id}`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.fetchMessages()
-        },
-        showDialog () {
-            this.$refs.dialog.open()
         },
         onClickBtn (id) {
             this.message_id = id
             this.dialog = true
-        }
+        },
+        deleteMessage (message_id) {
+            this.$emit('delete-message', {
+                message_id: message_id
+            })
+        },
+        showDialog () {
+            this.$refs.dialog.open()
+        },
     },
-    watch: {
-        $route: {
-            async handler () {
-                await this.fetchMessages()
-            },
-            immediate: true
-        }
-    }
 }
 </script>

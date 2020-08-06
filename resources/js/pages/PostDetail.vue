@@ -45,7 +45,12 @@
         <h2 class="text-center mt-10">Messages</h2>
         <v-divider ></v-divider>
         <MessageList
-            :id="this.id">
+            :id="this.id"
+            :messages="this.post.messages"
+            :limit_judge="this.post.limit_judge"
+            @on-click-btn="onClickBtn($event)"
+            @delete-message="deleteMessage"
+            @create-message="createMessage">
         </MessageList>
     </div>
 </template>
@@ -71,6 +76,7 @@ export default {
     data () {
         return {
             post: null,
+            dialog: false,
         }
     },
     methods: {
@@ -115,6 +121,24 @@ export default {
             }
 
             this.post.bookmarked_by_user = false
+        },
+        async createMessage ({ text }) {
+            const response = await axios.post(`/api/post/${this.id}/messages`,
+            {
+                message_text: text
+            })
+
+            this.fetchPost()
+        },
+        async deleteMessage ({ message_id }) {
+            const response = await axios.delete(`/api/message/${message_id}`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.fetchPost()
         }
     },
     computed: {

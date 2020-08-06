@@ -28,6 +28,7 @@ Route::get('/post', 'PostController@index')->name('post.index');
 Route::get('/post/{id}', 'PostController@show')->name('post.show');
 Route::delete('/post/{id}', 'PostController@delete')->name('post.delete');
 Route::put('/post/{id}', 'PostController@update')->name('post.update');
+Route::get('/post/{id}/messages', 'MessageController@index')->name('message.show');
 Route::post('/post/{post}/messages', 'MessageController@addMessage')->name('post.message');
 Route::delete('/message/{id}', 'MessageController@delete')->name('message.delete');
 Route::get('/history', 'HistoryController@index')->name('history.index');

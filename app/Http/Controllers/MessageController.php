@@ -52,4 +52,19 @@ class MessageController extends Controller
             $message->delete();
         }
     }
+
+    /**
+     * メッセージ一覧の取得
+     * @params string $id
+     */
+    public function index(string $id)
+    {
+        $message = Message::where('post_id', $id)->get();
+
+        if ($message) {
+            return $message;
+        } else {
+            abort(404);
+        }
+    }
 }
