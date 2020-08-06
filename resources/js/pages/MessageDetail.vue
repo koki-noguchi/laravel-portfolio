@@ -5,7 +5,28 @@
             sm="8"
             md="6"
         >
-            <Message :message="message"></Message>
+            <v-card>
+                <v-card-text
+                    class="text-body-1 black--text"
+                >
+                    {{ message.message_text }}
+                </v-card-text>
+                <v-card-actions>
+                    <v-list-item>
+                        <v-list-item-avatar size="30px">
+                            <v-img
+                                :src="message.author.url"
+                            ></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title
+                                class="text-body-2 text-wrap">
+                                {{ message.author.name }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card-actions>
+            </v-card>
             <v-btn
                 dark
                 fab
@@ -35,13 +56,11 @@
 <script>
 import { OK } from '../util'
 import MessageModal from '../components/MessageModal.vue'
-import Message from '../components/Message.vue'
 import Reply from '../components/Reply.vue'
 
 export default {
     components: {
         MessageModal,
-        Message,
         Reply
     },
     props: {
