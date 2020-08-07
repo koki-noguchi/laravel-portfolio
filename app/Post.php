@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class Post extends Model
 {
     protected $visible = [
-        'id', 'post_title', 'about', 'updated_at', 'user','my_post', 'password_judge', 'messages',
+        'id', 'post_title', 'about', 'updated_at', 'user','my_post', 'password_judge',
         'bookmarked_by_user', 'photos', 'limit_judge'
     ];
 
