@@ -81,6 +81,7 @@ class PostController extends Controller
                 ->with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
         } else {
             $posts = Post::with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
+            $posts->makeHidden(['messages']);
         }
         return $posts;
     }

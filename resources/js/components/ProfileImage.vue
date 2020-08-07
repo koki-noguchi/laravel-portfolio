@@ -18,7 +18,7 @@
                 ></croppa>
             </v-list-item>
             <v-list-item class="justify-center mt-2">
-                <v-btn type="submit">変更する</v-btn>
+                <v-btn type="submit">画像を変更する</v-btn>
             </v-list-item>
         </v-list>
     </v-form>
@@ -39,20 +39,12 @@ export default {
         }
     },
     methods: {
-        async setUserPhoto () {
+        setUserPhoto () {
             this.generateImg = this.myCroppa.generateDataUrl()
 
-            const response = await axios.put('/api/user', {
+            this.$emit('setUserPhoto', {
                 user_image: this.generateImg
             })
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-            this.generateImg = ''
-
-            this.$router.push('/mypage').catch(()=>{})
         },
         onFileTypeMismatch () {
             Swal.fire({

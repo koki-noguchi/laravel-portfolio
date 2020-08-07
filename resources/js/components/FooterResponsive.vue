@@ -25,6 +25,12 @@
                 <v-icon>{{ item.icon }}</v-icon>
             </v-btn>
             <v-btn
+                :to="`/users/${user_id}`"
+                class="text-decoration-none">
+                <span>Mypage</span>
+                <v-icon>dashboard</v-icon>
+            </v-btn>
+            <v-btn
                 class="text-decoration-none"
                 @click="logout">
                 <span>Logout</span>
@@ -50,7 +56,6 @@ export default {
             userItems: [
                 { title: "Home", icon: "home", to: "/post"},
                 { title: "Post", icon: "question_answer", to: "/posting" },
-                { title: "Mypage", icon: "dashboard", to: "/mypage"},
             ]
         }
     },
@@ -77,6 +82,9 @@ export default {
     computed : {
         isLogin () {
             return this.$store.getters['auth/check']
+        },
+        user_id () {
+            return this.$store.getters['auth/id']
         },
         ...mapState({
             apiStatus: state => state.auth.apiStatus,

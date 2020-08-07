@@ -16,7 +16,7 @@
                         >
                             {{ user.name }}
                         </v-card-title>
-                        <v-card-actions>
+                        <v-card-actions v-if="isMyAccount === user.user_id">
                             <v-btn
                                 class="ma-2"
                                 icon
@@ -36,6 +36,8 @@
                     ref="dialog"
                     :user="user"
                     @updateUser="updateUser"
+                    @setUserPhoto="setUserPhoto"
+                    v-if="isMyAccount === user.user_id"
                 ></UserEditModal>
             </v-row>
         </v-card>
@@ -50,50 +52,37 @@ export default {
     components: {
         UserEditModal
     },
+    props: {
+        user: {
+            type:Object,
+            required: true
+        }
+    },
     data () {
         return {
-            user: '',
             dialog: false,
         }
     },
     methods: {
-        async fetchUser () {
-            const response = await axios.get('/api/myuser')
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            this.user = response.data
-        },
         updateUser ({ login_id, name}) {
-            this.update(login_id, name)
-        },
-        async update (login_id, name) {
-            const response = await axios.put('/api/user', {
+            this.$emit('updateUser', {
                 login_id: login_id,
                 name: name,
             })
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                return false
-            }
-
-            await this.fetchUser()
         },
         showDialog () {
             this.$refs.dialog.open()
         },
+        setUserPhoto ({ user_image }) {
+            this.$emit('setUserPhoto', {
+                user_image: user_image
+            })
+        },
     },
-    watch: {
-        $route: {
-            async handler () {
-                await this.fetchUser()
-            },
-            immediate: true
-        }
-    }
+    computed: {
+        isMyAccount () {
+            return this.$store.getters['auth/id']
+        },
+    },
 }
 </script>

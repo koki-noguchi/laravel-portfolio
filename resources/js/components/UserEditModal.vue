@@ -18,12 +18,14 @@
                     label="name"
                     class="ma-5"
                 ></v-text-field>
-                <ProfileImage :imgSrc="user.user_image"></ProfileImage>
+                <ProfileImage
+                    :imgSrc="user.user_image"
+                    @setUserPhoto="setUserPhoto"
+                ></ProfileImage>
                 <v-card-actions class="justify-center">
                     <v-btn
                         width="160"
-                        class="mb-5 mt-3"
-                        outlined
+                        class="mb-5 mt-5 white--text"
                         color="pink lighten-1"
                         @click.prevent="updateUser"
                         @click="close"
@@ -32,8 +34,9 @@
                 <v-card-actions class="justify-end">
                 <v-btn
                     width="60"
-                    class="mb-5 white--text"
-                    color="red"
+                    class="mb-5"
+                    outlined
+                    color="pink lighten"
                     @click.stop="dialog2 = !dialog2"
                 >退会する</v-btn>
                 </v-card-actions>
@@ -102,6 +105,11 @@ export default {
             }
             this.$store.commit('auth/setUser', null)
             this.$router.push('/')
+        },
+        setUserPhoto ({ user_image }) {
+            this.$emit('setUserPhoto', {
+                user_image: user_image
+            })
         },
         open () {
             this.dialog = true

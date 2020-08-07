@@ -37,7 +37,6 @@ class PostListApiTest extends TestCase
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
                 ],
-                'messages' => [],
                 'photos' => [],
                 'bookmarked_by_user' => false,
                 'my_post' => false,

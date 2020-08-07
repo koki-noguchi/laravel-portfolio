@@ -8,7 +8,6 @@ import Post from './pages/Posting.vue'
 import PostEdit from './pages/PostEdit.vue'
 import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
-import Mypage from './pages/Mypage.vue'
 import MessageDetail from './pages/MessageDetail.vue'
 import UserProfile from './pages/UserProfile.vue'
 
@@ -66,17 +65,6 @@ const routes = [
         props: true
     },
     {
-        path: '/mypage',
-        component: Mypage,
-        beforeEnter (to, from, next) {
-            if (store.getters['auth/check']) {
-                next()
-            } else {
-                next('/')
-            }
-        }
-    },
-    {
         path: '/post/:id',
         component: PostDetail,
         props: true
@@ -94,7 +82,14 @@ const routes = [
     {
         path: '/users/:id',
         component: UserProfile,
-        props: true
+        props: true,
+        beforeEnter (to, from, next) {
+            if (store.getters['auth/check']) {
+                next()
+            } else {
+                next('/')
+            }
+        }
     },
     {
         path: '/500',
