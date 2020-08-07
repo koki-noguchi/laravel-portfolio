@@ -63,7 +63,6 @@ class PostDetailApiTest extends TestCase
                                 'name' => $message->author->name,
                                 'url' => '/images/default-image.jpeg',
                             ],
-                            'replies' => [],
                             'replies_count' => 0,
                         ];
                     })->all(),
