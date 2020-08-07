@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $visible = [
-        'id', 'author', 'message_text', 'replies', 'my_message', 'replies_count'
+        'id', 'author', 'message_text', 'my_message', 'replies_count'
     ];
 
     protected $appends = [

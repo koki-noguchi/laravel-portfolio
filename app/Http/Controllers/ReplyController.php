@@ -49,6 +49,7 @@ class ReplyController extends Controller
             abort(401);
         } else {
             $message = Message::where('id', $message->id)->with(['author', 'replies.reply_user'])->first();
+            $message->makeVisible(['replies']);
         }
         return $message ?? abort(404);
     }
