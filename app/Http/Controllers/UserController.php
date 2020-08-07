@@ -68,21 +68,6 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー情報取得
-     */
-    public function show()
-    {
-        $user = User::where('id', Auth::user()->id)->with(['posts', 'bookmark_post.user', 'bookmark_post.photos'])->first();
-        $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
-        return $user;
-        // return response()->json([
-        //     'login_id' => Auth::user()->login_id,
-        //     'name' => Auth::user()->name,
-        //     'url' => Auth::user()->url,
-        // ]);
-    }
-
-    /**
      * ユーザー情報の削除
      */
     public function delete()
