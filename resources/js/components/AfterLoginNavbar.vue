@@ -39,6 +39,17 @@
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-list-item
+                        :to="`/users/${user_id}`"
+                        active-class="pink lighten-4"
+                    >
+                        <v-list-item-action>
+                            <v-icon>dashboard</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>Mypage</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
                     <v-list-item @click="logout">
                         <v-list-item-action>
                             <v-icon>logout</v-icon>
@@ -77,7 +88,7 @@
                             ホーム
                     </v-btn>
                     <v-btn
-                        text to="/mypage"
+                        text :to="`/users/${user_id}`"
                         class="text-decoration-none"
                         active-class="pink lighten-4"
                     >
@@ -108,7 +119,6 @@ export default {
             userItems: [
                 { title: "Home", icon: "home", to: "/post"},
                 { title: "Post", icon: "question_answer", to: "/posting" },
-                { title: "Mypage", icon: "dashboard", to: "/mypage"},
             ]
         }
     },
@@ -150,6 +160,9 @@ export default {
         },
         image () {
             return this.$store.getters['auth/image']
+        },
+        user_id () {
+            return this.$store.getters['auth/id']
         },
         ...mapState({
             apiStatus: state => state.auth.apiStatus,
