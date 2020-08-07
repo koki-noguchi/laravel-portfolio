@@ -82,7 +82,9 @@ class BookmarkApiTest extends TestCase
             ]));
 
         $response = $this->actingAs($this->user)
-            ->json('GET', route('bookmark.get'));
+            ->json('GET', route('user.profile', [
+                'id' => $this->user->id,
+            ]));
 
         $response
             ->assertStatus(200)

@@ -106,7 +106,6 @@ class MessageApiTest extends TestCase
                 'message_text' => $message->message_text,
                 'my_message' => true,
                 'replies_count' => 0,
-                'replies' => []
             ]);
     }
 }
