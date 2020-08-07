@@ -80,21 +80,6 @@ class UserController extends Controller
     }
 
     /**
-     * ブックマークの取得
-     */
-    public function bookmark()
-    {
-        $bookmark = Auth::user()->bookmark_post;
-        $bookmark->load('photos', 'user');
-
-        if ($bookmark) {
-            return $bookmark;
-        } else {
-            abort(404);
-        }
-    }
-
-    /**
      * ユーザーの取得
      * @params string $id
      * @return User
