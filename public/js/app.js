@@ -3756,6 +3756,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3790,6 +3791,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('setUserPhoto', {
         user_image: user_image
       });
+    }
+  },
+  computed: {
+    isMyAccount: function isMyAccount() {
+      return this.$store.getters['auth/id'];
     }
   }
 });
@@ -5371,6 +5377,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       posts: null,
       user: {
+        user_id: '',
         login_id: '',
         name: '',
         url: ''
@@ -5407,13 +5414,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this.posts = response.data;
+                _this.user.user_id = response.data.id;
                 _this.user.login_id = response.data.login_id;
                 _this.user.name = response.data.name;
                 _this.user.url = response.data.url;
                 _this.histories = response.data.posts;
                 _this.bookmarks = response.data.bookmark_post;
 
-              case 12:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -5590,6 +5598,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee5);
       }))();
+    }
+  },
+  computed: {
+    isMyAccount: function isMyAccount() {
+      return String(this.$store.getters['auth/id']) === this.id;
     }
   },
   watch: {
@@ -11610,31 +11623,33 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "ma-2",
-                              attrs: { icon: "", color: "white" },
-                              on: {
-                                click: function($event) {
-                                  $event.stopPropagation()
-                                  return _vm.showDialog($event)
-                                }
-                              }
-                            },
+                      _vm.isMyAccount === _vm.user.user_id
+                        ? _c(
+                            "v-card-actions",
                             [
-                              _c("v-icon", { attrs: { size: "30" } }, [
-                                _vm._v("edit")
-                              ])
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "ma-2",
+                                  attrs: { icon: "", color: "white" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.stopPropagation()
+                                      return _vm.showDialog($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "30" } }, [
+                                    _vm._v("edit")
+                                  ])
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
-                        ],
-                        1
-                      )
+                        : _vm._e()
                     ],
                     1
                   ),
@@ -11657,14 +11672,16 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("UserEditModal", {
-                ref: "dialog",
-                attrs: { user: _vm.user },
-                on: {
-                  updateUser: _vm.updateUser,
-                  setUserPhoto: _vm.setUserPhoto
-                }
-              })
+              _vm.isMyAccount === _vm.user.user_id
+                ? _c("UserEditModal", {
+                    ref: "dialog",
+                    attrs: { user: _vm.user },
+                    on: {
+                      updateUser: _vm.updateUser,
+                      setUserPhoto: _vm.setUserPhoto
+                    }
+                  })
+                : _vm._e()
             ],
             1
           )
@@ -12781,22 +12798,26 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-tab", { attrs: { href: "#bookmark" } }, [
-            _vm._v("\n        Bookmark\n        ")
-          ]),
+          _vm.isMyAccount
+            ? _c("v-tab", { attrs: { href: "#bookmark" } }, [
+                _vm._v("\n        Bookmark\n        ")
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "v-tab-item",
-            { attrs: { id: "bookmark" } },
-            _vm._l(_vm.bookmarks, function(bookmark) {
-              return _c("Post", {
-                key: bookmark.id,
-                attrs: { item: bookmark },
-                on: { bookmark: _vm.onBookmarkClick }
-              })
-            }),
-            1
-          )
+          _vm.isMyAccount
+            ? _c(
+                "v-tab-item",
+                { attrs: { id: "bookmark" } },
+                _vm._l(_vm.bookmarks, function(bookmark) {
+                  return _c("Post", {
+                    key: bookmark.id,
+                    attrs: { item: bookmark },
+                    on: { bookmark: _vm.onBookmarkClick }
+                  })
+                }),
+                1
+              )
+            : _vm._e()
         ],
         1
       )

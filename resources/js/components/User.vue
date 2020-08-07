@@ -16,7 +16,7 @@
                         >
                             {{ user.name }}
                         </v-card-title>
-                        <v-card-actions>
+                        <v-card-actions v-if="isMyAccount === user.user_id">
                             <v-btn
                                 class="ma-2"
                                 icon
@@ -37,6 +37,7 @@
                     :user="user"
                     @updateUser="updateUser"
                     @setUserPhoto="setUserPhoto"
+                    v-if="isMyAccount === user.user_id"
                 ></UserEditModal>
             </v-row>
         </v-card>
@@ -76,6 +77,11 @@ export default {
             this.$emit('setUserPhoto', {
                 user_image: user_image
             })
+        },
+    },
+    computed: {
+        isMyAccount () {
+            return this.$store.getters['auth/id']
         },
     },
 }

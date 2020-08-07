@@ -20,10 +20,10 @@
                     @bookmark="onBookmarkClick"
                 ></Post>
             </v-tab-item>
-            <v-tab href="#bookmark">
+            <v-tab href="#bookmark" v-if="isMyAccount">
             Bookmark
             </v-tab>
-            <v-tab-item id="bookmark">
+            <v-tab-item id="bookmark" v-if="isMyAccount">
                 <Post
                     v-for="bookmark in bookmarks"
                     :key="bookmark.id"
@@ -55,6 +55,7 @@ export default {
         return {
             posts: null,
             user: {
+                user_id: '',
                 login_id: '',
                 name: '',
                 url: ''
@@ -74,6 +75,7 @@ export default {
             }
 
             this.posts = response.data
+            this.user.user_id = response.data.id
             this.user.login_id = response.data.login_id
             this.user.name = response.data.name
             this.user.url = response.data.url
@@ -142,6 +144,11 @@ export default {
                 }
                 return bookmark
             })
+        },
+    },
+    computed: {
+        isMyAccount () {
+            return String(this.$store.getters['auth/id']) === this.id
         },
     },
     watch: {
