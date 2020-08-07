@@ -72,11 +72,14 @@ class UserController extends Controller
      */
     public function show()
     {
-        return response()->json([
-            'login_id' => Auth::user()->login_id,
-            'name' => Auth::user()->name,
-            'url' => Auth::user()->url,
-        ]);
+        $user = User::where('id', Auth::user()->id)->with(['posts', 'bookmark_post.user', 'bookmark_post.photos'])->first();
+        $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
+        return $user;
+        // return response()->json([
+        //     'login_id' => Auth::user()->login_id,
+        //     'name' => Auth::user()->name,
+        //     'url' => Auth::user()->url,
+        // ]);
     }
 
     /**
@@ -113,14 +116,16 @@ class UserController extends Controller
      */
     public function profile(string $id)
     {
-        $posts = Post::where('user_id', $id)->with(['user', 'photos'])->get();
-
-        if ($posts) {
-            return  response()->json([
-                'posts' => $posts,
-            ]);
+        if ((string) Auth::user()->id === $id) {
+            $user = User::where('id', $id)->with([
+                'posts', 'bookmark_post.user', 'bookmark_post.photos',
+                'posts.user', 'posts.photos'
+            ])->first();
+            $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
         } else {
-            abort(404);
+            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos'])->first();
+            $user->makeVisible(['posts']);
         }
+        return $user;
     }
 }
