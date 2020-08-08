@@ -21,9 +21,11 @@
         <h1>{{ post.post_title }}</h1>
         <div class="text-right">
             posted_by
-            <v-avatar size="30px">
-                <img :src="post.user.url">
-            </v-avatar>
+            <router-link :to="`/users/${post.user.id}`">
+                <v-avatar size="30px">
+                    <img :src="post.user.url">
+                </v-avatar>
+            </router-link>
             {{ post.user.name }}
         </div>
         <PostPhoto :photos="post.photos" class="mt-5"></PostPhoto>

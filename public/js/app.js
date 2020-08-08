@@ -2750,6 +2750,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3671,6 +3673,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -4945,6 +4949,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -5137,6 +5143,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -11140,9 +11148,20 @@ var render = function() {
                     "v-list-item",
                     [
                       _c(
-                        "v-list-item-avatar",
-                        { attrs: { size: "30px" } },
-                        [_c("v-img", { attrs: { src: message.author.url } })],
+                        "router-link",
+                        { attrs: { to: "/users/" + message.author.id } },
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            { attrs: { size: "30px" } },
+                            [
+                              _c("v-img", {
+                                attrs: { src: message.author.url }
+                              })
+                            ],
+                            1
+                          )
+                        ],
                         1
                       ),
                       _vm._v(" "),
@@ -12371,9 +12390,20 @@ var render = function() {
                 "v-list-item",
                 [
                   _c(
-                    "v-list-item-avatar",
-                    { attrs: { size: "30px" } },
-                    [_c("v-img", { attrs: { src: _vm.reply.reply_user.url } })],
+                    "router-link",
+                    { attrs: { to: "/users/" + _vm.reply.reply_user.id } },
+                    [
+                      _c(
+                        "v-list-item-avatar",
+                        { attrs: { size: "30px" } },
+                        [
+                          _c("v-img", {
+                            attrs: { src: _vm.reply.reply_user.url }
+                          })
+                        ],
+                        1
+                      )
+                    ],
                     1
                   ),
                   _vm._v(" "),
@@ -13363,12 +13393,21 @@ var render = function() {
                         "v-list-item",
                         [
                           _c(
-                            "v-list-item-avatar",
-                            { attrs: { size: "30px" } },
+                            "router-link",
+                            {
+                              attrs: { to: "/users/" + _vm.message.author.id }
+                            },
                             [
-                              _c("v-img", {
-                                attrs: { src: _vm.message.author.url }
-                              })
+                              _c(
+                                "v-list-item-avatar",
+                                { attrs: { size: "30px" } },
+                                [
+                                  _c("v-img", {
+                                    attrs: { src: _vm.message.author.url }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           ),
@@ -13527,9 +13566,16 @@ var render = function() {
             { staticClass: "text-right" },
             [
               _vm._v("\n        posted_by\n        "),
-              _c("v-avatar", { attrs: { size: "30px" } }, [
-                _c("img", { attrs: { src: _vm.post.user.url } })
-              ]),
+              _c(
+                "router-link",
+                { attrs: { to: "/users/" + _vm.post.user.id } },
+                [
+                  _c("v-avatar", { attrs: { size: "30px" } }, [
+                    _c("img", { attrs: { src: _vm.post.user.url } })
+                  ])
+                ],
+                1
+              ),
               _vm._v("\n        " + _vm._s(_vm.post.user.name) + "\n    ")
             ],
             1
