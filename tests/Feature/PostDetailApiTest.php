@@ -50,6 +50,9 @@ class PostDetailApiTest extends TestCase
                     'id' => $post->user->id,
                     'name' => $post->user->name,
                     'url' => '/images/default-image.jpeg',
+                    'followed_judge' => false,
+                    'follow_count' => 0,
+                    'follower_count' => 0,
                 ],
                 'messages' => $post->messages
                     ->sortByDesc('created_at')
@@ -62,6 +65,9 @@ class PostDetailApiTest extends TestCase
                                 'id' => $message->author->id,
                                 'name' => $message->author->name,
                                 'url' => '/images/default-image.jpeg',
+                                'followed_judge' => false,
+                                'follow_count' => 0,
+                                'follower_count' => 0,
                             ],
                             'replies_count' => 0,
                         ];
@@ -95,6 +101,9 @@ class PostDetailApiTest extends TestCase
                 'id' => $post->user->id,
                 'name' => $post->user->name,
                 'url' => '/images/default-image.jpeg',
+                'followed_judge' => false,
+                'follow_count' => 0,
+                'follower_count' => 0,
             ],
             'photos' => $post->photos
                     ->map(function ($photo) {
