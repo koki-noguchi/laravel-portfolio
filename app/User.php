@@ -22,11 +22,11 @@ class User extends Authenticatable
     ];
 
     protected $visible = [
-        'name', 'url', 'id', 'followed_judge'
+        'name', 'url', 'id', 'followed_judge', 'follow_count', 'follower_count'
     ];
 
     protected $appends = [
-        'url', 'followed_judge'
+        'url', 'followed_judge', 'follow_count', 'follower_count'
     ];
 
     /**
@@ -82,6 +82,24 @@ class User extends Authenticatable
         return $this->followings->contains(function ($user) {
             return $user->id === Auth::user()->id;
         });
+    }
+
+    /**
+     * アクセサ - follow_count
+     * @return int
+     */
+    public function getFollowCountAttribute()
+    {
+        return $this->followings->count();
+    }
+
+    /**
+     * アクセサ - follower_count
+     * @return int
+     */
+    public function getFollowerCountAttribute()
+    {
+        return $this->followers->count();
     }
 
     /**
