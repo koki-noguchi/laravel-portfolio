@@ -19,11 +19,13 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-list-item>
-                        <v-list-item-avatar size="30px">
-                            <v-img
-                                :src="message.author.url"
-                            ></v-img>
-                        </v-list-item-avatar>
+                        <router-link :to="`/users/${message.author.id}`">
+                            <v-list-item-avatar size="30px">
+                                <v-img
+                                    :src="message.author.url"
+                                ></v-img>
+                            </v-list-item-avatar>
+                        </router-link>
                         <v-list-item-content>
                             <v-list-item-title
                                 class="text-body-2 text-wrap">
