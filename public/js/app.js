@@ -5387,7 +5387,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         user_id: '',
         login_id: '',
         name: '',
-        url: ''
+        url: '',
+        follow_count: '',
+        follower_count: ''
       },
       my_bookmark_post: '',
       histories: null,
@@ -5425,10 +5427,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.user.login_id = response.data.login_id;
                 _this.user.name = response.data.name;
                 _this.user.url = response.data.url;
+                _this.user.follow_count = response.data.follow_count;
+                _this.user.follower_count = response.data.follower_count;
                 _this.histories = response.data.posts;
                 _this.bookmarks = response.data.bookmark_post;
 
-              case 13:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -5638,9 +5642,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context6.abrupt("return", false);
 
               case 6:
+                _this6.user.follower_count += 1;
                 _this6.posts.followed_judge = true;
 
-              case 7:
+              case 8:
               case "end":
                 return _context6.stop();
             }
@@ -5673,9 +5678,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context7.abrupt("return", false);
 
               case 6:
+                _this7.user.follower_count -= 1;
                 _this7.posts.followed_judge = false;
 
-              case 7:
+              case 8:
               case "end":
                 return _context7.stop();
             }
@@ -11743,11 +11749,11 @@ var render = function() {
                     { staticClass: "justify-center mt-2" },
                     [
                       _c("v-btn", { staticClass: "ml-5 mr-2" }, [
-                        _vm._v("0 follow")
+                        _vm._v(_vm._s(_vm.user.follow_count) + " follow")
                       ]),
                       _vm._v(" "),
                       _c("v-btn", { staticClass: "mr-5 ml-2" }, [
-                        _vm._v("0 follower")
+                        _vm._v(_vm._s(_vm.user.follower_count) + " follower")
                       ])
                     ],
                     1

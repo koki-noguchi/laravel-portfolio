@@ -65,7 +65,9 @@ export default {
                 user_id: '',
                 login_id: '',
                 name: '',
-                url: ''
+                url: '',
+                follow_count: '',
+                follower_count: '',
             },
             my_bookmark_post: '',
             histories: null,
@@ -86,6 +88,8 @@ export default {
             this.user.login_id = response.data.login_id
             this.user.name = response.data.name
             this.user.url = response.data.url
+            this.user.follow_count = response.data.follow_count
+            this.user.follower_count = response.data.follower_count
             this.histories = response.data.posts
             this.bookmarks = response.data.bookmark_post
         },
@@ -166,7 +170,7 @@ export default {
                 this.$store.commit('error/setCode', response.status)
                 return false
             }
-
+            this.user.follower_count += 1
             this.posts.followed_judge = true
         },
         async deleteFollow () {
@@ -177,6 +181,7 @@ export default {
                 return false
             }
 
+            this.user.follower_count -= 1
             this.posts.followed_judge = false
         }
     },
