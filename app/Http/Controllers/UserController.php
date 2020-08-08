@@ -135,4 +135,22 @@ class UserController extends Controller
 
         return ["followee_id" => (int) $id];
     }
+
+    /**
+     * フォロー
+     * @params string $id
+     * @return array
+     */
+    public function followList(string $id)
+    {
+        $user = User::where('id', $id)
+            ->with(['followings', 'followers'])->first();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $user->makeVisible(['followings', 'followers']);
+        return $user;
+    }
 }

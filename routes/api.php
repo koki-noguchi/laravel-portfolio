@@ -39,3 +39,4 @@ Route::delete('/photo/{id}', 'PhotoController@delete')->name('photo.delete');
 Route::post('/post/{id}/photo', 'PhotoController@create')->name('photo.create');
 Route::put('/users/{id}/follow', 'UserController@follow')->name('follow.add');
 Route::delete('/users/{id}/follow', 'UserController@deleteFollow')->name('follow.delete');
+Route::get('/users/{id}/follow', 'UserController@followList')->name('follow.show');

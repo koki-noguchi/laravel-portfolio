@@ -10,6 +10,7 @@ import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
 import MessageDetail from './pages/MessageDetail.vue'
 import UserProfile from './pages/UserProfile.vue'
+import FollowList from './pages/FollowList.vue'
 
 import store from './store'
 
@@ -82,14 +83,12 @@ const routes = [
     {
         path: '/users/:id',
         component: UserProfile,
-        props: true,
-        beforeEnter (to, from, next) {
-            if (store.getters['auth/check']) {
-                next()
-            } else {
-                next('/')
-            }
-        }
+        props: true
+    },
+    {
+        path: '/users/:id/follow',
+        component: FollowList,
+        props: true
     },
     {
         path: '/500',
