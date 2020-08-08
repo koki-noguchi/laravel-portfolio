@@ -11,6 +11,7 @@ import PostDetail from './pages/PostDetail.vue'
 import MessageDetail from './pages/MessageDetail.vue'
 import UserProfile from './pages/UserProfile.vue'
 import FollowList from './pages/FollowList.vue'
+import FollowerList from './pages/FollowerList.vue'
 
 import store from './store'
 
@@ -88,6 +89,11 @@ const routes = [
     {
         path: '/users/:id/follow',
         component: FollowList,
+        props: true
+    },
+    {
+        path: '/users/:id/follower',
+        component: FollowerList,
         props: true
     },
     {

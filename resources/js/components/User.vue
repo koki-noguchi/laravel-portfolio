@@ -28,8 +28,8 @@
                         </v-card-actions>
                     </v-layout>
                     <v-card-actions class="justify-center mt-2">
-                        <v-btn class="ml-5 mr-2">{{ user.follow_count }} follow</v-btn>
-                        <v-btn class="mr-5 ml-2">{{ user.follower_count }} follower</v-btn>
+                        <v-btn class="ml-5 mr-2" :to="`/users/${user.user_id}/follow`">{{ user.follow_count }} follow</v-btn>
+                        <v-btn class="mr-5 ml-2" :to="`/users/${user.user_id}/follower`">{{ user.follower_count }} follower</v-btn>
                     </v-card-actions>
                 </v-col>
                 <UserEditModal
