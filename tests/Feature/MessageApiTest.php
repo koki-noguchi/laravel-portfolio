@@ -43,6 +43,9 @@ class MessageApiTest extends TestCase
                         'id' => $this->user->id,
                         "name" => $this->user->name,
                         "url" => '/images/default-image.jpeg',
+                        'followed_judge' => false,
+                        'follow_count' => 0,
+                        'follower_count' => 0,
                     ],
                     "message_text" => $message_text,
                 ]);

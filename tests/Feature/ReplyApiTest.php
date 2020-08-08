@@ -47,7 +47,10 @@ class ReplyApiTest extends TestCase
                 "reply_user" => [
                     "id" => $this->user->id,
                     "name" => $this->user->name,
-                    "url" => '/images/default-image.jpeg'
+                    "url" => '/images/default-image.jpeg',
+                    'followed_judge' => false,
+                    'follow_count' => 0,
+                    'follower_count' => 0,
                 ],
                 "reply_text" => $reply_text,
             ]);
@@ -84,12 +87,18 @@ class ReplyApiTest extends TestCase
                     'id' => $this->message->author->id,
                     'name' => $this->message->author->name,
                     'url' => '/images/default-image.jpeg',
+                    'followed_judge' => false,
+                    'follow_count' => 0,
+                    'follower_count' => 0,
                 ],
                 'message_text' => $this->message->message_text,
                 'reply_user' => [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
                     'url' => '/images/default-image.jpeg',
+                    'followed_judge' => false,
+                    'follow_count' => 0,
+                    'follower_count' => 0,
                 ],
                 'reply_text' => $reply_text,
             ]);
