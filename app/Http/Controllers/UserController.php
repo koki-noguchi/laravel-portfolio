@@ -89,12 +89,12 @@ class UserController extends Controller
         if ((string) Auth::user()->id === $id) {
             $user = User::where('id', $id)->with([
                 'posts', 'bookmark_post.user', 'bookmark_post.photos',
-                'posts.user', 'posts.photos', 'followings', 'followers'
+                'posts.user', 'posts.photos'
             ])->first();
-            $user->makeVisible(['posts', 'bookmark_post', 'login_id', 'followings', 'followers']);
+            $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
         } else {
-            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos', 'followings', 'followers'])->first();
-            $user->makeVisible(['posts', 'followings', 'followers']);
+            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos'])->first();
+            $user->makeVisible(['posts']);
         }
         return $user;
     }
@@ -134,5 +134,23 @@ class UserController extends Controller
         $user->followings()->detach($id);
 
         return ["followee_id" => (int) $id];
+    }
+
+    /**
+     * フォロー
+     * @params string $id
+     * @return array
+     */
+    public function followList(string $id)
+    {
+        $user = User::where('id', $id)
+            ->with(['followings', 'followers'])->first();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $user->makeVisible(['followings', 'followers']);
+        return $user;
     }
 }
