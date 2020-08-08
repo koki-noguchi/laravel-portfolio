@@ -89,12 +89,12 @@ class UserController extends Controller
         if ((string) Auth::user()->id === $id) {
             $user = User::where('id', $id)->with([
                 'posts', 'bookmark_post.user', 'bookmark_post.photos',
-                'posts.user', 'posts.photos'
+                'posts.user', 'posts.photos', 'followings', 'followers'
             ])->first();
-            $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
+            $user->makeVisible(['posts', 'bookmark_post', 'login_id', 'followings', 'followers']);
         } else {
-            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos'])->first();
-            $user->makeVisible(['posts']);
+            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos', 'followings', 'followers'])->first();
+            $user->makeVisible(['posts', 'followings', 'followers']);
         }
         return $user;
     }
