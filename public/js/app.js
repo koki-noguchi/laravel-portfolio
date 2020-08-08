@@ -5359,6 +5359,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5375,7 +5382,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      posts: null,
+      posts: '',
       user: {
         user_id: '',
         login_id: '',
@@ -5598,6 +5605,83 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee5);
       }))();
+    },
+    followBtnClick: function followBtnClick() {
+      if (this.posts.followed_judge) {
+        this.deleteFollow();
+      } else {
+        this.follow();
+      }
+    },
+    follow: function follow() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios.put("/api/users/".concat(_this6.id, "/follow"));
+
+              case 2:
+                response = _context6.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context6.next = 6;
+                  break;
+                }
+
+                _this6.$store.commit('error/setCode', response.status);
+
+                return _context6.abrupt("return", false);
+
+              case 6:
+                _this6.posts.followed_judge = true;
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    deleteFollow: function deleteFollow() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return axios["delete"]("/api/users/".concat(_this7.id, "/follow"));
+
+              case 2:
+                response = _context7.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context7.next = 6;
+                  break;
+                }
+
+                _this7.$store.commit('error/setCode', response.status);
+
+                return _context7.abrupt("return", false);
+
+              case 6:
+                _this7.posts.followed_judge = false;
+
+              case 7:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
     }
   },
   computed: {
@@ -5608,22 +5692,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     $route: {
       handler: function handler() {
-        var _this6 = this;
+        var _this8 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
             while (1) {
-              switch (_context6.prev = _context6.next) {
+              switch (_context8.prev = _context8.next) {
                 case 0:
-                  _context6.next = 2;
-                  return _this6.fetchProfile();
+                  _context8.next = 2;
+                  return _this8.fetchProfile();
 
                 case 2:
                 case "end":
-                  return _context6.stop();
+                  return _context8.stop();
               }
             }
-          }, _callee6);
+          }, _callee8);
         }))();
       },
       immediate: true
@@ -12772,6 +12856,27 @@ var render = function() {
   return _c(
     "div",
     [
+      !_vm.isMyAccount
+        ? _c(
+            "div",
+            { staticClass: "text-right" },
+            [
+              _c(
+                "v-btn",
+                {
+                  staticClass: "ma-2 white--text text-decoration-none",
+                  attrs: {
+                    color: _vm.posts.followed_judge === true ? "grey" : "blue"
+                  },
+                  on: { click: _vm.followBtnClick }
+                },
+                [_vm._v("フォロー\n        ")]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c("User", {
         attrs: { user: _vm.user },
         on: { updateUser: _vm.updateUser, setUserPhoto: _vm.setUserPhoto }

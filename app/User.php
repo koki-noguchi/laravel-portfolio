@@ -22,11 +22,11 @@ class User extends Authenticatable
     ];
 
     protected $visible = [
-        'name', 'url', 'id'
+        'name', 'url', 'id', 'followed_judge'
     ];
 
     protected $appends = [
-        'url',
+        'url', 'followed_judge'
     ];
 
     /**
@@ -59,7 +59,7 @@ class User extends Authenticatable
      * アクセサ - followed_judge
      * @return boolean
      */
-    public function getFollowedJudge()
+    public function getFollowedJudgeAttribute()
     {
         if (Auth::guest()) {
             return false;
@@ -74,7 +74,7 @@ class User extends Authenticatable
      * アクセサ - follower_judge
      * @return boolean
      */
-    public function getFollowerJudge() {
+    public function getFollowerJudgeAttribute() {
         if (Auth::guest()) {
             return false;
         }
