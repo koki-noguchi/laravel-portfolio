@@ -98,4 +98,41 @@ class UserController extends Controller
         }
         return $user;
     }
+
+    /**
+     * フォロー
+     * @params string $id
+     * @return array
+     */
+    public function follow(string $id)
+    {
+        $user = User::where('id', Auth::user()->id)->with('followings')->first();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $user->followings()->detach($id);
+        $user->followings()->attach($id);
+
+        return ["followee_id" => (int) $id];
+    }
+
+    /**
+     * フォローを外す
+     * @params string $id
+     * @return array
+     */
+    public function deleteFollow(string $id)
+    {
+        $user = User::where('id', Auth::user()->id)->with('followings')->first();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $user->followings()->detach($id);
+
+        return ["followee_id" => (int) $id];
+    }
 }

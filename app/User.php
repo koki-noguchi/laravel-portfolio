@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -21,11 +22,11 @@ class User extends Authenticatable
     ];
 
     protected $visible = [
-        'name', 'url', 'id'
+        'name', 'url', 'id', 'followed_judge'
     ];
 
     protected $appends = [
-        'url',
+        'url', 'followed_judge'
     ];
 
     /**
@@ -55,6 +56,35 @@ class User extends Authenticatable
     }
 
     /**
+     * アクセサ - followed_judge
+     * @return boolean
+     */
+    public function getFollowedJudgeAttribute()
+    {
+        if (Auth::guest()) {
+            return false;
+        }
+
+        return $this->followers->contains(function ($user) {
+            return $user->id === Auth::user()->id;
+        });
+    }
+
+    /**
+     * アクセサ - follower_judge
+     * @return boolean
+     */
+    public function getFollowerJudgeAttribute() {
+        if (Auth::guest()) {
+            return false;
+        }
+
+        return $this->followings->contains(function ($user) {
+            return $user->id === Auth::user()->id;
+        });
+    }
+
+    /**
      * リレーションシップ - postsテーブル
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -70,5 +100,23 @@ class User extends Authenticatable
     public function bookmark_post()
     {
         return $this->belongsToMany('App\Post', 'bookmarks')->withTimestamps();
+    }
+
+    /**
+     * リレーションシップ - usersテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followings()
+    {
+        return $this->belongsToMany('App\User', 'relationships', 'follower_id', 'followee_id')->withTimestamps();
+    }
+
+    /**
+     * リレーションシップ - usersテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followers()
+    {
+        return $this->belongsToMany('App\User', 'relationships', 'followee_id', 'follower_id')->withTimestamps();
     }
 }

@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class="text-right" v-if="!isMyAccount">
+            <v-btn
+                class="ma-2 white--text text-decoration-none"
+                :color="posts.followed_judge === true ? 'grey' : 'blue'"
+                @click="followBtnClick">フォロー
+            </v-btn>
+        </div>
         <User
             :user="user"
             @updateUser="updateUser"
@@ -53,7 +60,7 @@ export default {
     },
     data () {
         return {
-            posts: null,
+            posts: '',
             user: {
                 user_id: '',
                 login_id: '',
@@ -145,6 +152,33 @@ export default {
                 return bookmark
             })
         },
+        followBtnClick () {
+            if (this.posts.followed_judge) {
+                this.deleteFollow()
+            } else {
+                this.follow()
+            }
+        },
+        async follow () {
+            const response = await axios.put(`/api/users/${this.id}/follow`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.posts.followed_judge = true
+        },
+        async deleteFollow () {
+            const response = await axios.delete(`/api/users/${this.id}/follow`)
+
+            if (response.status !== OK) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
+
+            this.posts.followed_judge = false
+        }
     },
     computed: {
         isMyAccount () {
