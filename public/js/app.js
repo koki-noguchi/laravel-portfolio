@@ -6312,7 +6312,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (history.id === response.data.post_id) {
                     history.bookmarked_by_user = true;
 
-                    _this4.bookmarks.push(history);
+                    if (String(_this4.$store.getters['auth/id']) === _this4.id) {
+                      _this4.bookmarks.push(history);
+                    }
                   }
 
                   return history;
@@ -6351,15 +6353,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context5.abrupt("return", false);
 
               case 6:
-                _this5.bookmarks = _this5.bookmarks.map(function (bookmark, i) {
-                  if (bookmark.id === response.data.post_id) {
-                    bookmark.bookmarked_by_user = false;
+                if (String(_this5.$store.getters['auth/id']) === _this5.id) {
+                  _this5.bookmarks.filter(function (bookmark, i) {
+                    if (bookmark.id === response.data.post_id) {
+                      bookmark.bookmarked_by_user = false;
 
-                    _this5.fetchProfile();
-                  }
+                      _this5.bookmarks.splice(i, 1);
+                    }
 
-                  return bookmark;
-                });
+                    return bookmark;
+                  });
+                } else {
+                  _this5.histories = _this5.histories.map(function (history) {
+                    if (history.id === response.data.post_id) {
+                      history.bookmarked_by_user = false;
+                    }
+
+                    return history;
+                  });
+                }
 
               case 7:
               case "end":

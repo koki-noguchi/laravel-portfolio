@@ -134,7 +134,9 @@ export default {
             this.histories = this.histories.map(history => {
                 if (history.id === response.data.post_id) {
                     history.bookmarked_by_user = true
-                    this.bookmarks.push(history)
+                    if (String(this.$store.getters['auth/id']) === this.id) {
+                        this.bookmarks.push(history)
+                    }
                 }
 
                 return history
@@ -148,13 +150,23 @@ export default {
                 return false
             }
 
-            this.bookmarks = this.bookmarks.map((bookmark, i) => {
-                if (bookmark.id === response.data.post_id) {
-                    bookmark.bookmarked_by_user = false
-                    this.fetchProfile()
+            if (String(this.$store.getters['auth/id']) === this.id) {
+                this.bookmarks.filter((bookmark, i) => {
+                    if (bookmark.id === response.data.post_id) {
+                        bookmark.bookmarked_by_user = false
+                        this.bookmarks.splice(i, 1)
+                    }
+                    return bookmark
+                })
+            } else {
+                this.histories = this.histories.map(history => {
+                if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = false
                 }
-                return bookmark
-            })
+
+                return history
+                })
+            }
         },
         followBtnClick () {
             if (this.posts.followed_judge) {
