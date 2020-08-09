@@ -48,6 +48,7 @@
                     class="mt-5"
                     width="160"
                     outlined color="pink lighten-1"
+                    :disabled="!valid"
                 >送信</v-btn>
             </v-form>
         </div>
