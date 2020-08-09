@@ -21,6 +21,7 @@
               :item_title="post.post_title"
               :item_about="post.about"
               :id="id"
+              :errors="errors"
               @updatePost="updatePost"
             ></PostEditForm>
           </v-tab-item>
@@ -39,7 +40,7 @@
 </template>
 
 <script>
-import { OK } from '../util'
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 import PostEditForm from '../components/PostEditForm.vue'
 import PostEditPhoto from '../components/PostEditPhoto.vue'
 
@@ -57,6 +58,7 @@ export default {
   data () {
     return {
       post: null,
+      errors: null,
     }
   },
   methods: {
@@ -80,6 +82,16 @@ export default {
             post_title: post_title,
             about: about
         })
+
+      if (response.status === UNPROCESSABLE_ENTITY) {
+        this.errors = response.data.errors
+        return false
+      }
+
+      if (response.status !== CREATED) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
 
       this.fetchPost()
     },

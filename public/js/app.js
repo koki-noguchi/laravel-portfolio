@@ -3265,6 +3265,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3279,17 +3293,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     id: {
       type: String,
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
     return {
       post_title: '',
       about: '',
-      dialog: false
+      dialog: false,
+      valid: true,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxTitle: function maxTitle(v) {
+          return v && v.length <= 32 || '32文字以内で入力してください。';
+        },
+        maxAbout: function maxAbout(v) {
+          return v && v.length <= 2000 || '2000文字以内で入力してください。';
+        }
+      }
     };
   },
   methods: {
     update: function update() {
+      if (!this.$refs.form.validate()) {
+        return false;
+      }
+
       this.$emit('updatePost', {
         post_title: this.post_title,
         about: this.about
@@ -5519,6 +5552,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -5535,7 +5569,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      post: null
+      post: null,
+      errors: null
     };
   },
   methods: {
@@ -5597,9 +5632,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.errors = response.data.errors;
+                return _context2.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                return _context2.abrupt("return", false);
+
+              case 10:
                 _this2.fetchPost();
 
-              case 5:
+              case 11:
               case "end":
                 return _context2.stop();
             }
@@ -11982,61 +12036,107 @@ var render = function() {
             "div",
             { staticClass: "mt-10 text-center" },
             [
-              _c("v-text-field", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  counter: "",
-                  maxlength: "100",
-                  clearable: "",
-                  label: "タイトル"
-                },
-                model: {
-                  value: _vm.post_title,
-                  callback: function($$v) {
-                    _vm.post_title = $$v
-                  },
-                  expression: "post_title"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "2000",
-                  clearable: "",
-                  label: "概要"
-                },
-                model: {
-                  value: _vm.about,
-                  callback: function($$v) {
-                    _vm.about = $$v
-                  },
-                  expression: "about"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-btn",
+                "v-form",
                 {
-                  staticClass: "mt-5",
-                  attrs: {
-                    type: "submit",
-                    width: "160",
-                    outlined: "",
-                    color: "pink lighten-1"
-                  },
+                  ref: "form",
                   on: {
-                    click: function($event) {
+                    submit: function($event) {
                       $event.preventDefault()
                       return _vm.update($event)
                     }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
                   }
                 },
-                [_vm._v("送信")]
+                [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.post_title
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.post_title, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.about
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.about, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "mt-5",
+                    attrs: {
+                      filled: "",
+                      counter: "",
+                      maxlength: "32",
+                      clearable: "",
+                      label: "タイトル",
+                      rules: [_vm.rules.required, _vm.rules.maxTitle]
+                    },
+                    model: {
+                      value: _vm.post_title,
+                      callback: function($$v) {
+                        _vm.post_title = $$v
+                      },
+                      expression: "post_title"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-textarea", {
+                    staticClass: "mt-5",
+                    attrs: {
+                      filled: "",
+                      "auto-grow": "",
+                      counter: "",
+                      maxlength: "2000",
+                      clearable: "",
+                      label: "概要",
+                      rules: [_vm.rules.required, _vm.rules.maxAbout]
+                    },
+                    model: {
+                      value: _vm.about,
+                      callback: function($$v) {
+                        _vm.about = $$v
+                      },
+                      expression: "about"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mt-5",
+                      attrs: {
+                        type: "submit",
+                        width: "160",
+                        outlined: "",
+                        color: "pink lighten-1"
+                      }
+                    },
+                    [_vm._v("送信")]
+                  )
+                ],
+                1
               )
             ],
             1
@@ -13839,7 +13939,8 @@ var render = function() {
                     attrs: {
                       item_title: _vm.post.post_title,
                       item_about: _vm.post.about,
-                      id: _vm.id
+                      id: _vm.id,
+                      errors: _vm.errors
                     },
                     on: { updatePost: _vm.updatePost }
                   })
