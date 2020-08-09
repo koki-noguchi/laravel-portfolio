@@ -50,6 +50,7 @@
             :id="this.id"
             :messages="this.post.messages"
             :limit_judge="this.post.limit_judge"
+            :errors="errors"
             @on-click-btn="onClickBtn($event)"
             @delete-message="deleteMessage"
             @create-message="createMessage">
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import { OK } from '../util'
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 import MessageModal from '../components/MessageModal.vue'
 import PostPhoto from '../components/PostPhoto.vue'
 import MessageList from '../components/MessageList.vue'
@@ -79,6 +80,7 @@ export default {
         return {
             post: null,
             dialog: false,
+            errors: null,
         }
     },
     methods: {
@@ -129,6 +131,16 @@ export default {
             {
                 message_text: text
             })
+
+            if (response.status === UNPROCESSABLE_ENTITY) {
+                this.errors = response.data.errors
+                return false
+            }
+
+            if (response.status !== CREATED) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
 
             this.fetchPost()
         },

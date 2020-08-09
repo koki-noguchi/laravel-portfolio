@@ -2752,6 +2752,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2769,6 +2770,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     limit_judge: {
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -2841,15 +2845,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    errors: {
+      type: Object
+    }
+  },
   data: function data() {
     return {
       text: this.text,
-      dialog: false
+      dialog: false,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxText: function maxText(v) {
+          return v && v.length <= 300 || '300文字以内で入力してください。';
+        }
+      },
+      valid: true
     };
   },
   methods: {
     create: function create() {
+      if (!this.$refs.form.validate()) {
+        return false;
+      }
+
       this.$emit('create', {
         text: this.text
       });
@@ -3181,6 +3215,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -5254,6 +5289,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -5273,7 +5309,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       post: null,
-      dialog: false
+      dialog: false,
+      errors: null
     };
   },
   methods: {
@@ -5412,9 +5449,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context4.sent;
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                _this4.errors = response.data.errors;
+                return _context4.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context4.next = 10;
+                  break;
+                }
+
+                _this4.$store.commit('error/setCode', response.status);
+
+                return _context4.abrupt("return", false);
+
+              case 10:
                 _this4.fetchPost();
 
-              case 5:
+              case 11:
               case "end":
                 return _context4.stop();
             }
@@ -11517,7 +11573,11 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("Message-modal", { ref: "dialog", on: { create: _vm.createMessage } })
+      _c("Message-modal", {
+        ref: "dialog",
+        attrs: { errors: _vm.errors },
+        on: { create: _vm.createMessage }
+      })
     ],
     1
   )
@@ -11571,49 +11631,82 @@ var render = function() {
                 2
               ),
               _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "ma-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "300",
-                  placeholder: "content",
-                  clearable: ""
-                },
-                model: {
-                  value: _vm.text,
-                  callback: function($$v) {
-                    _vm.text = $$v
-                  },
-                  expression: "text"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
-                { staticClass: "justify-center" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5",
-                      attrs: {
-                        width: "160",
-                        outlined: "",
-                        color: "pink lighten-1"
-                      },
-                      on: {
-                        click: [
-                          function($event) {
-                            $event.preventDefault()
-                            return _vm.create($event)
-                          },
-                          _vm.close
-                        ]
-                      }
+                "v-form",
+                {
+                  ref: "form",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.create($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
                     },
-                    [_vm._v("送る")]
+                    expression: "valid"
+                  }
+                },
+                [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.message_text
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.message_text, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-textarea", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      "auto-grow": "",
+                      counter: "",
+                      maxlength: "300",
+                      placeholder: "content",
+                      clearable: "",
+                      rules: [_vm.rules.required, _vm.rules.maxText]
+                    },
+                    model: {
+                      value: _vm.text,
+                      callback: function($$v) {
+                        _vm.text = $$v
+                      },
+                      expression: "text"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            outlined: "",
+                            color: "pink lighten-1",
+                            disabled: !_vm.valid
+                          },
+                          on: { click: _vm.close }
+                        },
+                        [_vm._v("送る")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -12130,7 +12223,8 @@ var render = function() {
                         type: "submit",
                         width: "160",
                         outlined: "",
-                        color: "pink lighten-1"
+                        color: "pink lighten-1",
+                        disabled: !_vm.valid
                       }
                     },
                     [_vm._v("送信")]
@@ -13853,7 +13947,8 @@ var render = function() {
             attrs: {
               id: this.id,
               messages: this.post.messages,
-              limit_judge: this.post.limit_judge
+              limit_judge: this.post.limit_judge,
+              errors: _vm.errors
             },
             on: {
               "on-click-btn": function($event) {
