@@ -3517,6 +3517,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3536,11 +3538,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       files: [],
       readers: [],
       index: '',
-      rules: [function (value) {
-        return !value.length || value.reduce(function (size, file) {
-          return size + file.size;
-        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
-      }]
+      rules: {
+        size: function size(value) {
+          return !value.length || value.reduce(function (size, file) {
+            return size + file.size;
+          }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+        },
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        }
+      },
+      valid: true,
+      errors: null
     };
   },
   methods: {
@@ -3561,16 +3570,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }
 
-                _context.next = 4;
-                return axios.post("/api/post/".concat(_this.id, "/photo"), formData);
+                if (_this.$refs.form.validate()) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 4:
+                _context.next = 6;
+                return axios.post("/api/post/".concat(_this.id, "/photo"), formData);
+
+              case 6:
                 response = _context.sent;
+
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context.next = 10;
+                  break;
+                }
+
+                _this.errors = response.data.errors;
+                return _context.abrupt("return", false);
+
+              case 10:
                 _this.post_photo = '';
 
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context.next = 14;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 14:
                 _this.$router.push("/post/".concat(_this.id));
 
-              case 7:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -12366,110 +12403,123 @@ var render = function() {
         "v-row",
         { attrs: { justify: "center" } },
         [
-          _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-            _c(
-              "form",
-              {
-                staticClass: "mt-10 text-center",
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.create($event)
-                  }
-                }
-              },
-              [
-                _c("v-file-input", {
-                  staticClass: "mt-5",
-                  attrs: {
-                    rules: _vm.rules,
-                    accept: "image/*",
-                    label: "画像の追加",
-                    "prepend-icon": "photo",
-                    multiple: "",
-                    "show-size": "",
-                    counter: ""
-                  },
-                  on: { change: _vm.onFileChange },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "selection",
-                      fn: function(ref) {
-                        var text = ref.text
-                        return [
-                          _c(
-                            "v-chip",
-                            {
-                              attrs: {
-                                small: "",
-                                label: "",
-                                color: "primary",
-                                close: ""
-                              },
-                              on: {
-                                "click:close": function($event) {
-                                  return _vm.remove(_vm.index)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(text) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ]
-                      }
+          _c(
+            "v-col",
+            { attrs: { cols: "12", sm: "8", md: "6" } },
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "mt-10 text-center",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.create($event)
                     }
-                  ]),
+                  },
                   model: {
-                    value: _vm.files,
+                    value: _vm.valid,
                     callback: function($$v) {
-                      _vm.files = $$v
+                      _vm.valid = $$v
                     },
-                    expression: "files"
+                    expression: "valid"
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "v-row",
-                  _vm._l(_vm.files, function(file, f) {
-                    return _c("v-col", { key: f, attrs: { sm: "6" } }, [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(file.name) +
-                          "\n                "
-                      ),
-                      _c("img", {
-                        ref: "file",
-                        refInFor: true,
-                        staticClass: "img-fluid",
-                        attrs: { src: "", title: "file" + f }
-                      })
-                    ])
-                  }),
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-btn",
-                  {
-                    staticClass: "ma-2 mt-10",
+                },
+                [
+                  _c("v-file-input", {
+                    staticClass: "mt-5",
                     attrs: {
-                      type: "submit",
-                      width: "160",
-                      outlined: "",
-                      color: "pink lighten-1"
+                      rules: [_vm.rules.size, _vm.rules.required],
+                      accept: "image/*",
+                      label: "画像の追加",
+                      "prepend-icon": "photo",
+                      multiple: "",
+                      "show-size": "",
+                      counter: ""
+                    },
+                    on: { change: _vm.onFileChange },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "selection",
+                        fn: function(ref) {
+                          var text = ref.text
+                          return [
+                            _c(
+                              "v-chip",
+                              {
+                                attrs: {
+                                  small: "",
+                                  label: "",
+                                  color: "primary",
+                                  close: ""
+                                },
+                                on: {
+                                  "click:close": function($event) {
+                                    return _vm.remove(_vm.index)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(text) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          ]
+                        }
+                      }
+                    ]),
+                    model: {
+                      value: _vm.files,
+                      callback: function($$v) {
+                        _vm.files = $$v
+                      },
+                      expression: "files"
                     }
-                  },
-                  [_vm._v("送信")]
-                )
-              ],
-              1
-            )
-          ])
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    _vm._l(_vm.files, function(file, f) {
+                      return _c("v-col", { key: f, attrs: { sm: "6" } }, [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(file.name) +
+                            "\n                    "
+                        ),
+                        _c("img", {
+                          ref: "file",
+                          refInFor: true,
+                          staticClass: "img-fluid",
+                          attrs: { src: "", title: "file" + f }
+                        })
+                      ])
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "ma-2 mt-10",
+                      attrs: {
+                        type: "submit",
+                        width: "160",
+                        outlined: "",
+                        color: "pink lighten-1"
+                      }
+                    },
+                    [_vm._v("送信")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
