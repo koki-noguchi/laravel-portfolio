@@ -4802,6 +4802,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -4815,7 +4825,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         required: function required(value) {
           return !!value || '必須項目です。';
         }
-      }
+      },
+      valid: true
     };
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
@@ -4835,15 +4846,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _this.$store.dispatch('auth/login', _this.loginForm);
+                if (_this.$refs.form.validate()) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 2:
+                _context.next = 4;
+                return _this.$store.dispatch('auth/login', _this.loginForm);
+
+              case 4:
                 if (_this.apiStatus) {
                   _this.$router.push('/');
                 }
 
-              case 3:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -13261,19 +13280,28 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c(
-                "form",
+                "v-form",
                 {
+                  ref: "form",
                   staticClass: "pa-8",
+                  attrs: { "lazy-validation": "" },
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
                       return _vm.login($event)
                     }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
                   }
                 },
                 [
                   _vm.loginErrors
-                    ? _c("div", { staticClass: "errors" }, [
+                    ? _c("div", { staticClass: "errors red--text" }, [
                         _vm.loginErrors.login_id
                           ? _c(
                               "ul",
@@ -13350,7 +13378,8 @@ var render = function() {
                             type: "submit",
                             width: "160",
                             outlined: "",
-                            color: "pink lighten-1"
+                            color: "pink lighten-1",
+                            disabled: !_vm.valid
                           }
                         },
                         [_vm._v("送信")]
