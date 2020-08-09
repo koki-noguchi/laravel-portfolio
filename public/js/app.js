@@ -5899,6 +5899,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5993,23 +5994,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      post_title: '',
-      post_password: '',
-      about: '',
-      max_number: '',
-      post_photo: [],
+      posts: {
+        post_title: '',
+        about: '',
+        max_number: '',
+        post_photo: []
+      },
       show1: false,
       files: [],
       readers: [],
       index: '',
-      rules: [function (value) {
-        return !value.length || value.reduce(function (size, file) {
-          return size + file.size;
-        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
-      }]
+      rules: {
+        size: function size(value) {
+          return !value.length || value.reduce(function (size, file) {
+            return size + file.size;
+          }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+        },
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxTitle: function maxTitle(v) {
+          return v && v.length <= 32 || '32文字以内で入力してください。';
+        },
+        maxAbout: function maxAbout(v) {
+          return v && v.length <= 2000 || '2000文字以内で入力してください。';
+        }
+      },
+      valid: true,
+      errors: null
     };
   },
   methods: {
@@ -6023,37 +6066,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 formData = new FormData();
-                formData.append('post_title', _this.post_title);
-                formData.append('post_password', _this.post_password);
-                formData.append('about', _this.about);
-                formData.append('max_number', _this.max_number);
+                formData.append('post_title', _this.posts.post_title);
+                formData.append('about', _this.posts.about);
+                formData.append('max_number', _this.posts.max_number);
 
                 if (_this.files.length > 0) {
                   for (index = 0; index < _this.files.length; index++) {
-                    formData.append('post_photo[]', _this.post_photo[index]);
+                    formData.append('post_photo[]', _this.posts.post_photo[index]);
                   }
                 }
 
-                _context.next = 8;
+                if (_this.$refs.form.validate()) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 7:
+                _context.next = 9;
                 return axios.post('/api/posting', formData);
 
-              case 8:
+              case 9:
                 response = _context.sent;
-                _this.post_title = '';
-                _this.post_password = '';
-                _this.about = '';
-                _this.max_number = '';
-                _this.post_photo = '';
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _this.errors = response.data.errors;
+                return _context.abrupt("return", false);
+
+              case 13:
+                _this.reset();
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context.next = 17;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 17:
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    reset: function reset() {
+      this.posts.post_title = '';
+      this.posts.about = '';
+      this.posts.max_number = '';
+      this.posts.post_photo = '';
     },
     remove: function remove(index) {
       this.files.splice(index, 1);
@@ -6072,7 +6144,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         _this2.readers[f].readAsDataURL(_this2.files[f]);
 
-        _this2.post_photo[f] = _this2.files[f];
+        _this2.posts.post_photo[f] = _this2.files[f];
       });
     }
   }
@@ -13860,201 +13932,270 @@ var render = function() {
     { attrs: { justify: "center" } },
     [
       _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-        _c("div", { staticClass: "post-form text-center" }, [
-          _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "form mt-10",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.createPost($event)
-                }
-              }
-            },
-            [
-              _c("v-text-field", {
-                attrs: {
-                  counter: "",
-                  maxlength: "100",
-                  clearable: "",
-                  label: "タイトル"
-                },
-                model: {
-                  value: _vm.post_title,
-                  callback: function($$v) {
-                    _vm.post_title = $$v
-                  },
-                  expression: "post_title"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "2000",
-                  clearable: "",
-                  label: "募集の概要： ルールや説明などを入力してください。"
-                },
-                model: {
-                  value: _vm.about,
-                  callback: function($$v) {
-                    _vm.about = $$v
-                  },
-                  expression: "about"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { lg6: "", md6: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      type: "number",
-                      clearable: "",
-                      label: "最大人数",
-                      oninput: "if(this.value < 1) this.value = 1"
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "prepend",
-                        fn: function() {
-                          return [
-                            _c(
-                              "v-tooltip",
-                              {
-                                attrs: { bottom: "" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "activator",
-                                    fn: function(ref) {
-                                      var on = ref.on
-                                      return [
-                                        _c("v-icon", _vm._g({}, on), [
-                                          _vm._v("mdi-help-circle-outline")
-                                        ])
-                                      ]
-                                    }
-                                  }
-                                ])
-                              },
-                              [
-                                _vm._v(
-                                  "\n                メッセージ数が最大人数分に達すると募集が締めきられます。\n              "
-                                )
-                              ]
-                            )
-                          ]
-                        },
-                        proxy: true
-                      }
-                    ]),
-                    model: {
-                      value: _vm.max_number,
-                      callback: function($$v) {
-                        _vm.max_number = $$v
-                      },
-                      expression: "max_number"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-file-input", {
-                attrs: {
-                  rules: _vm.rules,
-                  accept: "image/*",
-                  label: "画像のアップロード",
-                  "prepend-icon": "photo",
-                  multiple: "",
-                  "show-size": "",
-                  counter: ""
-                },
-                on: { change: _vm.onFileChange },
-                scopedSlots: _vm._u([
-                  {
-                    key: "selection",
-                    fn: function(ref) {
-                      var text = ref.text
-                      return [
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              small: "",
-                              label: "",
-                              color: "primary",
-                              close: ""
-                            },
-                            on: {
-                              "click:close": function($event) {
-                                return _vm.remove(_vm.index)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(text) +
-                                "\n            "
-                            )
-                          ]
-                        )
-                      ]
-                    }
+        _c(
+          "div",
+          { staticClass: "post-form text-center" },
+          [
+            _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
+            _vm._v(" "),
+            _c(
+              "v-form",
+              {
+                ref: "form",
+                staticClass: "form mt-10",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.createPost($event)
                   }
-                ]),
+                },
                 model: {
-                  value: _vm.files,
+                  value: _vm.valid,
                   callback: function($$v) {
-                    _vm.files = $$v
+                    _vm.valid = $$v
                   },
-                  expression: "files"
+                  expression: "valid"
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                _vm._l(_vm.files, function(file, f) {
-                  return _c("v-col", { key: f, attrs: { sm: "4" } }, [
-                    _vm._v(
-                      "\n            " + _vm._s(file.name) + "\n            "
-                    ),
-                    _c("img", {
-                      ref: "file",
-                      refInFor: true,
-                      staticClass: "img-fluid",
-                      attrs: { src: "", title: "file" + f }
-                    })
-                  ])
-                }),
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ma-2 mt-10",
+              },
+              [
+                _vm.errors
+                  ? _c("div", { staticClass: "errors red--text" }, [
+                      _vm.errors.post_title
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.post_title, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.about
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.about, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.max_number
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.max_number, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.post_photo
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.post_photo, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e()
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("v-text-field", {
                   attrs: {
-                    type: "submit",
-                    width: "160",
-                    outlined: "",
-                    color: "pink lighten-1"
+                    counter: "",
+                    maxlength: "32",
+                    clearable: "",
+                    label: "タイトル",
+                    rules: [_vm.rules.required, _vm.rules.maxTitle]
+                  },
+                  model: {
+                    value: _vm.posts.post_title,
+                    callback: function($$v) {
+                      _vm.$set(_vm.posts, "post_title", $$v)
+                    },
+                    expression: "posts.post_title"
                   }
-                },
-                [_vm._v("送信")]
-              )
-            ],
-            1
-          )
-        ])
+                }),
+                _vm._v(" "),
+                _c("v-textarea", {
+                  staticClass: "mt-5",
+                  attrs: {
+                    filled: "",
+                    "auto-grow": "",
+                    counter: "",
+                    maxlength: "2000",
+                    clearable: "",
+                    label: "募集の概要： ルールや説明などを入力してください。",
+                    rules: [_vm.rules.required, _vm.rules.maxAbout]
+                  },
+                  model: {
+                    value: _vm.posts.about,
+                    callback: function($$v) {
+                      _vm.$set(_vm.posts, "about", $$v)
+                    },
+                    expression: "posts.about"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-flex",
+                  { attrs: { lg6: "", md6: "" } },
+                  [
+                    _c("v-text-field", {
+                      attrs: {
+                        type: "number",
+                        clearable: "",
+                        label: "最大人数",
+                        oninput: "if(this.value < 1) this.value = 1",
+                        rules: [_vm.rules.required]
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "prepend",
+                          fn: function() {
+                            return [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c("v-icon", _vm._g({}, on), [
+                                            _vm._v("mdi-help-circle-outline")
+                                          ])
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                メッセージ数が最大人数分に達すると募集が締めきられます。\n              "
+                                  )
+                                ]
+                              )
+                            ]
+                          },
+                          proxy: true
+                        }
+                      ]),
+                      model: {
+                        value: _vm.posts.max_number,
+                        callback: function($$v) {
+                          _vm.$set(_vm.posts, "max_number", $$v)
+                        },
+                        expression: "posts.max_number"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("v-file-input", {
+                  attrs: {
+                    rules: [_vm.rules.size],
+                    accept: "image/*",
+                    label: "画像のアップロード",
+                    "prepend-icon": "photo",
+                    multiple: "",
+                    "show-size": "",
+                    counter: ""
+                  },
+                  on: { change: _vm.onFileChange },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "selection",
+                      fn: function(ref) {
+                        var text = ref.text
+                        return [
+                          _c(
+                            "v-chip",
+                            {
+                              attrs: {
+                                small: "",
+                                label: "",
+                                color: "primary",
+                                close: ""
+                              },
+                              on: {
+                                "click:close": function($event) {
+                                  return _vm.remove(_vm.index)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(text) +
+                                  "\n            "
+                              )
+                            ]
+                          )
+                        ]
+                      }
+                    }
+                  ]),
+                  model: {
+                    value: _vm.files,
+                    callback: function($$v) {
+                      _vm.files = $$v
+                    },
+                    expression: "files"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-row",
+                  _vm._l(_vm.files, function(file, f) {
+                    return _c("v-col", { key: f, attrs: { sm: "4" } }, [
+                      _vm._v(
+                        "\n            " + _vm._s(file.name) + "\n            "
+                      ),
+                      _c("img", {
+                        ref: "file",
+                        refInFor: true,
+                        staticClass: "img-fluid",
+                        attrs: { src: "", title: "file" + f }
+                      })
+                    ])
+                  }),
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "ma-2 mt-10",
+                    attrs: {
+                      type: "submit",
+                      width: "160",
+                      outlined: "",
+                      color: "pink lighten-1",
+                      disabled: !_vm.valid
+                    }
+                  },
+                  [_vm._v("送信")]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
       ])
     ],
     1
