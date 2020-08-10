@@ -12,6 +12,7 @@ import MessageDetail from './pages/MessageDetail.vue'
 import UserProfile from './pages/UserProfile.vue'
 import FollowList from './pages/FollowList.vue'
 import FollowerList from './pages/FollowerList.vue'
+import NotFound from './pages/errors/NotFound.vue'
 
 import store from './store'
 
@@ -95,6 +96,10 @@ const routes = [
         path: '/users/:id/follower',
         component: FollowerList,
         props: true
+    },
+    {
+        path: '*',
+        component: NotFound
     },
     {
         path: '/500',
