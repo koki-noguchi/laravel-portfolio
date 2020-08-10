@@ -3741,11 +3741,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    imgSrc: String
+    imgSrc: String,
+    login_id: String
   },
   data: function data() {
     return {
@@ -3941,6 +3945,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3951,6 +3956,9 @@ __webpack_require__.r(__webpack_exports__);
     user: {
       type: Object,
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -4075,6 +4083,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4084,6 +4116,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     user: {
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -4091,7 +4126,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       login_id: '',
       name: '',
       dialog: false,
-      dialog2: false
+      dialog2: false,
+      valid: true,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        min: function min(v) {
+          return v && v.length >= 8 || '8文字以上入力してください。';
+        }
+      }
     };
   },
   methods: {
@@ -4103,12 +4147,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (_this.$refs.form.validate()) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 2:
                 _this.$emit('updateUser', {
                   login_id: _this.user.login_id,
                   name: _this.user.name
                 });
 
-              case 1:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -6373,6 +6425,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -6400,7 +6453,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       my_bookmark_post: '',
       histories: null,
-      bookmarks: null
+      bookmarks: null,
+      errors: null
     };
   },
   methods: {
@@ -6466,8 +6520,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
 
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
                   _context2.next = 7;
+                  break;
+                }
+
+                _this2.errors = response.data.errors;
+                return _context2.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context2.next = 10;
                   break;
                 }
 
@@ -6475,7 +6538,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context2.abrupt("return", false);
 
-              case 7:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -6501,8 +6564,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context3.sent;
 
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
                   _context3.next = 7;
+                  break;
+                }
+
+                _this3.errors = response.data.errors;
+                return _context3.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context3.next = 10;
                   break;
                 }
 
@@ -6510,10 +6582,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context3.abrupt("return", false);
 
-              case 7:
+              case 10:
                 _this3.user.url = response.data.url;
 
-              case 8:
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -12712,9 +12784,16 @@ var render = function() {
             "v-list-item",
             { staticClass: "justify-center mt-2" },
             [
-              _c("v-btn", { attrs: { type: "submit" } }, [
-                _vm._v("画像を変更する")
-              ])
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    type: "submit",
+                    disabled: _vm.login_id === "guest001"
+                  }
+                },
+                [_vm._v("画像を変更する")]
+              )
             ],
             1
           )
@@ -13045,7 +13124,7 @@ var render = function() {
               _vm.isMyAccount === _vm.user.user_id
                 ? _c("UserEditModal", {
                     ref: "dialog",
-                    attrs: { user: _vm.user },
+                    attrs: { user: _vm.user, errors: _vm.errors },
                     on: {
                       updateUser: _vm.updateUser,
                       setUserPhoto: _vm.setUserPhoto
@@ -13108,81 +13187,161 @@ var render = function() {
                 _vm._v("User Edit")
               ]),
               _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "ma-5",
-                attrs: { filled: "", clearable: "", label: "login_id" },
-                model: {
-                  value: _vm.user.login_id,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "login_id", $$v)
-                  },
-                  expression: "user.login_id"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "ma-5",
-                attrs: { filled: "", clearable: "", label: "name" },
-                model: {
-                  value: _vm.user.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "name", $$v)
-                  },
-                  expression: "user.name"
-                }
-              }),
-              _vm._v(" "),
-              _c("ProfileImage", {
-                attrs: { imgSrc: _vm.user.user_image },
-                on: { setUserPhoto: _vm.setUserPhoto }
-              }),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
-                { staticClass: "justify-center" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5 mt-5 white--text",
-                      attrs: { width: "160", color: "pink lighten-1" },
-                      on: {
-                        click: [
-                          function($event) {
-                            $event.preventDefault()
-                            return _vm.updateUser($event)
-                          },
-                          _vm.close
-                        ]
-                      }
+                "v-form",
+                {
+                  ref: "form",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateUser($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
                     },
-                    [_vm._v("送信")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                { staticClass: "justify-end" },
+                    expression: "valid"
+                  }
+                },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5",
-                      attrs: {
-                        width: "60",
-                        outlined: "",
-                        color: "pink lighten"
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.login_id
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.login_id, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.name
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.name, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.user_image
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.user_image, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      clearable: "",
+                      label: "login_id",
+                      rules: [_vm.rules.required, _vm.rules.min],
+                      disabled: _vm.user.login_id === "guest001"
+                    },
+                    model: {
+                      value: _vm.user.login_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.user, "login_id", $$v)
                       },
-                      on: {
-                        click: function($event) {
-                          $event.stopPropagation()
-                          _vm.dialog2 = !_vm.dialog2
-                        }
-                      }
+                      expression: "user.login_id"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      clearable: "",
+                      label: "name",
+                      rules: [_vm.rules.required],
+                      disabled: _vm.user.login_id === "guest001"
                     },
-                    [_vm._v("退会する")]
+                    model: {
+                      value: _vm.user.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.user, "name", $$v)
+                      },
+                      expression: "user.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("ProfileImage", {
+                    attrs: {
+                      imgSrc: _vm.user.user_image,
+                      login_id: _vm.user.login_id
+                    },
+                    on: { setUserPhoto: _vm.setUserPhoto }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5 mt-5 white--text",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            color: "pink lighten-1",
+                            disabled:
+                              !_vm.valid || _vm.user.login_id === "guest001"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              return _vm.close($event)
+                            }
+                          }
+                        },
+                        [_vm._v("送信")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-end" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5",
+                          attrs: {
+                            width: "60",
+                            outlined: "",
+                            color: "pink lighten",
+                            disabled: _vm.user.login_id === "guest001"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog2 = !_vm.dialog2
+                            }
+                          }
+                        },
+                        [_vm._v("退会する")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -14505,7 +14664,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("User", {
-        attrs: { user: _vm.user },
+        attrs: { user: _vm.user, errors: _vm.errors },
         on: { updateUser: _vm.updateUser, setUserPhoto: _vm.setUserPhoto }
       }),
       _vm._v(" "),
