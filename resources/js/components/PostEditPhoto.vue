@@ -14,7 +14,7 @@
                 >
                     <v-file-input
                         class="mt-5"
-                        :rules="[rules.size, rules.required]"
+                        :rules="[rules.required, rules.size]"
                         accept="image/*"
                         label="画像の追加"
                         prepend-icon="photo"
@@ -52,6 +52,7 @@
                     width="160"
                     class="ma-2 mt-10"
                     outlined color="pink lighten-1"
+                    :disabled="!valid"
                     >送信</v-btn>
                 </v-form>
             </v-col>
@@ -101,12 +102,12 @@ export default {
             photos: [],
             post_photo: [],
             files: [],
-                readers: [],
-                index: '',
-                rules: {
-                    size: value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
-                    required: value => !!value || '必須項目です。',
-                },
+            readers: [],
+            index: '',
+            rules: {
+                size: value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
+                required: value => value.length > 0 || '必須項目です。',
+            },
             valid: true,
             errors: null,
         }
@@ -143,6 +144,11 @@ export default {
             this.files.splice(index, 1)
         },
         onFileChange () {
+            if (this.files.length === 0) {
+                this.reset()
+                return false
+            }
+
             this.files.forEach((file, f) => {
                 this.readers[f] = new FileReader();
                 this.readers[f].onloadend = (e) => {
@@ -159,6 +165,10 @@ export default {
             this.$emit('photoDelete', {
                 photo_id: photo_id
             })
+        },
+        reset () {
+            this.post_photo = ''
+            this.$el.querySelector('input[type="file"]').value = null
         }
     },
 }

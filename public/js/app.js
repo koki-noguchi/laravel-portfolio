@@ -3519,6 +3519,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3545,7 +3546,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
         },
         required: function required(value) {
-          return !!value || '必須項目です。';
+          return value.length > 0 || '必須項目です。';
         }
       },
       valid: true,
@@ -3621,6 +3622,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onFileChange: function onFileChange() {
       var _this2 = this;
 
+      if (this.files.length === 0) {
+        this.reset();
+        return false;
+      }
+
       this.files.forEach(function (file, f) {
         _this2.readers[f] = new FileReader();
 
@@ -3639,6 +3645,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$emit('photoDelete', {
         photo_id: photo_id
       });
+    },
+    reset: function reset() {
+      this.post_photo = '';
+      this.$el.querySelector('input[type="file"]').value = null;
     }
   }
 });
@@ -12430,7 +12440,7 @@ var render = function() {
                   _c("v-file-input", {
                     staticClass: "mt-5",
                     attrs: {
-                      rules: [_vm.rules.size, _vm.rules.required],
+                      rules: [_vm.rules.required, _vm.rules.size],
                       accept: "image/*",
                       label: "画像の追加",
                       "prepend-icon": "photo",
@@ -12509,7 +12519,8 @@ var render = function() {
                         type: "submit",
                         width: "160",
                         outlined: "",
-                        color: "pink lighten-1"
+                        color: "pink lighten-1",
+                        disabled: !_vm.valid
                       }
                     },
                     [_vm._v("送信")]
