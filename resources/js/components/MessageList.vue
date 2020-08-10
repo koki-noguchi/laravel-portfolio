@@ -100,6 +100,7 @@
         <Message-modal
             ref="dialog"
             @create="createMessage"
+            :errors="errors"
         ></Message-modal>
     </v-row>
 </template>
@@ -123,6 +124,9 @@ export default {
         },
         limit_judge: {
             required: true
+        },
+        errors: {
+            type: Object
         }
     },
     data () {

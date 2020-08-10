@@ -6,52 +6,60 @@
                 sm="8"
                 md="6"
             >
-            <form
-                class="mt-10 text-center"
-                @submit.prevent="create"
-            >
-                <v-file-input
-                    class="mt-5"
-                    :rules="rules"
-                    accept="image/*"
-                    label="画像の追加"
-                    prepend-icon="photo"
-                    multiple
-                    v-model="files"
-                    @change="onFileChange"
-                    show-size
-                    counter
+                <v-form
+                    class="mt-10 text-center"
+                    @submit.prevent="create"
+                    v-model="valid"
+                    ref="form"
                 >
-                <template v-slot:selection="{ text }">
-                    <v-chip
-                    small
-                    label
-                    color="primary"
-                    close
-                    @click:close="remove(index)"
+                    <div v-if="errors" class="errors red--text">
+                        <ul v-if="errors.post_photo">
+                            <li v-for="msg in errors.post_photo" :key="msg">{{ msg }}</li>
+                        </ul>
+                    </div>
+                    <v-file-input
+                        class="mt-5"
+                        :rules="[rules.required, rules.size]"
+                        accept="image/*"
+                        label="画像の追加"
+                        prepend-icon="photo"
+                        multiple
+                        v-model="files"
+                        @change="onFileChange"
+                        show-size
+                        counter
                     >
-                    {{ text }}
-                    </v-chip>
-                </template>
-                </v-file-input>
-                <v-row>
-                <v-col sm="6" v-for="(file,f) in files" :key="f">
-                    {{file.name}}
-                    <img
-                        :ref="'file'"
-                        src=""
-                        class="img-fluid"
-                        :title="'file' + f"
-                    />
-                </v-col>
-                </v-row>
-                <v-btn
-                type="submit"
-                width="160"
-                class="ma-2 mt-10"
-                outlined color="pink lighten-1"
-                >送信</v-btn>
-            </form>
+                    <template v-slot:selection="{ text }">
+                        <v-chip
+                        small
+                        label
+                        color="primary"
+                        close
+                        @click:close="remove(index)"
+                        >
+                        {{ text }}
+                        </v-chip>
+                    </template>
+                    </v-file-input>
+                    <v-row>
+                    <v-col sm="6" v-for="(file,f) in files" :key="f">
+                        {{file.name}}
+                        <img
+                            :ref="'file'"
+                            src=""
+                            class="img-fluid"
+                            :title="'file' + f"
+                        />
+                    </v-col>
+                    </v-row>
+                    <v-btn
+                    type="submit"
+                    width="160"
+                    class="ma-2 mt-10"
+                    outlined color="pink lighten-1"
+                    :disabled="!valid"
+                    >送信</v-btn>
+                </v-form>
             </v-col>
         </v-row>
         <v-row v-if="photos_list.length > 0">
@@ -81,7 +89,7 @@
 </template>
 
 <script>
-import { OK } from '../util'
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 
 export default {
     props: {
@@ -96,14 +104,17 @@ export default {
     },
     data () {
         return {
-        photos: [],
-        post_photo: [],
-        files: [],
+            photos: [],
+            post_photo: [],
+            files: [],
             readers: [],
             index: '',
-            rules: [
-            value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
-        ]
+            rules: {
+                size: value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
+                required: value => value.length > 0 || '必須項目です。',
+            },
+            valid: true,
+            errors: null,
         }
     },
     methods: {
@@ -116,15 +127,33 @@ export default {
                 }
             }
 
+            if (!this.$refs.form.validate()) {
+                return false
+            }
+
             const response = await axios.post(`/api/post/${this.id}/photo`, formData)
+
+            if (response.status === UNPROCESSABLE_ENTITY) {
+                this.errors = response.data.errors
+                return false
+            }
             this.post_photo = ''
 
+            if (response.status !== CREATED) {
+                this.$store.commit('error/setCode', response.status)
+                return false
+            }
             this.$router.push(`/post/${this.id}`)
         },
         remove (index) {
             this.files.splice(index, 1)
         },
         onFileChange () {
+            if (this.files.length === 0) {
+                this.reset()
+                return false
+            }
+
             this.files.forEach((file, f) => {
                 this.readers[f] = new FileReader();
                 this.readers[f].onloadend = (e) => {
@@ -141,6 +170,10 @@ export default {
             this.$emit('photoDelete', {
                 photo_id: photo_id
             })
+        },
+        reset () {
+            this.post_photo = ''
+            this.$el.querySelector('input[type="file"]').value = null
         }
     },
 }

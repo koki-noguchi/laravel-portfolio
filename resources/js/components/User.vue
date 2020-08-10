@@ -35,6 +35,7 @@
                 <UserEditModal
                     ref="dialog"
                     :user="user"
+                    :errors="errors"
                     @updateUser="updateUser"
                     @setUserPhoto="setUserPhoto"
                     v-if="isMyAccount === user.user_id"
@@ -56,6 +57,9 @@ export default {
         user: {
             type:Object,
             required: true
+        },
+        errors: {
+            type: Object
         }
     },
     data () {

@@ -8,34 +8,49 @@
         <div
             class="mt-10 text-center"
         >
-            <v-text-field
-            class="mt-5"
-            v-model="post_title"
-            filled
-            counter
-            maxlength="100"
-            clearable
-            label="タイトル"
-            >
-            </v-text-field>
-            <v-textarea
-            class="mt-5"
-            v-model="about"
-            filled=""
-            auto-grow
-            counter
-            maxlength="2000"
-            clearable
-            label="概要"
-            >
-            </v-textarea>
-            <v-btn
-            type="submit"
-            class="mt-5"
-            width="160"
-            outlined color="pink lighten-1"
-            @click.prevent="update"
-            >送信</v-btn>
+            <v-form
+                @submit.prevent="update"
+                v-model="valid"
+                ref="form">
+                <div v-if="errors" class="errors red--text">
+                    <ul v-if="errors.post_title">
+                        <li v-for="msg in errors.post_title" :key="msg">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="errors.about">
+                        <li v-for="msg in errors.about" :key="msg">{{ msg }}</li>
+                    </ul>
+                </div>
+                <v-text-field
+                    class="mt-5"
+                    v-model="post_title"
+                    filled
+                    counter
+                    maxlength="32"
+                    clearable
+                    label="タイトル"
+                    :rules="[rules.required, rules.maxTitle]"
+                >
+                </v-text-field>
+                <v-textarea
+                    class="mt-5"
+                    v-model="about"
+                    filled=""
+                    auto-grow
+                    counter
+                    maxlength="2000"
+                    clearable
+                    label="概要"
+                    :rules="[rules.required, rules.maxAbout]"
+                >
+                </v-textarea>
+                <v-btn
+                    type="submit"
+                    class="mt-5"
+                    width="160"
+                    outlined color="pink lighten-1"
+                    :disabled="!valid"
+                >送信</v-btn>
+            </v-form>
         </div>
         <div class="text-right">
         <v-btn
@@ -98,6 +113,9 @@ export default {
         id: {
             type: String,
             required: true
+        },
+        errors: {
+            type: Object,
         }
     },
     data () {
@@ -105,10 +123,20 @@ export default {
             post_title: '',
             about: '',
             dialog: false,
+            valid: true,
+            rules: {
+                required: value => !!value || '必須項目です。',
+                maxTitle: v => (v && v.length <= 32) || '32文字以内で入力してください。',
+                maxAbout: v => (v && v.length <= 2000) || '2000文字以内で入力してください。',
+            },
         }
     },
     methods: {
         update () {
+            if (!this.$refs.form.validate()) {
+                return false
+            }
+
             this.$emit('updatePost', {
                 post_title: this.post_title,
                 about: this.about

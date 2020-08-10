@@ -2752,6 +2752,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2769,6 +2770,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     limit_judge: {
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -2841,15 +2845,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    errors: {
+      type: Object
+    }
+  },
   data: function data() {
     return {
       text: this.text,
-      dialog: false
+      dialog: false,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxText: function maxText(v) {
+          return v && v.length <= 300 || '300文字以内で入力してください。';
+        }
+      },
+      valid: true
     };
   },
   methods: {
     create: function create() {
+      if (!this.$refs.form.validate()) {
+        return false;
+      }
+
       this.$emit('create', {
         text: this.text
       });
@@ -3265,6 +3299,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3279,17 +3328,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     id: {
       type: String,
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
     return {
       post_title: '',
       about: '',
-      dialog: false
+      dialog: false,
+      valid: true,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxTitle: function maxTitle(v) {
+          return v && v.length <= 32 || '32文字以内で入力してください。';
+        },
+        maxAbout: function maxAbout(v) {
+          return v && v.length <= 2000 || '2000文字以内で入力してください。';
+        }
+      }
     };
   },
   methods: {
     update: function update() {
+      if (!this.$refs.form.validate()) {
+        return false;
+      }
+
       this.$emit('updatePost', {
         post_title: this.post_title,
         about: this.about
@@ -3449,6 +3517,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3468,11 +3544,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       files: [],
       readers: [],
       index: '',
-      rules: [function (value) {
-        return !value.length || value.reduce(function (size, file) {
-          return size + file.size;
-        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
-      }]
+      rules: {
+        size: function size(value) {
+          return !value.length || value.reduce(function (size, file) {
+            return size + file.size;
+          }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+        },
+        required: function required(value) {
+          return value.length > 0 || '必須項目です。';
+        }
+      },
+      valid: true,
+      errors: null
     };
   },
   methods: {
@@ -3493,16 +3576,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }
 
-                _context.next = 4;
-                return axios.post("/api/post/".concat(_this.id, "/photo"), formData);
+                if (_this.$refs.form.validate()) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 4:
+                _context.next = 6;
+                return axios.post("/api/post/".concat(_this.id, "/photo"), formData);
+
+              case 6:
                 response = _context.sent;
+
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context.next = 10;
+                  break;
+                }
+
+                _this.errors = response.data.errors;
+                return _context.abrupt("return", false);
+
+              case 10:
                 _this.post_photo = '';
 
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context.next = 14;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 14:
                 _this.$router.push("/post/".concat(_this.id));
 
-              case 7:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -3515,6 +3626,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onFileChange: function onFileChange() {
       var _this2 = this;
+
+      if (this.files.length === 0) {
+        this.reset();
+        return false;
+      }
 
       this.files.forEach(function (file, f) {
         _this2.readers[f] = new FileReader();
@@ -3534,6 +3650,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$emit('photoDelete', {
         photo_id: photo_id
       });
+    },
+    reset: function reset() {
+      this.post_photo = '';
+      this.$el.querySelector('input[type="file"]').value = null;
     }
   }
 });
@@ -3626,11 +3746,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    imgSrc: String
+    imgSrc: String,
+    login_id: String
   },
   data: function data() {
     return {
@@ -3826,6 +3950,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3836,6 +3961,9 @@ __webpack_require__.r(__webpack_exports__);
     user: {
       type: Object,
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -3960,6 +4088,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3969,6 +4121,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     user: {
       required: true
+    },
+    errors: {
+      type: Object
     }
   },
   data: function data() {
@@ -3976,7 +4131,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       login_id: '',
       name: '',
       dialog: false,
-      dialog2: false
+      dialog2: false,
+      valid: true,
+      rules: {
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        min: function min(v) {
+          return v && v.length >= 8 || '8文字以上入力してください。';
+        }
+      }
     };
   },
   methods: {
@@ -3988,12 +4152,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (_this.$refs.form.validate()) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 2:
                 _this.$emit('updateUser', {
                   login_id: _this.user.login_id,
                   name: _this.user.name
                 });
 
-              case 1:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -4802,6 +4974,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -4815,7 +4997,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         required: function required(value) {
           return !!value || '必須項目です。';
         }
-      }
+      },
+      valid: true
     };
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
@@ -4835,15 +5018,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _this.$store.dispatch('auth/login', _this.loginForm);
+                if (_this.$refs.form.validate()) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 2:
+                _context.next = 4;
+                return _this.$store.dispatch('auth/login', _this.loginForm);
+
+              case 4:
                 if (_this.apiStatus) {
                   _this.$router.push('/');
                 }
 
-              case 3:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -5202,6 +5393,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -5221,7 +5413,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       post: null,
-      dialog: false
+      dialog: false,
+      errors: null
     };
   },
   methods: {
@@ -5360,9 +5553,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context4.sent;
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                _this4.errors = response.data.errors;
+                return _context4.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context4.next = 10;
+                  break;
+                }
+
+                _this4.$store.commit('error/setCode', response.status);
+
+                return _context4.abrupt("return", false);
+
+              case 10:
                 _this4.fetchPost();
 
-              case 5:
+              case 11:
               case "end":
                 return _context4.stop();
             }
@@ -5500,6 +5712,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -5516,7 +5729,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      post: null
+      post: null,
+      errors: null
     };
   },
   methods: {
@@ -5578,9 +5792,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.errors = response.data.errors;
+                return _context2.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                return _context2.abrupt("return", false);
+
+              case 10:
                 _this2.fetchPost();
 
-              case 5:
+              case 11:
               case "end":
                 return _context2.stop();
             }
@@ -5880,6 +6113,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5974,23 +6208,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      post_title: '',
-      post_password: '',
-      about: '',
-      max_number: '',
-      post_photo: [],
+      posts: {
+        post_title: '',
+        about: '',
+        max_number: '',
+        post_photo: []
+      },
       show1: false,
       files: [],
       readers: [],
       index: '',
-      rules: [function (value) {
-        return !value.length || value.reduce(function (size, file) {
-          return size + file.size;
-        }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
-      }]
+      rules: {
+        size: function size(value) {
+          return !value.length || value.reduce(function (size, file) {
+            return size + file.size;
+          }, 0) < 10240000 || 'サイズを10MB以内に抑えてください。';
+        },
+        required: function required(value) {
+          return !!value || '必須項目です。';
+        },
+        maxTitle: function maxTitle(v) {
+          return v && v.length <= 32 || '32文字以内で入力してください。';
+        },
+        maxAbout: function maxAbout(v) {
+          return v && v.length <= 2000 || '2000文字以内で入力してください。';
+        }
+      },
+      valid: true,
+      errors: null
     };
   },
   methods: {
@@ -6004,37 +6280,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 formData = new FormData();
-                formData.append('post_title', _this.post_title);
-                formData.append('post_password', _this.post_password);
-                formData.append('about', _this.about);
-                formData.append('max_number', _this.max_number);
+                formData.append('post_title', _this.posts.post_title);
+                formData.append('about', _this.posts.about);
+                formData.append('max_number', _this.posts.max_number);
 
                 if (_this.files.length > 0) {
                   for (index = 0; index < _this.files.length; index++) {
-                    formData.append('post_photo[]', _this.post_photo[index]);
+                    formData.append('post_photo[]', _this.posts.post_photo[index]);
                   }
                 }
 
-                _context.next = 8;
+                if (_this.$refs.form.validate()) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 7:
+                _context.next = 9;
                 return axios.post('/api/posting', formData);
 
-              case 8:
+              case 9:
                 response = _context.sent;
-                _this.post_title = '';
-                _this.post_password = '';
-                _this.about = '';
-                _this.max_number = '';
-                _this.post_photo = '';
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _this.errors = response.data.errors;
+                return _context.abrupt("return", false);
+
+              case 13:
+                _this.reset();
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context.next = 17;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 17:
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    reset: function reset() {
+      this.posts.post_title = '';
+      this.posts.about = '';
+      this.posts.max_number = '';
+      this.posts.post_photo = '';
     },
     remove: function remove(index) {
       this.files.splice(index, 1);
@@ -6053,7 +6358,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         _this2.readers[f].readAsDataURL(_this2.files[f]);
 
-        _this2.post_photo[f] = _this2.files[f];
+        _this2.posts.post_photo[f] = _this2.files[f];
       });
     }
   }
@@ -6125,6 +6430,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -6152,7 +6458,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       my_bookmark_post: '',
       histories: null,
-      bookmarks: null
+      bookmarks: null,
+      errors: null
     };
   },
   methods: {
@@ -6218,8 +6525,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
 
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
                   _context2.next = 7;
+                  break;
+                }
+
+                _this2.errors = response.data.errors;
+                return _context2.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context2.next = 10;
                   break;
                 }
 
@@ -6227,7 +6543,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context2.abrupt("return", false);
 
-              case 7:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -6253,8 +6569,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context3.sent;
 
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
                   _context3.next = 7;
+                  break;
+                }
+
+                _this3.errors = response.data.errors;
+                return _context3.abrupt("return", false);
+
+              case 7:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                  _context3.next = 10;
                   break;
                 }
 
@@ -6262,10 +6587,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context3.abrupt("return", false);
 
-              case 7:
+              case 10:
                 _this3.user.url = response.data.url;
 
-              case 8:
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -6575,6 +6900,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6591,9 +6926,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !!value || '必須項目です。';
         },
         min: function min(v) {
-          return v.length >= 8 || '8文字以上入力してください。';
+          return v && v.length >= 8 || '8文字以上入力してください。';
         }
-      }
+      },
+      valid: true
     };
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
@@ -6613,15 +6949,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _this.$store.dispatch('auth/register', _this.registerForm);
+                if (_this.$refs.form.validate()) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 2:
+                _context.next = 4;
+                return _this.$store.dispatch('auth/register', _this.registerForm);
+
+              case 4:
                 if (_this.apiStatus) {
                   _this.$router.push('/');
                 }
 
-              case 3:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -11353,7 +11697,11 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("Message-modal", { ref: "dialog", on: { create: _vm.createMessage } })
+      _c("Message-modal", {
+        ref: "dialog",
+        attrs: { errors: _vm.errors },
+        on: { create: _vm.createMessage }
+      })
     ],
     1
   )
@@ -11407,49 +11755,82 @@ var render = function() {
                 2
               ),
               _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "ma-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "300",
-                  placeholder: "content",
-                  clearable: ""
-                },
-                model: {
-                  value: _vm.text,
-                  callback: function($$v) {
-                    _vm.text = $$v
-                  },
-                  expression: "text"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
-                { staticClass: "justify-center" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5",
-                      attrs: {
-                        width: "160",
-                        outlined: "",
-                        color: "pink lighten-1"
-                      },
-                      on: {
-                        click: [
-                          function($event) {
-                            $event.preventDefault()
-                            return _vm.create($event)
-                          },
-                          _vm.close
-                        ]
-                      }
+                "v-form",
+                {
+                  ref: "form",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.create($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
                     },
-                    [_vm._v("送る")]
+                    expression: "valid"
+                  }
+                },
+                [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.message_text
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.message_text, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-textarea", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      "auto-grow": "",
+                      counter: "",
+                      maxlength: "300",
+                      placeholder: "content",
+                      clearable: "",
+                      rules: [_vm.rules.required, _vm.rules.maxText]
+                    },
+                    model: {
+                      value: _vm.text,
+                      callback: function($$v) {
+                        _vm.text = $$v
+                      },
+                      expression: "text"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            outlined: "",
+                            color: "pink lighten-1",
+                            disabled: !_vm.valid
+                          },
+                          on: { click: _vm.close }
+                        },
+                        [_vm._v("送る")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -11872,61 +12253,108 @@ var render = function() {
             "div",
             { staticClass: "mt-10 text-center" },
             [
-              _c("v-text-field", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  counter: "",
-                  maxlength: "100",
-                  clearable: "",
-                  label: "タイトル"
-                },
-                model: {
-                  value: _vm.post_title,
-                  callback: function($$v) {
-                    _vm.post_title = $$v
-                  },
-                  expression: "post_title"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "2000",
-                  clearable: "",
-                  label: "概要"
-                },
-                model: {
-                  value: _vm.about,
-                  callback: function($$v) {
-                    _vm.about = $$v
-                  },
-                  expression: "about"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-btn",
+                "v-form",
                 {
-                  staticClass: "mt-5",
-                  attrs: {
-                    type: "submit",
-                    width: "160",
-                    outlined: "",
-                    color: "pink lighten-1"
-                  },
+                  ref: "form",
                   on: {
-                    click: function($event) {
+                    submit: function($event) {
                       $event.preventDefault()
                       return _vm.update($event)
                     }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
                   }
                 },
-                [_vm._v("送信")]
+                [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.post_title
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.post_title, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.about
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.about, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "mt-5",
+                    attrs: {
+                      filled: "",
+                      counter: "",
+                      maxlength: "32",
+                      clearable: "",
+                      label: "タイトル",
+                      rules: [_vm.rules.required, _vm.rules.maxTitle]
+                    },
+                    model: {
+                      value: _vm.post_title,
+                      callback: function($$v) {
+                        _vm.post_title = $$v
+                      },
+                      expression: "post_title"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-textarea", {
+                    staticClass: "mt-5",
+                    attrs: {
+                      filled: "",
+                      "auto-grow": "",
+                      counter: "",
+                      maxlength: "2000",
+                      clearable: "",
+                      label: "概要",
+                      rules: [_vm.rules.required, _vm.rules.maxAbout]
+                    },
+                    model: {
+                      value: _vm.about,
+                      callback: function($$v) {
+                        _vm.about = $$v
+                      },
+                      expression: "about"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mt-5",
+                      attrs: {
+                        type: "submit",
+                        width: "160",
+                        outlined: "",
+                        color: "pink lighten-1",
+                        disabled: !_vm.valid
+                      }
+                    },
+                    [_vm._v("送信")]
+                  )
+                ],
+                1
               )
             ],
             1
@@ -12062,110 +12490,140 @@ var render = function() {
         "v-row",
         { attrs: { justify: "center" } },
         [
-          _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-            _c(
-              "form",
-              {
-                staticClass: "mt-10 text-center",
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.create($event)
-                  }
-                }
-              },
-              [
-                _c("v-file-input", {
-                  staticClass: "mt-5",
-                  attrs: {
-                    rules: _vm.rules,
-                    accept: "image/*",
-                    label: "画像の追加",
-                    "prepend-icon": "photo",
-                    multiple: "",
-                    "show-size": "",
-                    counter: ""
-                  },
-                  on: { change: _vm.onFileChange },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "selection",
-                      fn: function(ref) {
-                        var text = ref.text
-                        return [
-                          _c(
-                            "v-chip",
-                            {
-                              attrs: {
-                                small: "",
-                                label: "",
-                                color: "primary",
-                                close: ""
-                              },
-                              on: {
-                                "click:close": function($event) {
-                                  return _vm.remove(_vm.index)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(text) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ]
-                      }
+          _c(
+            "v-col",
+            { attrs: { cols: "12", sm: "8", md: "6" } },
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "mt-10 text-center",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.create($event)
                     }
-                  ]),
+                  },
                   model: {
-                    value: _vm.files,
+                    value: _vm.valid,
                     callback: function($$v) {
-                      _vm.files = $$v
+                      _vm.valid = $$v
                     },
-                    expression: "files"
+                    expression: "valid"
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "v-row",
-                  _vm._l(_vm.files, function(file, f) {
-                    return _c("v-col", { key: f, attrs: { sm: "6" } }, [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(file.name) +
-                          "\n                "
-                      ),
-                      _c("img", {
-                        ref: "file",
-                        refInFor: true,
-                        staticClass: "img-fluid",
-                        attrs: { src: "", title: "file" + f }
-                      })
-                    ])
-                  }),
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-btn",
-                  {
-                    staticClass: "ma-2 mt-10",
+                },
+                [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.post_photo
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.post_photo, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-file-input", {
+                    staticClass: "mt-5",
                     attrs: {
-                      type: "submit",
-                      width: "160",
-                      outlined: "",
-                      color: "pink lighten-1"
+                      rules: [_vm.rules.required, _vm.rules.size],
+                      accept: "image/*",
+                      label: "画像の追加",
+                      "prepend-icon": "photo",
+                      multiple: "",
+                      "show-size": "",
+                      counter: ""
+                    },
+                    on: { change: _vm.onFileChange },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "selection",
+                        fn: function(ref) {
+                          var text = ref.text
+                          return [
+                            _c(
+                              "v-chip",
+                              {
+                                attrs: {
+                                  small: "",
+                                  label: "",
+                                  color: "primary",
+                                  close: ""
+                                },
+                                on: {
+                                  "click:close": function($event) {
+                                    return _vm.remove(_vm.index)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(text) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          ]
+                        }
+                      }
+                    ]),
+                    model: {
+                      value: _vm.files,
+                      callback: function($$v) {
+                        _vm.files = $$v
+                      },
+                      expression: "files"
                     }
-                  },
-                  [_vm._v("送信")]
-                )
-              ],
-              1
-            )
-          ])
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    _vm._l(_vm.files, function(file, f) {
+                      return _c("v-col", { key: f, attrs: { sm: "6" } }, [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(file.name) +
+                            "\n                    "
+                        ),
+                        _c("img", {
+                          ref: "file",
+                          refInFor: true,
+                          staticClass: "img-fluid",
+                          attrs: { src: "", title: "file" + f }
+                        })
+                      ])
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "ma-2 mt-10",
+                      attrs: {
+                        type: "submit",
+                        width: "160",
+                        outlined: "",
+                        color: "pink lighten-1",
+                        disabled: !_vm.valid
+                      }
+                    },
+                    [_vm._v("送信")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
@@ -12347,9 +12805,16 @@ var render = function() {
             "v-list-item",
             { staticClass: "justify-center mt-2" },
             [
-              _c("v-btn", { attrs: { type: "submit" } }, [
-                _vm._v("画像を変更する")
-              ])
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    type: "submit",
+                    disabled: _vm.login_id === "guest001"
+                  }
+                },
+                [_vm._v("画像を変更する")]
+              )
             ],
             1
           )
@@ -12680,7 +13145,7 @@ var render = function() {
               _vm.isMyAccount === _vm.user.user_id
                 ? _c("UserEditModal", {
                     ref: "dialog",
-                    attrs: { user: _vm.user },
+                    attrs: { user: _vm.user, errors: _vm.errors },
                     on: {
                       updateUser: _vm.updateUser,
                       setUserPhoto: _vm.setUserPhoto
@@ -12743,81 +13208,161 @@ var render = function() {
                 _vm._v("User Edit")
               ]),
               _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "ma-5",
-                attrs: { filled: "", clearable: "", label: "login_id" },
-                model: {
-                  value: _vm.user.login_id,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "login_id", $$v)
-                  },
-                  expression: "user.login_id"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "ma-5",
-                attrs: { filled: "", clearable: "", label: "name" },
-                model: {
-                  value: _vm.user.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "name", $$v)
-                  },
-                  expression: "user.name"
-                }
-              }),
-              _vm._v(" "),
-              _c("ProfileImage", {
-                attrs: { imgSrc: _vm.user.user_image },
-                on: { setUserPhoto: _vm.setUserPhoto }
-              }),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
-                { staticClass: "justify-center" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5 mt-5 white--text",
-                      attrs: { width: "160", color: "pink lighten-1" },
-                      on: {
-                        click: [
-                          function($event) {
-                            $event.preventDefault()
-                            return _vm.updateUser($event)
-                          },
-                          _vm.close
-                        ]
-                      }
+                "v-form",
+                {
+                  ref: "form",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateUser($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
                     },
-                    [_vm._v("送信")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                { staticClass: "justify-end" },
+                    expression: "valid"
+                  }
+                },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mb-5",
-                      attrs: {
-                        width: "60",
-                        outlined: "",
-                        color: "pink lighten"
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.login_id
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.login_id, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.name
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.name, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.errors.user_image
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.user_image, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      clearable: "",
+                      label: "login_id",
+                      rules: [_vm.rules.required, _vm.rules.min],
+                      disabled: _vm.user.login_id === "guest001"
+                    },
+                    model: {
+                      value: _vm.user.login_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.user, "login_id", $$v)
                       },
-                      on: {
-                        click: function($event) {
-                          $event.stopPropagation()
-                          _vm.dialog2 = !_vm.dialog2
-                        }
-                      }
+                      expression: "user.login_id"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticClass: "ma-5",
+                    attrs: {
+                      filled: "",
+                      clearable: "",
+                      label: "name",
+                      rules: [_vm.rules.required],
+                      disabled: _vm.user.login_id === "guest001"
                     },
-                    [_vm._v("退会する")]
+                    model: {
+                      value: _vm.user.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.user, "name", $$v)
+                      },
+                      expression: "user.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("ProfileImage", {
+                    attrs: {
+                      imgSrc: _vm.user.user_image,
+                      login_id: _vm.user.login_id
+                    },
+                    on: { setUserPhoto: _vm.setUserPhoto }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-center" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5 mt-5 white--text",
+                          attrs: {
+                            type: "submit",
+                            width: "160",
+                            color: "pink lighten-1",
+                            disabled:
+                              !_vm.valid || _vm.user.login_id === "guest001"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              return _vm.close($event)
+                            }
+                          }
+                        },
+                        [_vm._v("送信")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "justify-end" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-5",
+                          attrs: {
+                            width: "60",
+                            outlined: "",
+                            color: "pink lighten",
+                            disabled: _vm.user.login_id === "guest001"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog2 = !_vm.dialog2
+                            }
+                          }
+                        },
+                        [_vm._v("退会する")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -13242,19 +13787,28 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c(
-                "form",
+                "v-form",
                 {
+                  ref: "form",
                   staticClass: "pa-8",
+                  attrs: { "lazy-validation": "" },
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
                       return _vm.login($event)
                     }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
                   }
                 },
                 [
                   _vm.loginErrors
-                    ? _c("div", { staticClass: "errors" }, [
+                    ? _c("div", { staticClass: "errors red--text" }, [
                         _vm.loginErrors.login_id
                           ? _c(
                               "ul",
@@ -13331,7 +13885,8 @@ var render = function() {
                             type: "submit",
                             width: "160",
                             outlined: "",
-                            color: "pink lighten-1"
+                            color: "pink lighten-1",
+                            disabled: !_vm.valid
                           }
                         },
                         [_vm._v("送信")]
@@ -13633,7 +14188,8 @@ var render = function() {
             attrs: {
               id: this.id,
               messages: this.post.messages,
-              limit_judge: this.post.limit_judge
+              limit_judge: this.post.limit_judge,
+              errors: _vm.errors
             },
             on: {
               "on-click-btn": function($event) {
@@ -13719,7 +14275,8 @@ var render = function() {
                     attrs: {
                       item_title: _vm.post.post_title,
                       item_about: _vm.post.about,
-                      id: _vm.id
+                      id: _vm.id,
+                      errors: _vm.errors
                     },
                     on: { updatePost: _vm.updatePost }
                   })
@@ -13812,201 +14369,270 @@ var render = function() {
     { attrs: { justify: "center" } },
     [
       _c("v-col", { attrs: { cols: "12", sm: "8", md: "6" } }, [
-        _c("div", { staticClass: "post-form text-center" }, [
-          _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "form mt-10",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.createPost($event)
-                }
-              }
-            },
-            [
-              _c("v-text-field", {
-                attrs: {
-                  counter: "",
-                  maxlength: "100",
-                  clearable: "",
-                  label: "タイトル"
-                },
-                model: {
-                  value: _vm.post_title,
-                  callback: function($$v) {
-                    _vm.post_title = $$v
-                  },
-                  expression: "post_title"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-textarea", {
-                staticClass: "mt-5",
-                attrs: {
-                  filled: "",
-                  "auto-grow": "",
-                  counter: "",
-                  maxlength: "2000",
-                  clearable: "",
-                  label: "募集の概要： ルールや説明などを入力してください。"
-                },
-                model: {
-                  value: _vm.about,
-                  callback: function($$v) {
-                    _vm.about = $$v
-                  },
-                  expression: "about"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { lg6: "", md6: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      type: "number",
-                      clearable: "",
-                      label: "最大人数",
-                      oninput: "if(this.value < 1) this.value = 1"
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "prepend",
-                        fn: function() {
-                          return [
-                            _c(
-                              "v-tooltip",
-                              {
-                                attrs: { bottom: "" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "activator",
-                                    fn: function(ref) {
-                                      var on = ref.on
-                                      return [
-                                        _c("v-icon", _vm._g({}, on), [
-                                          _vm._v("mdi-help-circle-outline")
-                                        ])
-                                      ]
-                                    }
-                                  }
-                                ])
-                              },
-                              [
-                                _vm._v(
-                                  "\n                メッセージ数が最大人数分に達すると募集が締めきられます。\n              "
-                                )
-                              ]
-                            )
-                          ]
-                        },
-                        proxy: true
-                      }
-                    ]),
-                    model: {
-                      value: _vm.max_number,
-                      callback: function($$v) {
-                        _vm.max_number = $$v
-                      },
-                      expression: "max_number"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-file-input", {
-                attrs: {
-                  rules: _vm.rules,
-                  accept: "image/*",
-                  label: "画像のアップロード",
-                  "prepend-icon": "photo",
-                  multiple: "",
-                  "show-size": "",
-                  counter: ""
-                },
-                on: { change: _vm.onFileChange },
-                scopedSlots: _vm._u([
-                  {
-                    key: "selection",
-                    fn: function(ref) {
-                      var text = ref.text
-                      return [
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              small: "",
-                              label: "",
-                              color: "primary",
-                              close: ""
-                            },
-                            on: {
-                              "click:close": function($event) {
-                                return _vm.remove(_vm.index)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(text) +
-                                "\n            "
-                            )
-                          ]
-                        )
-                      ]
-                    }
+        _c(
+          "div",
+          { staticClass: "post-form text-center" },
+          [
+            _c("div", { staticClass: "h2" }, [_vm._v("メッセージを募集する")]),
+            _vm._v(" "),
+            _c(
+              "v-form",
+              {
+                ref: "form",
+                staticClass: "form mt-10",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.createPost($event)
                   }
-                ]),
+                },
                 model: {
-                  value: _vm.files,
+                  value: _vm.valid,
                   callback: function($$v) {
-                    _vm.files = $$v
+                    _vm.valid = $$v
                   },
-                  expression: "files"
+                  expression: "valid"
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                _vm._l(_vm.files, function(file, f) {
-                  return _c("v-col", { key: f, attrs: { sm: "4" } }, [
-                    _vm._v(
-                      "\n            " + _vm._s(file.name) + "\n            "
-                    ),
-                    _c("img", {
-                      ref: "file",
-                      refInFor: true,
-                      staticClass: "img-fluid",
-                      attrs: { src: "", title: "file" + f }
-                    })
-                  ])
-                }),
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ma-2 mt-10",
+              },
+              [
+                _vm.errors
+                  ? _c("div", { staticClass: "errors red--text" }, [
+                      _vm.errors.post_title
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.post_title, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.about
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.about, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.max_number
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.max_number, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.post_photo
+                        ? _c(
+                            "ul",
+                            _vm._l(_vm.errors.post_photo, function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }),
+                            0
+                          )
+                        : _vm._e()
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("v-text-field", {
                   attrs: {
-                    type: "submit",
-                    width: "160",
-                    outlined: "",
-                    color: "pink lighten-1"
+                    counter: "",
+                    maxlength: "32",
+                    clearable: "",
+                    label: "タイトル",
+                    rules: [_vm.rules.required, _vm.rules.maxTitle]
+                  },
+                  model: {
+                    value: _vm.posts.post_title,
+                    callback: function($$v) {
+                      _vm.$set(_vm.posts, "post_title", $$v)
+                    },
+                    expression: "posts.post_title"
                   }
-                },
-                [_vm._v("送信")]
-              )
-            ],
-            1
-          )
-        ])
+                }),
+                _vm._v(" "),
+                _c("v-textarea", {
+                  staticClass: "mt-5",
+                  attrs: {
+                    filled: "",
+                    "auto-grow": "",
+                    counter: "",
+                    maxlength: "2000",
+                    clearable: "",
+                    label: "募集の概要： ルールや説明などを入力してください。",
+                    rules: [_vm.rules.required, _vm.rules.maxAbout]
+                  },
+                  model: {
+                    value: _vm.posts.about,
+                    callback: function($$v) {
+                      _vm.$set(_vm.posts, "about", $$v)
+                    },
+                    expression: "posts.about"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-flex",
+                  { attrs: { lg6: "", md6: "" } },
+                  [
+                    _c("v-text-field", {
+                      attrs: {
+                        type: "number",
+                        clearable: "",
+                        label: "最大人数",
+                        oninput: "if(this.value < 1) this.value = 1",
+                        rules: [_vm.rules.required]
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "prepend",
+                          fn: function() {
+                            return [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c("v-icon", _vm._g({}, on), [
+                                            _vm._v("mdi-help-circle-outline")
+                                          ])
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                メッセージ数が最大人数分に達すると募集が締めきられます。\n              "
+                                  )
+                                ]
+                              )
+                            ]
+                          },
+                          proxy: true
+                        }
+                      ]),
+                      model: {
+                        value: _vm.posts.max_number,
+                        callback: function($$v) {
+                          _vm.$set(_vm.posts, "max_number", $$v)
+                        },
+                        expression: "posts.max_number"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("v-file-input", {
+                  attrs: {
+                    rules: [_vm.rules.size],
+                    accept: "image/*",
+                    label: "画像のアップロード",
+                    "prepend-icon": "photo",
+                    multiple: "",
+                    "show-size": "",
+                    counter: ""
+                  },
+                  on: { change: _vm.onFileChange },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "selection",
+                      fn: function(ref) {
+                        var text = ref.text
+                        return [
+                          _c(
+                            "v-chip",
+                            {
+                              attrs: {
+                                small: "",
+                                label: "",
+                                color: "primary",
+                                close: ""
+                              },
+                              on: {
+                                "click:close": function($event) {
+                                  return _vm.remove(_vm.index)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(text) +
+                                  "\n            "
+                              )
+                            ]
+                          )
+                        ]
+                      }
+                    }
+                  ]),
+                  model: {
+                    value: _vm.files,
+                    callback: function($$v) {
+                      _vm.files = $$v
+                    },
+                    expression: "files"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-row",
+                  _vm._l(_vm.files, function(file, f) {
+                    return _c("v-col", { key: f, attrs: { sm: "4" } }, [
+                      _vm._v(
+                        "\n            " + _vm._s(file.name) + "\n            "
+                      ),
+                      _c("img", {
+                        ref: "file",
+                        refInFor: true,
+                        staticClass: "img-fluid",
+                        attrs: { src: "", title: "file" + f }
+                      })
+                    ])
+                  }),
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "ma-2 mt-10",
+                    attrs: {
+                      type: "submit",
+                      width: "160",
+                      outlined: "",
+                      color: "pink lighten-1",
+                      disabled: !_vm.valid
+                    }
+                  },
+                  [_vm._v("送信")]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
       ])
     ],
     1
@@ -14059,7 +14685,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("User", {
-        attrs: { user: _vm.user },
+        attrs: { user: _vm.user, errors: _vm.errors },
         on: { updateUser: _vm.updateUser, setUserPhoto: _vm.setUserPhoto }
       }),
       _vm._v(" "),
@@ -14173,19 +14799,28 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c(
-                "form",
+                "v-form",
                 {
+                  ref: "form",
                   staticClass: "pa-8",
+                  attrs: { "lazy-validation": "" },
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
                       return _vm.register($event)
                     }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
                   }
                 },
                 [
                   _vm.registerErrors
-                    ? _c("div", { staticClass: "errors" }, [
+                    ? _c("div", { staticClass: "errors red--text" }, [
                         _vm.registerErrors.name
                           ? _c(
                               "ul",
@@ -14231,7 +14866,6 @@ var render = function() {
                   _c("v-text-field", {
                     attrs: {
                       rules: [_vm.rules.required],
-                      counter: "",
                       clearable: "",
                       label: "名前"
                     },
@@ -14317,7 +14951,8 @@ var render = function() {
                             type: "submit",
                             width: "160",
                             outlined: "",
-                            color: "pink lighten-1"
+                            color: "pink lighten-1",
+                            disabled: !_vm.valid
                           }
                         },
                         [_vm._v("送信")]

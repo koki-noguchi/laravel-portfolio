@@ -7,8 +7,13 @@
             md="6">
             <v-card>
                 <v-card-title class="justify-center">Login</v-card-title>
-                <form class="pa-8" @submit.prevent="login">
-                    <div v-if="loginErrors" class="errors">
+                <v-form
+                    class="pa-8"
+                    @submit.prevent="login"
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation>
+                    <div v-if="loginErrors" class="errors red--text">
                         <ul v-if="loginErrors.login_id">
                         <li v-for="msg in loginErrors.login_id" :key="msg">{{ msg }}</li>
                         </ul>
@@ -33,9 +38,14 @@
                         label="パスワード"
                     ></v-text-field>
                     <div class="text-center">
-                        <v-btn type="submit" width="160" class="ma-2 mt-10" outlined color="pink lighten-1">送信</v-btn>
+                        <v-btn
+                            type="submit"
+                            width="160"
+                            class="ma-2 mt-10"
+                            outlined color="pink lighten-1"
+                            :disabled="!valid">送信</v-btn>
                     </div>
-                </form>
+                </v-form>
             </v-card>
         </v-col>
     </v-row>
@@ -54,7 +64,8 @@ export default {
             show1: false,
             rules: {
                 required: value => !!value || '必須項目です。',
-            }
+            },
+            valid: true,
         }
     },
     computed: mapState({
@@ -63,6 +74,10 @@ export default {
     }),
     methods: {
         async login () {
+            if (!this.$refs.form.validate()) {
+                return false
+            }
+
             await this.$store.dispatch('auth/login', this.loginForm)
 
             if (this.apiStatus) {

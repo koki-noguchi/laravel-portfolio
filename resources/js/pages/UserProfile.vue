@@ -9,6 +9,7 @@
         </div>
         <User
             :user="user"
+            :errors="errors"
             @updateUser="updateUser"
             @setUserPhoto="setUserPhoto"
         ></User>
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { OK } from '../util'
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 import Post from '../components/Post.vue'
 import User from '../components/User.vue'
 
@@ -71,7 +72,8 @@ export default {
             },
             my_bookmark_post: '',
             histories: null,
-            bookmarks: null
+            bookmarks: null,
+            errors: null,
         }
     },
     methods: {
@@ -99,7 +101,12 @@ export default {
                 name: name,
             })
 
-            if (response.status !== OK) {
+            if (response.status === UNPROCESSABLE_ENTITY) {
+                this.errors = response.data.errors
+                return false
+            }
+
+            if (response.status !== CREATED) {
                 this.$store.commit('error/setCode', response.status)
                 return false
             }
@@ -109,7 +116,12 @@ export default {
                 user_image: user_image
             })
 
-            if (response.status !== OK) {
+            if (response.status === UNPROCESSABLE_ENTITY) {
+                this.errors = response.data.errors
+                return false
+            }
+
+            if (response.status !== CREATED) {
                 this.$store.commit('error/setCode', response.status)
                 return false
             }

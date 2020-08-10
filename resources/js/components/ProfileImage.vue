@@ -18,7 +18,10 @@
                 ></croppa>
             </v-list-item>
             <v-list-item class="justify-center mt-2">
-                <v-btn type="submit">画像を変更する</v-btn>
+                <v-btn
+                    type="submit"
+                    :disabled="login_id === 'guest001'"
+                >画像を変更する</v-btn>
             </v-list-item>
         </v-list>
     </v-form>
@@ -30,7 +33,8 @@ import { OK } from "../util"
 
 export default {
     props: {
-        imgSrc: String
+        imgSrc: String,
+        login_id: String,
     },
     data () {
         return {
