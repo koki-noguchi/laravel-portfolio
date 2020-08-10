@@ -3520,6 +3520,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -12509,6 +12514,22 @@ var render = function() {
                   }
                 },
                 [
+                  _vm.errors
+                    ? _c("div", { staticClass: "errors red--text" }, [
+                        _vm.errors.post_photo
+                          ? _c(
+                              "ul",
+                              _vm._l(_vm.errors.post_photo, function(msg) {
+                                return _c("li", { key: msg }, [
+                                  _vm._v(_vm._s(msg))
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("v-file-input", {
                     staticClass: "mt-5",
                     attrs: {

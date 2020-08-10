@@ -12,6 +12,11 @@
                     v-model="valid"
                     ref="form"
                 >
+                    <div v-if="errors" class="errors red--text">
+                        <ul v-if="errors.post_photo">
+                            <li v-for="msg in errors.post_photo" :key="msg">{{ msg }}</li>
+                        </ul>
+                    </div>
                     <v-file-input
                         class="mt-5"
                         :rules="[rules.required, rules.size]"
