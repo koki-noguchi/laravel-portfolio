@@ -1,5 +1,16 @@
 <template>
   <div class="post-list">
+    <v-text-field
+      @keydown.enter.prevent="search"
+      v-model="keyword"
+      prepend-inner-icon="search"
+      placeholder="id or title"
+      clearable
+      dense
+      class="mt-3 shrink"
+      style="width: 260px;"
+      >
+    </v-text-field>
     <Post
       v-for="post in posts"
       :key="post.id"
@@ -19,7 +30,8 @@ export default {
   },
   data () {
     return {
-      posts: []
+      posts: [],
+      keyword: '',
     }
   },
   methods: {
@@ -36,6 +48,18 @@ export default {
           return false
         }
       this.posts = response.data.data
+    },
+    async search () {
+      var string = location.href
+      var pattern = '/post?keyword=' + this.keyword
+      if ((string.lastIndexOf(pattern)+pattern.length===string.length)&&(pattern.length<=string.length)) {
+          return false
+      } else {
+          await axios.get('/api/post?keyword=' + this.keyword)
+          .then(response => this.posts = response.data)
+          .catch(error => {})
+          this.$router.push('/post?keyword=' + this.keyword)
+      }
     },
     onBookmarkClick ({id, bookmarked_by_user}) {
       if (bookmarked_by_user) {

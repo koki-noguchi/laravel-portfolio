@@ -6216,6 +6216,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6224,7 +6235,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      keyword: ''
     };
   },
   methods: {
@@ -6281,6 +6293,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    search: function search() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var string, pattern;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                string = location.href;
+                pattern = '/post?keyword=' + _this2.keyword;
+
+                if (!(string.lastIndexOf(pattern) + pattern.length === string.length && pattern.length <= string.length)) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                return _context2.abrupt("return", false);
+
+              case 6:
+                _context2.next = 8;
+                return axios.get('/api/post?keyword=' + _this2.keyword).then(function (response) {
+                  return _this2.posts = response.data;
+                })["catch"](function (error) {});
+
+              case 8:
+                _this2.$router.push('/post?keyword=' + _this2.keyword);
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
     onBookmarkClick: function onBookmarkClick(_ref) {
       var id = _ref.id,
           bookmarked_by_user = _ref.bookmarked_by_user;
@@ -6292,55 +6340,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     bookmark: function bookmark(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/post/".concat(id, "/bookmark"));
-
-              case 2:
-                response = _context2.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _this2.$store.commit('error/setCode', response.status);
-
-                _this2.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context2.abrupt("return", false);
-
-              case 7:
-                _this2.posts = _this2.posts.map(function (post) {
-                  if (post.id === response.data.post_id) {
-                    post.bookmarked_by_user = true;
-                  }
-
-                  return post;
-                });
-
-                _this2.$store.commit('message/setSuccessContent', {
-                  successContent: 'ブックマークしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    deleteBookmark: function deleteBookmark(id) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -6350,7 +6349,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+                return axios.put("/api/post/".concat(id, "/bookmark"));
 
               case 2:
                 response = _context3.sent;
@@ -6371,14 +6370,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 _this3.posts = _this3.posts.map(function (post) {
                   if (post.id === response.data.post_id) {
-                    post.bookmarked_by_user = false;
+                    post.bookmarked_by_user = true;
                   }
 
                   return post;
                 });
 
                 _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'ブックマークを外しました。'
+                  successContent: 'ブックマークしました。'
                 });
 
               case 9:
@@ -6388,27 +6387,76 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3);
       }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context4.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                _this4.$store.commit('error/setCode', response.status);
+
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context4.abrupt("return", false);
+
+              case 7:
+                _this4.posts = _this4.posts.map(function (post) {
+                  if (post.id === response.data.post_id) {
+                    post.bookmarked_by_user = false;
+                  }
+
+                  return post;
+                });
+
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this4 = this;
+        var _this5 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
             while (1) {
-              switch (_context4.prev = _context4.next) {
+              switch (_context5.prev = _context5.next) {
                 case 0:
-                  _context4.next = 2;
-                  return _this4.fetchPosts();
+                  _context5.next = 2;
+                  return _this5.fetchPosts();
 
                 case 2:
                 case "end":
-                  return _context4.stop();
+                  return _context5.stop();
               }
             }
-          }, _callee4);
+          }, _callee5);
         }))();
       },
       immediate: true
@@ -14800,14 +14848,46 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "post-list" },
-    _vm._l(_vm.posts, function(post) {
-      return _c("Post", {
-        key: post.id,
-        attrs: { item: post },
-        on: { bookmark: _vm.onBookmarkClick }
+    [
+      _c("v-text-field", {
+        staticClass: "mt-3 shrink",
+        staticStyle: { width: "260px" },
+        attrs: {
+          "prepend-inner-icon": "search",
+          placeholder: "id or title",
+          clearable: "",
+          dense: ""
+        },
+        on: {
+          keydown: function($event) {
+            if (
+              !$event.type.indexOf("key") &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            $event.preventDefault()
+            return _vm.search($event)
+          }
+        },
+        model: {
+          value: _vm.keyword,
+          callback: function($$v) {
+            _vm.keyword = $$v
+          },
+          expression: "keyword"
+        }
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.posts, function(post) {
+        return _c("Post", {
+          key: post.id,
+          attrs: { item: post },
+          on: { bookmark: _vm.onBookmarkClick }
+        })
       })
-    }),
-    1
+    ],
+    2
   )
 }
 var staticRenderFns = []
