@@ -117,7 +117,7 @@ export default {
             drawer: null,
             showSearchInput: false,
             userItems: [
-                { title: "Home", icon: "home", to: "/post"},
+                { title: "Index", icon: "view_list", to: "/post"},
                 { title: "Post", icon: "question_answer", to: "/posting" },
             ]
         }
@@ -142,7 +142,7 @@ export default {
                 this.$store.commit('message/setSuccessContent', {
                     successContent: 'ログインしました。',
                 })
-                this.$router.push('/').catch(()=>{})
+                this.$router.push('/post').catch(()=>{})
             }
         },
         clearError () {

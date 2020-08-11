@@ -84,7 +84,7 @@ export default {
                 this.$store.commit('message/setSuccessContent', {
                     successContent: 'ログインに成功しました。',
                 })
-                this.$router.push('/')
+                this.$router.push('/post')
             }
         },
         clearError () {

@@ -2274,8 +2274,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       drawer: null,
       showSearchInput: false,
       userItems: [{
-        title: "Home",
-        icon: "home",
+        title: "Index",
+        icon: "view_list",
         to: "/post"
       }, {
         title: "Post",
@@ -2338,7 +2338,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     successContent: 'ログインしました。'
                   });
 
-                  _this2.$router.push('/')["catch"](function () {});
+                  _this2.$router.push('/post')["catch"](function () {});
                 }
 
               case 3:
@@ -2623,8 +2623,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         to: "/login"
       }],
       userItems: [{
-        title: "Home",
-        icon: "home",
+        title: "Index",
+        icon: "view_list",
         to: "/post"
       }, {
         title: "Post",
@@ -2651,7 +2651,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     successContent: 'ログインしました。'
                   });
 
-                  _this.$router.push('/')["catch"](function () {});
+                  _this.$router.push('/post')["catch"](function () {});
                 }
 
               case 3:
@@ -3188,7 +3188,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     successContent: 'ログインしました。'
                   });
 
-                  _this2.$router.push('/')["catch"](function () {});
+                  _this2.$router.push('/post')["catch"](function () {});
                 }
 
               case 3:
@@ -5261,7 +5261,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     successContent: 'ログインに成功しました。'
                   });
 
-                  _this.$router.push('/');
+                  _this.$router.push('/post');
                 }
 
               case 5:
@@ -7354,7 +7354,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     successContent: '登録に成功しました。'
                   });
 
-                  _this.$router.push('/');
+                  _this.$router.push('/post');
                 }
 
               case 5:

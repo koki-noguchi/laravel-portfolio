@@ -108,7 +108,7 @@ export default {
         this.$store.commit('message/setSuccessContent', {
             successContent: '登録に成功しました。',
         })
-        this.$router.push('/')
+        this.$router.push('/post')
       }
     },
     clearError () {
