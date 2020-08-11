@@ -4,6 +4,11 @@
     <Navbar v-else />
     <v-main>
       <v-container fluid>
+        <v-row justify="start">
+          <Message
+            class="ml-5"
+            style="position: fixed; top: 6%; z-index: 100;" />
+        </v-row>
         <v-row
           align="center"
           justify="center"
@@ -30,6 +35,7 @@ import Navbar from './components/Navbar.vue'
 import AfterLoginNavbar from './components/AfterLoginNavbar.vue'
 import Footer from './components/Footer.vue'
 import FooterResponsive from './components/FooterResponsive.vue'
+import Message from './components/Message.vue'
 import { NOT_FOUND, UNAUTHORIZED, INTERNAL_SERVER_ERROR } from './util'
 
 export default {
@@ -37,7 +43,8 @@ export default {
     Navbar,
     AfterLoginNavbar,
     Footer,
-    FooterResponsive
+    FooterResponsive,
+    Message
   },
   computed: {
     errorCode () {
