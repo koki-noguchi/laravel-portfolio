@@ -105,6 +105,9 @@ export default {
       await this.$store.dispatch('auth/register', this.registerForm)
 
       if (this.apiStatus) {
+        this.$store.commit('message/setSuccessContent', {
+            successContent: '登録に成功しました。',
+        })
         this.$router.push('/')
       }
     },

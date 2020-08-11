@@ -64,6 +64,9 @@ export default {
             await this.$store.dispatch('auth/login', this.loginForm)
 
             if (this.apiStatus) {
+                this.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインしました。',
+                })
                 this.$router.push('/').catch(()=>{})
             }
         },
@@ -73,6 +76,9 @@ export default {
         async logout () {
             await this.$store.dispatch('auth/logout')
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'ログアウトしました。',
+            })
             this.$router.push('/login')
         }
     },

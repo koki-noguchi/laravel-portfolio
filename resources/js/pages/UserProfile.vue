@@ -103,13 +103,23 @@ export default {
 
             if (response.status === UNPROCESSABLE_ENTITY) {
                 this.errors = response.data.errors
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
-            if (response.status !== CREATED) {
+            if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'プロフィールを変更しました。',
+            })
         },
         async setUserPhoto ({ user_image }) {
             const response = await axios.put('/api/user', {
@@ -118,15 +128,24 @@ export default {
 
             if (response.status === UNPROCESSABLE_ENTITY) {
                 this.errors = response.data.errors
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
-            if (response.status !== CREATED) {
+            if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
             this.user.url = response.data.url
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'プロフィール画像を変更しました',
+            })
         },
         onBookmarkClick ({id, bookmarked_by_user}) {
             if (bookmarked_by_user) {
@@ -140,6 +159,9 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -153,12 +175,19 @@ export default {
 
                 return history
             })
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'ブックマークしました。',
+            })
         },
         async deleteBookmark (id) {
             const response = await axios.delete(`/api/post/${id}/bookmark`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -179,6 +208,10 @@ export default {
                 return history
                 })
             }
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'ブックマークを外しました。',
+            })
         },
         followBtnClick () {
             if (this.posts.followed_judge) {
@@ -192,21 +225,35 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
             this.user.follower_count += 1
             this.posts.followed_judge = true
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローしました。',
+            })
         },
         async deleteFollow () {
             const response = await axios.delete(`/api/users/${this.id}/follow`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
             this.user.follower_count -= 1
             this.posts.followed_judge = false
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローを外しました。',
+            })
         }
     },
     computed: {

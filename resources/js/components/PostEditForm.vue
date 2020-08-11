@@ -147,9 +147,15 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '削除しました。',
+            })
             this.$router.push('/post')
         },
     },

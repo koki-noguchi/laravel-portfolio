@@ -2011,7 +2011,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_AfterLoginNavbar_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AfterLoginNavbar.vue */ "./resources/js/components/AfterLoginNavbar.vue");
 /* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
 /* harmony import */ var _components_FooterResponsive_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/FooterResponsive.vue */ "./resources/js/components/FooterResponsive.vue");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util */ "./resources/js/util.js");
+/* harmony import */ var _components_Message_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Message.vue */ "./resources/js/components/Message.vue");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./util */ "./resources/js/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2045,6 +2046,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -2055,7 +2062,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Navbar: _components_Navbar_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     AfterLoginNavbar: _components_AfterLoginNavbar_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     Footer: _components_Footer_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    FooterResponsive: _components_FooterResponsive_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    FooterResponsive: _components_FooterResponsive_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Message: _components_Message_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   computed: {
     errorCode: function errorCode() {
@@ -2075,7 +2083,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  if (!(val === _util__WEBPACK_IMPORTED_MODULE_5__["INTERNAL_SERVER_ERROR"])) {
+                  if (!(val === _util__WEBPACK_IMPORTED_MODULE_6__["INTERNAL_SERVER_ERROR"])) {
                     _context.next = 4;
                     break;
                   }
@@ -2086,7 +2094,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
 
                 case 4:
-                  if (!(val === _util__WEBPACK_IMPORTED_MODULE_5__["UNAUTHORIZED"])) {
+                  if (!(val === _util__WEBPACK_IMPORTED_MODULE_6__["UNAUTHORIZED"])) {
                     _context.next = 11;
                     break;
                   }
@@ -2103,7 +2111,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
 
                 case 11:
-                  if (val === _util__WEBPACK_IMPORTED_MODULE_5__["NOT_FOUND"]) {
+                  if (val === _util__WEBPACK_IMPORTED_MODULE_6__["NOT_FOUND"]) {
                     _this.$$router.push('/not-found');
                   }
 
@@ -2326,6 +2334,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 if (_this2.apiStatus) {
+                  _this2.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインしました。'
+                  });
+
                   _this2.$router.push('/')["catch"](function () {});
                 }
 
@@ -2352,9 +2364,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this3.$store.dispatch('auth/logout');
 
               case 2:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ログアウトしました。'
+                });
+
                 _this3.$router.push('/login');
 
-              case 3:
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -2493,9 +2509,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.$store.dispatch('auth/logout');
 
               case 2:
+                _this.$store.commit('message/setSuccessContent', {
+                  successContent: 'ログアウトしました。'
+                });
+
                 _this.$router.push('/login');
 
-              case 3:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -2627,6 +2647,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 if (_this.apiStatus) {
+                  _this.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインしました。'
+                  });
+
                   _this.$router.push('/')["catch"](function () {});
                 }
 
@@ -2653,9 +2677,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this2.$store.dispatch('auth/logout');
 
               case 2:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ログアウトしました。'
+                });
+
                 _this2.$router.push('/login');
 
-              case 3:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -2680,6 +2708,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loginErrors: function loginErrors(state) {
       return state.auth.loginErrorMessages;
+    }
+  }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Message.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Message.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    successContent: function successContent(state) {
+      return state.message.successContent;
+    },
+    errorContent: function errorContent(state) {
+      return state.message.errorContent;
     }
   }))
 });
@@ -3106,6 +3184,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 if (_this2.apiStatus) {
+                  _this2.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインしました。'
+                  });
+
                   _this2.$router.push('/')["catch"](function () {});
                 }
 
@@ -3430,18 +3512,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
                 _this.$store.commit('error/setCode', response.status);
 
+                _this.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
+                _this.$store.commit('message/setSuccessContent', {
+                  successContent: '削除しました。'
+                });
+
                 _this.$router.push('/post');
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3642,29 +3732,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context.next = 10;
+                  _context.next = 11;
                   break;
                 }
 
                 _this.errors = response.data.errors;
+
+                _this.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context.abrupt("return", false);
 
-              case 10:
+              case 11:
                 _this.post_photo = '';
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context.next = 14;
+                  _context.next = 16;
                   break;
                 }
 
                 _this.$store.commit('error/setCode', response.status);
 
+                _this.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context.abrupt("return", false);
 
-              case 14:
+              case 16:
+                _this.$store.commit('message/setSuccessContent', {
+                  successContent: '画像を投稿しました。'
+                });
+
                 _this.$router.push("/post/".concat(_this.id));
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -4240,20 +4343,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this2.$store.commit('auth/setUser', null);
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: '退会しました。'
+                });
 
                 _this2.$router.push('/');
 
-              case 8:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -4434,15 +4545,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this2.follows = _this2.follows.map(function (follow) {
                   if (follow.id === response.data.followee_id) {
                     follow.followed_judge = true;
@@ -4451,7 +4566,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follow;
                 });
 
-              case 7:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -4475,15 +4594,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context3.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this3.follows = _this3.follows.map(function (follow) {
                   if (follow.id === response.data.followee_id) {
                     follow.followed_judge = false;
@@ -4492,7 +4615,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follow;
                 });
 
-              case 7:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -4526,15 +4653,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context4.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context4.next = 6;
+                  _context4.next = 7;
                   break;
                 }
 
                 _this4.$store.commit('error/setCode', response.status);
 
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context4.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this4.followers = _this4.followers.map(function (follower) {
                   if (follower.id === response.data.followee_id) {
                     follower.followed_judge = true;
@@ -4543,7 +4674,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follower;
                 });
 
-              case 7:
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -4567,15 +4702,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context5.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context5.next = 6;
+                  _context5.next = 7;
                   break;
                 }
 
                 _this5.$store.commit('error/setCode', response.status);
 
+                _this5.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context5.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this5.followers = _this5.followers.map(function (follower) {
                   if (follower.id === response.data.followee_id) {
                     follower.followed_judge = false;
@@ -4584,7 +4723,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follower;
                 });
 
-              case 7:
+                _this5.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context5.stop();
             }
@@ -4777,15 +4920,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this2.follows = _this2.follows.map(function (follow) {
                   if (follow.id === response.data.followee_id) {
                     follow.followed_judge = true;
@@ -4794,7 +4941,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follow;
                 });
 
-              case 7:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -4818,15 +4969,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context3.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this3.follows = _this3.follows.map(function (follow) {
                   if (follow.id === response.data.followee_id) {
                     follow.followed_judge = false;
@@ -4835,7 +4990,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follow;
                 });
 
-              case 7:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -4869,15 +5028,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context4.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context4.next = 6;
+                  _context4.next = 7;
                   break;
                 }
 
                 _this4.$store.commit('error/setCode', response.status);
 
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context4.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this4.followers = _this4.followers.map(function (follower) {
                   if (follower.id === response.data.followee_id) {
                     follower.followed_judge = true;
@@ -4886,7 +5049,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follower;
                 });
 
-              case 7:
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -4910,15 +5077,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context5.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context5.next = 6;
+                  _context5.next = 7;
                   break;
                 }
 
                 _this5.$store.commit('error/setCode', response.status);
 
+                _this5.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context5.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this5.followers = _this5.followers.map(function (follower) {
                   if (follower.id === response.data.followee_id) {
                     follower.followed_judge = false;
@@ -4927,7 +5098,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return follower;
                 });
 
-              case 7:
+                _this5.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context5.stop();
             }
@@ -5082,6 +5257,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 if (_this.apiStatus) {
+                  _this.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインに成功しました。'
+                  });
+
                   _this.$router.push('/');
                 }
 
@@ -5280,7 +5459,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
                 _this2.message.replies = [response.data].concat(_toConsumableArray(_this2.message.replies));
 
-              case 4:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: '返信しました。'
+                });
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -5308,18 +5491,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 6:
+              case 7:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: '削除しました。'
+                });
+
                 _this3.fetchReply();
 
-              case 7:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -5532,18 +5723,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 6:
+              case 7:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
                 _this2.post.bookmarked_by_user = true;
 
-              case 7:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -5567,18 +5766,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 6:
+              case 7:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
                 _this3.post.bookmarked_by_user = false;
 
-              case 7:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -5605,27 +5812,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context4.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context4.next = 7;
+                  _context4.next = 8;
                   break;
                 }
 
                 _this4.errors = response.data.errors;
+
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context4.abrupt("return", false);
 
-              case 7:
+              case 8:
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context4.next = 10;
+                  _context4.next = 12;
                   break;
                 }
 
                 _this4.$store.commit('error/setCode', response.status);
 
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context4.abrupt("return", false);
 
-              case 10:
+              case 12:
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: '送信しました。'
+                });
+
                 _this4.fetchPost();
 
-              case 11:
+              case 14:
               case "end":
                 return _context4.stop();
             }
@@ -5650,18 +5870,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context5.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context5.next = 7;
+                  _context5.next = 8;
                   break;
                 }
 
                 _this5.$store.commit('error/setCode', response.status);
 
+                _this5.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context5.abrupt("return", false);
 
-              case 7:
+              case 8:
+                _this5.$store.commit('message/setSuccessContent', {
+                  successContent: '削除しました。'
+                });
+
                 _this5.fetchPost();
 
-              case 8:
+              case 10:
               case "end":
                 return _context5.stop();
             }
@@ -5844,27 +6072,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
                 _this2.errors = response.data.errors;
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 7:
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context2.next = 10;
+              case 8:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 12;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 10:
+              case 12:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: '募集内容を変更しました。'
+                });
+
                 _this2.fetchPost();
 
-              case 11:
+              case 14:
               case "end":
                 return _context2.stop();
             }
@@ -5889,18 +6130,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 7;
+                  _context3.next = 8;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 7:
+              case 8:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: '画像が削除されました。'
+                });
+
                 _this3.fetchPost();
 
-              case 8:
+              case 10:
               case "end":
                 return _context3.stop();
             }
@@ -6058,15 +6307,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this2.posts = _this2.posts.map(function (post) {
                   if (post.id === response.data.post_id) {
                     post.bookmarked_by_user = true;
@@ -6075,7 +6328,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return post;
                 });
 
-              case 7:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -6099,15 +6356,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this3.posts = _this3.posts.map(function (post) {
                   if (post.id === response.data.post_id) {
                     post.bookmarked_by_user = false;
@@ -6116,7 +6377,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return post;
                 });
 
-              case 7:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -6356,29 +6621,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context.next = 13;
+                  _context.next = 14;
                   break;
                 }
 
                 _this.errors = response.data.errors;
+
+                _this.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context.abrupt("return", false);
 
-              case 13:
+              case 14:
                 _this.reset();
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context.next = 17;
+                  _context.next = 19;
                   break;
                 }
 
                 _this.$store.commit('error/setCode', response.status);
 
+                _this.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context.abrupt("return", false);
 
-              case 17:
+              case 19:
+                _this.$store.commit('message/setSuccessContent', {
+                  successContent: '募集を開始しました。'
+                });
+
                 _this.$router.push("/post/".concat(response.data.id));
 
-              case 18:
+              case 21:
               case "end":
                 return _context.stop();
             }
@@ -6577,24 +6855,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context2.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
                 _this2.errors = response.data.errors;
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 7:
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context2.next = 10;
+              case 8:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 12;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 10:
+              case 12:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'プロフィールを変更しました。'
+                });
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -6621,27 +6913,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context3.sent;
 
                 if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context3.next = 7;
+                  _context3.next = 8;
                   break;
                 }
 
                 _this3.errors = response.data.errors;
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 7:
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context3.next = 10;
+              case 8:
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 12;
                   break;
                 }
 
                 _this3.$store.commit('error/setCode', response.status);
 
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context3.abrupt("return", false);
 
-              case 10:
+              case 12:
                 _this3.user.url = response.data.url;
 
-              case 11:
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'プロフィール画像を変更しました'
+                });
+
+              case 14:
               case "end":
                 return _context3.stop();
             }
@@ -6675,15 +6980,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context4.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context4.next = 6;
+                  _context4.next = 7;
                   break;
                 }
 
                 _this4.$store.commit('error/setCode', response.status);
 
+                _this4.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context4.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this4.histories = _this4.histories.map(function (history) {
                   if (history.id === response.data.post_id) {
                     history.bookmarked_by_user = true;
@@ -6696,7 +7005,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return history;
                 });
 
-              case 7:
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -6720,15 +7033,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context5.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context5.next = 6;
+                  _context5.next = 7;
                   break;
                 }
 
                 _this5.$store.commit('error/setCode', response.status);
 
+                _this5.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context5.abrupt("return", false);
 
-              case 6:
+              case 7:
                 if (String(_this5.$store.getters['auth/id']) === _this5.id) {
                   _this5.bookmarks.filter(function (bookmark, i) {
                     if (bookmark.id === response.data.post_id) {
@@ -6749,7 +7066,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
 
-              case 7:
+                _this5.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
               case "end":
                 return _context5.stop();
             }
@@ -6780,19 +7101,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context6.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context6.next = 6;
+                  _context6.next = 7;
                   break;
                 }
 
                 _this6.$store.commit('error/setCode', response.status);
 
+                _this6.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context6.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this6.user.follower_count += 1;
                 _this6.posts.followed_judge = true;
 
-              case 8:
+                _this6.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 10:
               case "end":
                 return _context6.stop();
             }
@@ -6816,19 +7145,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context7.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context7.next = 6;
+                  _context7.next = 7;
                   break;
                 }
 
                 _this7.$store.commit('error/setCode', response.status);
 
+                _this7.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context7.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this7.user.follower_count -= 1;
                 _this7.posts.followed_judge = false;
 
-              case 8:
+                _this7.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 10:
               case "end":
                 return _context7.stop();
             }
@@ -7013,6 +7350,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 if (_this.apiStatus) {
+                  _this.$store.commit('message/setSuccessContent', {
+                    successContent: '登録に成功しました。'
+                  });
+
                   _this.$router.push('/');
                 }
 
@@ -10926,6 +11267,22 @@ var render = function() {
             [
               _c(
                 "v-row",
+                { attrs: { justify: "start" } },
+                [
+                  _c("Message", {
+                    staticClass: "ml-5",
+                    staticStyle: {
+                      position: "fixed",
+                      top: "6%",
+                      "z-index": "100"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
                 { attrs: { align: "center", justify: "center" } },
                 [
                   _c(
@@ -11497,6 +11854,66 @@ var render = function() {
         ],
         2
       )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Message.vue?vue&type=template&id=b91a6428&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Message.vue?vue&type=template&id=b91a6428& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-alert",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.successContent,
+              expression: "successContent"
+            }
+          ],
+          attrs: { type: "success", "max-height": "40", dense: "" }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.successContent) + "\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-alert",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.errorContent,
+              expression: "errorContent"
+            }
+          ],
+          attrs: { type: "error", "max-height": "40", dense: "" }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.errorContent) + "\n    ")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -75692,6 +76109,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Message.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Message.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Message.vue?vue&type=template&id=b91a6428& */ "./resources/js/components/Message.vue?vue&type=template&id=b91a6428&");
+/* harmony import */ var _Message_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Message.vue?vue&type=script&lang=js& */ "./resources/js/components/Message.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Message_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Message.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Message.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/Message.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Message_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Message.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Message.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Message_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Message.vue?vue&type=template&id=b91a6428&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/Message.vue?vue&type=template&id=b91a6428& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Message.vue?vue&type=template&id=b91a6428& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Message.vue?vue&type=template&id=b91a6428&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Message_vue_vue_type_template_id_b91a6428___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/MessageList.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/MessageList.vue ***!
@@ -77695,6 +78181,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
 /* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error */ "./resources/js/store/error.js");
+/* harmony import */ var _message__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./message */ "./resources/js/store/message.js");
+
 
 
 
@@ -77703,10 +78191,60 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"],
-    error: _error__WEBPACK_IMPORTED_MODULE_3__["default"]
+    error: _error__WEBPACK_IMPORTED_MODULE_3__["default"],
+    message: _message__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/message.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/message.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  successContent: '',
+  errorContent: ''
+};
+var mutations = {
+  setSuccessContent: function setSuccessContent(state, _ref) {
+    var successContent = _ref.successContent,
+        timeout = _ref.timeout;
+    state.successContent = successContent;
+
+    if (typeof timeout === 'undefined') {
+      timeout = 3000;
+    }
+
+    setTimeout(function () {
+      return state.successContent = '';
+    }, timeout);
+  },
+  setErrorContent: function setErrorContent(state, _ref2) {
+    var errorContent = _ref2.errorContent,
+        timeout = _ref2.timeout;
+    state.errorContent = errorContent;
+
+    if (typeof timeout === 'undefined') {
+      timeout = 3000;
+    }
+
+    setTimeout(function () {
+      return state.errorContent = '';
+    }, timeout);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations
+});
 
 /***/ }),
 
