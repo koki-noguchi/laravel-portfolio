@@ -107,6 +107,10 @@ export default {
                 response.data,
                 ...this.message.replies
             ]
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '返信しました。',
+            })
         },
         deleteReply ({ id }) {
             this.delete(id)
@@ -116,9 +120,15 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '削除しました。',
+            })
             this.fetchReply()
         },
         showDialog () {

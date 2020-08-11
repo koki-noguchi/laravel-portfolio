@@ -162,6 +162,9 @@ export default {
 
           if (response.status === UNPROCESSABLE_ENTITY) {
             this.errors = response.data.errors
+            this.$store.commit('message/setErrorContent', {
+              errorContent: 'エラーが発生しました。',
+            })
             return false
           }
 
@@ -169,8 +172,15 @@ export default {
 
           if (response.status !== CREATED) {
             this.$store.commit('error/setCode', response.status)
+            this.$store.commit('message/setErrorContent', {
+              errorContent: 'エラーが発生しました。',
+            })
             return false
           }
+
+          this.$store.commit('message/setSuccessContent', {
+            successContent: '募集を開始しました。',
+          })
           this.$router.push(`/post/${response.data.id}`)
         },
         reset() {

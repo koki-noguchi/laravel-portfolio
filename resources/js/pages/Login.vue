@@ -81,6 +81,9 @@ export default {
             await this.$store.dispatch('auth/login', this.loginForm)
 
             if (this.apiStatus) {
+                this.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインに成功しました。',
+                })
                 this.$router.push('/')
             }
         },

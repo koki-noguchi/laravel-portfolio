@@ -85,13 +85,23 @@ export default {
 
       if (response.status === UNPROCESSABLE_ENTITY) {
         this.errors = response.data.errors
+        this.$store.commit('message/setErrorContent', {
+          errorContent: 'エラーが発生しました。',
+        })
         return false
       }
 
-      if (response.status !== CREATED) {
+      if (response.status !== OK) {
         this.$store.commit('error/setCode', response.status)
+        this.$store.commit('message/setErrorContent', {
+          errorContent: 'エラーが発生しました。',
+        })
         return false
       }
+
+      this.$store.commit('message/setSuccessContent', {
+        successContent: '募集内容を変更しました。',
+      })
 
       this.fetchPost()
     },
@@ -100,8 +110,14 @@ export default {
 
       if (response.status !== OK) {
           this.$store.commit('error/setCode', response.status)
+          this.$store.commit('message/setErrorContent', {
+            errorContent: 'エラーが発生しました。',
+          })
           return false
       }
+      this.$store.commit('message/setSuccessContent', {
+        successContent: '画像が削除されました。',
+      })
 
       this.fetchPost()
     }

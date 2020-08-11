@@ -98,6 +98,9 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -107,12 +110,19 @@ export default {
                 }
                 return follow
             })
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローしました。',
+            })
         },
         async deleteFollow (id) {
             const response = await axios.delete(`/api/users/${id}/follow`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -121,6 +131,10 @@ export default {
                     follow.followed_judge = false
                 }
                 return follow
+            })
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローを外しました。',
             })
         },
         followerBtnClick ({id, followed_judge}) {
@@ -135,6 +149,9 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -144,12 +161,19 @@ export default {
                 }
                 return follower
             })
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローしました。',
+            })
         },
         async followerDeleteFollow (id) {
             const response = await axios.delete(`/api/users/${id}/follow`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
@@ -158,6 +182,10 @@ export default {
                     follower.followed_judge = false
                 }
                 return follower
+            })
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'フォローを外しました。',
             })
         },
     },

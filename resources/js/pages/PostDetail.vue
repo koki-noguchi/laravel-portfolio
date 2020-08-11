@@ -111,9 +111,15 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'ブックマークしました。',
+            })
             this.post.bookmarked_by_user = true
         },
         async deleteBookmark () {
@@ -121,9 +127,15 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: 'ブックマークを外しました。',
+            })
             this.post.bookmarked_by_user = false
         },
         async createMessage ({ text }) {
@@ -134,14 +146,23 @@ export default {
 
             if (response.status === UNPROCESSABLE_ENTITY) {
                 this.errors = response.data.errors
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
             if (response.status !== CREATED) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '送信しました。',
+            })
             this.fetchPost()
         },
         async deleteMessage ({ message_id }) {
@@ -149,9 +170,15 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
 
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '削除しました。',
+            })
             this.fetchPost()
         }
     },

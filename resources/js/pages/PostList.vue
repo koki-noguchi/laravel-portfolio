@@ -49,6 +49,9 @@ export default {
 
       if (response.status !== OK) {
           this.$store.commit('error/setCode', response.status)
+          this.$store.commit('message/setErrorContent', {
+            errorContent: 'エラーが発生しました。',
+          })
           return false
       }
 
@@ -58,12 +61,19 @@ export default {
           }
           return post
       })
+
+      this.$store.commit('message/setSuccessContent', {
+            successContent: 'ブックマークしました。',
+      })
     },
     async deleteBookmark (id) {
       const response = await axios.delete(`/api/post/${id}/bookmark`)
 
       if (response.status !== OK) {
           this.$store.commit('error/setCode', response.status)
+          this.$store.commit('message/setErrorContent', {
+            errorContent: 'エラーが発生しました。',
+          })
           return false
       }
 
@@ -72,6 +82,10 @@ export default {
               post.bookmarked_by_user = false
           }
           return post
+      })
+
+      this.$store.commit('message/setSuccessContent', {
+            successContent: 'ブックマークを外しました。',
       })
     },
   },

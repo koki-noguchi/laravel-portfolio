@@ -137,9 +137,16 @@ export default {
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
             this.$store.commit('auth/setUser', null)
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '退会しました。',
+            })
             this.$router.push('/')
         },
         setUserPhoto ({ user_image }) {

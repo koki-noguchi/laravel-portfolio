@@ -135,14 +135,24 @@ export default {
 
             if (response.status === UNPROCESSABLE_ENTITY) {
                 this.errors = response.data.errors
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
             this.post_photo = ''
 
             if (response.status !== CREATED) {
                 this.$store.commit('error/setCode', response.status)
+                this.$store.commit('message/setErrorContent', {
+                    errorContent: 'エラーが発生しました。',
+                })
                 return false
             }
+
+            this.$store.commit('message/setSuccessContent', {
+                successContent: '画像を投稿しました。',
+            })
             this.$router.push(`/post/${this.id}`)
         },
         remove (index) {
