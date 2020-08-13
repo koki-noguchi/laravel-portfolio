@@ -124,16 +124,9 @@ export default {
     },
     methods: {
         async search () {
-            var string = location.href
-            var pattern = '/post?keyword=' + this.keyword
-            if ((string.lastIndexOf(pattern)+pattern.length===string.length)&&(pattern.length<=string.length)) {
-                return false
-            } else {
-                await axios.get('/api/post?keyword=' + this.keyword)
-                .then(response => this.posts = response.data)
-                .catch(error => {})
-                this.$router.push('/post?keyword=' + this.keyword)
-            }
+            const keyword = "&keyword=" + this.keyword
+            this.$router.push("/post/?page=1" + keyword)
+                .catch(() => {})
         },
         async guestLogin () {
             await this.$store.dispatch('auth/login', this.loginForm)
