@@ -2,17 +2,7 @@
         <div>
             <v-navigation-drawer app v-model="drawer" clipped>
                 <v-list>
-                    <v-text-field
-                        @keydown.enter.prevent="search"
-                        v-model="keyword"
-                        clearable
-                        flat
-                        label="Search"
-                        prepend-inner-icon="search"
-                        solo
-                        single-line
-                        hide-details
-                    ></v-text-field>
+                    <Search @search="search($event)" />
                 </v-list>
                 <v-list class="pt-0" dense>
                     <v-divider></v-divider>
@@ -55,11 +45,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import Search from '../components/NavSearch.vue'
 
 export default {
+    components: {
+        Search
+    },
     data () {
         return {
-            keyword: '',
             posts: [],
             loginForm: {
                 login_id: 'guest001',
@@ -71,13 +64,12 @@ export default {
                 { title: "Home", icon: "home", to: "/" },
                 { title: "Register", icon: "how_to_reg", to: "/register" },
                 { title: "Login", icon: "account_box", to: "/login" },
-            ]
+            ],
         }
     },
     methods: {
-        async search () {
-            const keyword = "&keyword=" + this.keyword
-            this.$router.push("/post/?page=1" + keyword)
+        async search (params) {
+            this.$router.push("/post/?page=1" + params)
                 .catch(() => {})
         },
         async guestLogin () {
