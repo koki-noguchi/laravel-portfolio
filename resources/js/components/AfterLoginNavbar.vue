@@ -12,17 +12,7 @@
                     </v-list-item>
                 </v-list>
                 <v-list>
-                    <v-text-field
-                        @keydown.enter.prevent="search"
-                        v-model="keyword"
-                        clearable
-                        flat
-                        label="Search"
-                        prepend-inner-icon="search"
-                        solo
-                        single-line
-                        hide-details
-                    ></v-text-field>
+                    <Search @search="search($event)" />
                 </v-list>
                 <v-list class="pt-0" dense>
                     <v-divider></v-divider>
@@ -71,16 +61,7 @@
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items class="hidden-sm-and-down">
-                    <v-icon class="mt-3">search</v-icon>
-                    <v-text-field
-                    @keydown.enter.prevent="search"
-                    v-model="keyword"
-                    placeholder="id or title"
-                    clearable
-                    dense
-                    class="mt-3 shrink"
-                    >
-                    </v-text-field>
+                    <Search @search="search($event)" />
                     <v-btn
                         text to="/"
                         active-class="pink lighten-4">
@@ -104,8 +85,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import Search from '../components/NavSearch.vue'
 
 export default {
+    components: {
+        Search,
+    },
     data () {
         return {
             keyword: '',
@@ -123,9 +108,8 @@ export default {
         }
     },
     methods: {
-        async search () {
-            const keyword = "&keyword=" + this.keyword
-            this.$router.push("/post/?page=1" + keyword)
+        async search (params) {
+            this.$router.push("/post/?page=1" + params)
                 .catch(() => {})
         },
         async guestLogin () {
