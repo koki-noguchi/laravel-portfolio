@@ -8,10 +8,12 @@ import '@mdi/font/css/materialdesignicons.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import InfiniteLoading from 'vue-infinite-loading'
 import App from './App.vue'
 
 Vue.use(Vuetify);
 Vue.use(Croppa);
+Vue.use(InfiniteLoading);
 const createApp = async () => {
   await store.dispatch('auth/currentUser')
 
