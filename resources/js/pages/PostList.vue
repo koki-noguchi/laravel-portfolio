@@ -41,7 +41,6 @@ export default {
   data () {
     return {
       posts: [],
-      urlParams: '',
       page: 1,
       infiniteId: 0,
       key: '',
@@ -49,11 +48,8 @@ export default {
   },
   methods: {
     async search (params) {
-      this.urlParams = params
-      let page = "?page=1"
-      let url = "/api/post/" + page + this.urlParams
-      this.$router.push("/post/" + page + this.urlParams)
-      this.resetHandler()
+      this.$router.push("/post/?page=1" + params)
+        .catch(()=>{})
     },
     onBookmarkClick ({id, bookmarked_by_user}) {
       if (bookmarked_by_user) {
@@ -110,6 +106,7 @@ export default {
         axios.get(`/api/post/?page=${this.page}` + this.key)
         .then(response => {
           let posts = response.data.data
+
           setTimeout(() => {
             if (posts.length) {
               this.posts =this.posts.concat(posts)
@@ -119,7 +116,8 @@ export default {
             }
             ++this.page
           }, 1500)
-        }).catch((err) => {
+        })
+        .catch((err) => {
           $state.complete()
         })
     },
@@ -137,7 +135,6 @@ export default {
       }
 
       this.posts = []
-      this.urlParams = ''
       this.infiniteId++
     }
   },

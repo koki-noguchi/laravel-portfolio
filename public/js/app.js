@@ -2289,31 +2289,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var string, pattern;
+        var keyword;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                string = location.href;
-                pattern = '/post?keyword=' + _this.keyword;
+                keyword = "&keyword=" + _this.keyword;
 
-                if (!(string.lastIndexOf(pattern) + pattern.length === string.length && pattern.length <= string.length)) {
-                  _context.next = 6;
-                  break;
-                }
+                _this.$router.push("/post/?page=1" + keyword)["catch"](function () {});
 
-                return _context.abrupt("return", false);
-
-              case 6:
-                _context.next = 8;
-                return axios.get('/api/post?keyword=' + _this.keyword).then(function (response) {
-                  return _this.posts = response.data;
-                })["catch"](function (error) {});
-
-              case 8:
-                _this.$router.push('/post?keyword=' + _this.keyword);
-
-              case 9:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -3139,31 +3124,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var string, pattern;
+        var keyword;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                string = location.href;
-                pattern = '/post?keyword=' + _this.keyword;
+                keyword = "&keyword=" + _this.keyword;
 
-                if (!(string.lastIndexOf(pattern) + pattern.length === string.length && pattern.length <= string.length)) {
-                  _context.next = 6;
-                  break;
-                }
+                _this.$router.push("/post/?page=1" + keyword)["catch"](function () {});
 
-                return _context.abrupt("return", false);
-
-              case 6:
-                _context.next = 8;
-                return axios.get('/api/post?keyword=' + _this.keyword).then(function (response) {
-                  return _this.posts = response.data;
-                })["catch"](function (error) {});
-
-              case 8:
-                _this.$router.push('/post?keyword=' + _this.keyword);
-
-              case 9:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -6309,7 +6279,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       posts: [],
-      urlParams: '',
       page: 1,
       infiniteId: 0,
       key: ''
@@ -6320,20 +6289,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var page, url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.urlParams = params;
-                page = "?page=1";
-                url = "/api/post/" + page + _this.urlParams;
+                _this.$router.push("/post/?page=1" + params)["catch"](function () {});
 
-                _this.$router.push("/post/" + page + _this.urlParams);
-
-                _this.resetHandler();
-
-              case 5:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -6481,7 +6443,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       this.posts = [];
-      this.urlParams = '';
       this.infiniteId++;
     }
   },
