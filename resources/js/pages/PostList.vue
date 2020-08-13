@@ -1,65 +1,59 @@
 <template>
   <div class="post-list">
-    <v-text-field
-      @keydown.enter.prevent="search"
-      v-model="keyword"
-      prepend-inner-icon="search"
-      placeholder="id or title"
-      clearable
-      dense
-      class="mt-3 shrink"
-      style="width: 260px;"
-      >
-    </v-text-field>
+    <Search
+      @search="search($event)">
+    </Search>
     <Post
       v-for="post in posts"
       :key="post.id"
       :item="post"
       @bookmark="onBookmarkClick"
     />
+    <infinite-loading
+      @infinite="infiniteHandler"
+      :identifier="infiniteId"
+      direction="bottom"
+      spinner="spiral">
+      <div slot="no-more"></div>
+      <div slot="no-results">データがありません</div>
+    </infinite-loading>
   </div>
 </template>
 
 <script>
 import { OK } from '../util'
 import Post from '../components/Post.vue'
+import Search from '../components/Search.vue'
+import InfiniteLoading from 'vue-infinite-loading';
+import ReplyVue from '../components/Reply.vue'
 
 export default {
   components: {
-    Post
+    Post,
+    Search,
+    InfiniteLoading
+  },
+  props: {
+    type: Number,
+    required: false,
+    default: 1
   },
   data () {
     return {
       posts: [],
-      keyword: '',
+      urlParams: '',
+      page: 1,
+      infiniteId: 0,
+      key: '',
     }
   },
   methods: {
-    async fetchPosts () {
-      const url = location.href.split('/post')
-      let response = []
-      if (url[1]) {
-        response = await axios.get('/api/post' + url[1])
-      } else {
-        response = await axios.get('/api/post')
-      }
-      if (response.status !== OK) {
-          this.$store.commit('error/setCode', response.status)
-          return false
-        }
-      this.posts = response.data.data
-    },
-    async search () {
-      var string = location.href
-      var pattern = '/post?keyword=' + this.keyword
-      if ((string.lastIndexOf(pattern)+pattern.length===string.length)&&(pattern.length<=string.length)) {
-          return false
-      } else {
-          await axios.get('/api/post?keyword=' + this.keyword)
-          .then(response => this.posts = response.data)
-          .catch(error => {})
-          this.$router.push('/post?keyword=' + this.keyword)
-      }
+    async search (params) {
+      this.urlParams = params
+      let page = "?page=1"
+      let url = "/api/post/" + page + this.urlParams
+      this.$router.push("/post/" + page + this.urlParams)
+      this.resetHandler()
     },
     onBookmarkClick ({id, bookmarked_by_user}) {
       if (bookmarked_by_user) {
@@ -112,11 +106,45 @@ export default {
             successContent: 'ブックマークを外しました。',
       })
     },
+    infiniteHandler($state) {
+        axios.get(`/api/post/?page=${this.page}` + this.key)
+        .then(response => {
+          let posts = response.data.data
+          setTimeout(() => {
+            if (posts.length) {
+              this.posts =this.posts.concat(posts)
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+            ++this.page
+          }, 1500)
+        }).catch((err) => {
+          $state.complete()
+        })
+    },
+    resetHandler() {
+      const keyword = window.location.search
+      const key = '&' + keyword.split(`&`)[1]
+      const page = keyword.substring(6).split('&')[0]
+
+      this.key = key
+
+      if (page) {
+        this.page = page
+      } else {
+        this.page = 1
+      }
+
+      this.posts = []
+      this.urlParams = ''
+      this.infiniteId++
+    }
   },
   watch: {
     $route: {
       async handler () {
-        await this.fetchPosts()
+        await this.resetHandler()
       },
       immediate: true
     }

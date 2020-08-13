@@ -1,15 +1,24 @@
 <template>
     <div class="post-search">
-        <form class="form" @submit.prevent="search">
-            <div class="form__item">
-                <input
-                  class="input--keyword"
-                  type="text"
-                  v-model="keyword"
-                  placeholder="id or title">
-            </div>
-            <button class="btn button--search"><span></span></button>
-        </form>
+        <v-form
+            @submit.prevent="search"
+            ref="form"
+            v-model="valid"
+            lazy-validation>
+            <v-text-field
+                @keydown.enter.prevent="search"
+                v-model="keyword"
+                prepend-inner-icon="search"
+                placeholder="id or title"
+                clearable
+                dense
+                class="mt-3 shrink"
+                style="width: 260px;"
+                :rules="[rules.required]"
+                >
+            </v-text-field>
+            <v-btn type="submit">検索</v-btn>
+        </v-form>
     </div>
 </template>
 
@@ -17,19 +26,20 @@
 export default {
     data () {
         return {
-            keyword: ''
+            keyword: '',
+            valid: true,
+            rules: {
+                required: value => !!value || 'キーワードを入力してください。'
+            }
         }
     },
     methods: {
-        async search () {
-            if (keyword === '') {
+        search () {
+            if (!this.$refs.form.validate()) {
                 return false
             }
-            const response = await axios.get('/api/post', {
-                keyword: this.keyword,
-            })
-            this.keyword = ''
-            this.$router.push('/post')
+            let params = "&keyword=" + this.keyword
+            this.$emit('search', params)
         }
     }
 }
