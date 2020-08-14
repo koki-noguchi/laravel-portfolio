@@ -1,5 +1,5 @@
 <template>
-        <v-bottom-navigation fixed v-if="!isLogin">
+        <v-bottom-navigation height="50" fixed v-if="!isLogin">
             <v-btn
                 v-for="item in items"
                 :key="item.title"
@@ -15,7 +15,7 @@
                 <v-icon>verified_user</v-icon>
             </v-btn>
         </v-bottom-navigation>
-        <v-bottom-navigation fixed v-else>
+        <v-bottom-navigation height="50" fixed v-else>
             <v-btn
                 v-for="item in userItems"
                 :key="item.title"
