@@ -11403,9 +11403,14 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("v-footer", { attrs: { padless: "" } }, [_c("Footer")], 1),
+      _c(
+        "v-footer",
+        { staticClass: "mb-12 mb-lg-0", attrs: { padless: "" } },
+        [_c("Footer")],
+        1
+      ),
       _vm._v(" "),
-      _c("FooterResponsive", { staticClass: "hidden-md-and-up" })
+      _c("FooterResponsive", { staticClass: "hidden-lg-and-up" })
     ],
     1
   )
@@ -11827,7 +11832,7 @@ var render = function() {
   return !_vm.isLogin
     ? _c(
         "v-bottom-navigation",
-        { attrs: { fixed: "" } },
+        { attrs: { height: "50", fixed: "" } },
         [
           _vm._l(_vm.items, function(item) {
             return _c(
@@ -11869,7 +11874,7 @@ var render = function() {
       )
     : _c(
         "v-bottom-navigation",
-        { attrs: { fixed: "" } },
+        { attrs: { height: "50", fixed: "" } },
         [
           _vm._l(_vm.userItems, function(item) {
             return _c(

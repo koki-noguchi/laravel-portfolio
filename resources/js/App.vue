@@ -23,10 +23,10 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer padless>
+    <v-footer padless class="mb-12 mb-lg-0">
       <Footer />
     </v-footer>
-    <FooterResponsive class="hidden-md-and-up" />
+    <FooterResponsive class="hidden-lg-and-up" />
   </v-app>
 </template>
 
