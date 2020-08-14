@@ -105,7 +105,7 @@ class PostController extends Controller
      */
     public function delete(string $id)
     {
-        $post = Post::where('id', $id)->first();
+        $post = Post::where('id', $id)->with(['photos'])->first();
 
         if ((int) $post->user_id !== Auth::user()->id) {
             abort(401);
@@ -115,6 +115,12 @@ class PostController extends Controller
         if (! $post) {
             abort(404);
             return;
+        }
+
+        foreach ($post->photos as $photo) {
+            if (Storage::cloud()->exists($photo->post_photo)) {
+                Storage::cloud()->delete($photo->post_photo);
+            }
         }
 
         $post->delete();
