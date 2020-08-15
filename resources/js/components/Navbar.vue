@@ -29,7 +29,7 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-app-bar color="transparent" app dense clipped-left>
+            <v-app-bar color="white" app dense clipped-left>
                 <v-app-bar-nav-icon
                     @click.stop="drawer = !drawer"
                 ></v-app-bar-nav-icon>

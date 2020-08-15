@@ -2,7 +2,7 @@
   <v-app>
     <AfterLoginNavbar v-if="isLogin" />
     <Navbar v-else />
-    <v-main>
+    <v-main class="amber lighten-5">
       <v-container fluid>
         <v-row justify="start">
           <Message
