@@ -11,6 +11,7 @@
         <v-col>
           <v-card-actions class="bookmark justify-center">
             <v-btn
+              v-if="isLogin"
               class="white--text text-decoration-none"
               :color="item.bookmarked_by_user === true ? 'grey' : 'orange'"
               @click.stop="bookmark(item.id, item.bookmarked_by_user)"

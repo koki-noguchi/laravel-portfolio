@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-navigation-drawer app v-model="drawer" clipped>
+            <v-navigation-drawer app v-model="drawer" clipped color="white">
                 <v-list class="pa-1">
                     <v-list-item>
                         <v-list-item-avatar>
@@ -50,7 +50,7 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-app-bar color="transparent" app dense clipped-left>
+            <v-app-bar color="white" app dense clipped-left>
                 <v-app-bar-nav-icon
                     @click = "drawer = !drawer"
                 ></v-app-bar-nav-icon>
