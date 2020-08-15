@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('profile', 'followList');
     }
 
     /**
@@ -86,7 +86,7 @@ class UserController extends Controller
      */
     public function profile(string $id)
     {
-        if ((string) Auth::user()->id === $id) {
+        if (!Auth::guest() && (string) Auth::user()->id === $id) {
             $user = User::where('id', $id)->with([
                 'posts', 'bookmark_post.user', 'bookmark_post.photos',
                 'posts.user', 'posts.photos'

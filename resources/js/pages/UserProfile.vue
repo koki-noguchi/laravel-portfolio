@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="text-right" v-if="!isMyAccount">
+        <div class="text-right" v-if="!isMyAccount && isLogin">
             <v-btn
                 class="ma-2 white--text text-decoration-none"
                 :color="posts.followed_judge === true ? 'grey' : 'blue'"
@@ -28,7 +28,7 @@
                     @bookmark="onBookmarkClick"
                 ></Post>
             </v-tab-item>
-            <v-tab href="#bookmark" v-if="isMyAccount">
+            <v-tab href="#bookmark" v-if="isMyAccount && isLogin">
             Bookmark
             </v-tab>
             <v-tab-item id="bookmark" v-if="isMyAccount">
@@ -259,6 +259,9 @@ export default {
     computed: {
         isMyAccount () {
             return String(this.$store.getters['auth/id']) === this.id
+        },
+        isLogin () {
+            return this.$store.getters['auth/check']
         },
     },
     watch: {

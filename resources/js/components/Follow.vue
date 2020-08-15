@@ -19,7 +19,7 @@
             <v-col>
                 <v-card-actions class="justify-center">
                     <v-btn
-                        v-if="myUserId !== item.id"
+                        v-if="myUserId !== item.id && isLogin"
                         class="white--text text-decoration-none"
                         :color="item.followed_judge === true ? 'grey' : 'blue'"
                         @click="followBtnClick"
@@ -49,7 +49,10 @@ export default {
     computed: {
         myUserId () {
             return this.$store.getters['auth/id']
-        }
+        },
+        isLogin () {
+            return this.$store.getters['auth/check']
+        },
     }
 }
 </script>
