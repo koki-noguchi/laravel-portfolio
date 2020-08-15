@@ -30,6 +30,7 @@
                 </v-card-actions>
             </v-card>
             <v-btn
+                v-if="isLogin"
                 dark
                 fab
                 center

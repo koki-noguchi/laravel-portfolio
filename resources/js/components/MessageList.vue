@@ -85,7 +85,7 @@
                 </v-card>
             </v-dialog>
         <v-btn
-            v-if="limit_judge !== true"
+            v-if="limit_judge !== true && isLogin"
             fixed
             dark
             fab
@@ -134,6 +134,11 @@ export default {
             dialog: false,
             message_id: '',
         }
+    },
+    computed: {
+        isLogin () {
+            return this.$store.getters['auth/check']
+        },
     },
     methods: {
         createMessage ({ text }) {

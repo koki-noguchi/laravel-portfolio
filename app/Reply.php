@@ -31,6 +31,9 @@ class Reply extends Model
      */
     public function getMyReplyAttribute()
     {
+        if (Auth::guest()) {
+            return false;
+        }
         return (int) $this->user_id === Auth::user()->id;
     }
 
