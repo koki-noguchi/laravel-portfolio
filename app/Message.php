@@ -21,6 +21,9 @@ class Message extends Model
      */
     public function getMyMessageAttribute()
     {
+        if (Auth::guest()) {
+            return false;
+        }
         return (int) $this->user_id === Auth::user()->id;
     }
 
