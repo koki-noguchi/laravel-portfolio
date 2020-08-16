@@ -99,6 +99,22 @@ class PostController extends Controller
     }
 
     /**
+     * フォロー中のユーザーの募集リストを取得
+     * @return array
+     */
+    public function timeline()
+    {
+        $post = Post::query()
+            ->whereIn('user_id', Auth::user()->followings->pluck('id'))
+            ->with(
+                'user', 'messages', 'bookmarks',
+                'photos', 'user.followings', 'user.followers'
+            )
+                ->orderBy('created_at', 'desc')->paginate();
+        return $post;
+    }
+
+    /**
      * メッセージ募集の削除
      * @params string $id
      * @return Post
