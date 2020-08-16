@@ -7443,6 +7443,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 7:
                 if (String(_this5.$store.getters['auth/id']) === _this5.id) {
+                  _this5.histories = _this5.histories.map(function (history) {
+                    if (history.id === response.data.post_id) {
+                      history.bookmarked_by_user = false;
+                    }
+
+                    return history;
+                  });
+
                   _this5.bookmarks.filter(function (bookmark, i) {
                     if (bookmark.id === response.data.post_id) {
                       bookmark.bookmarked_by_user = false;
