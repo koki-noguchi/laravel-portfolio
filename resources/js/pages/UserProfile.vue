@@ -192,6 +192,15 @@ export default {
             }
 
             if (String(this.$store.getters['auth/id']) === this.id) {
+
+                this.histories = this.histories.map(history => {
+                if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = false
+                }
+
+                    return history
+                })
+
                 this.bookmarks.filter((bookmark, i) => {
                     if (bookmark.id === response.data.post_id) {
                         bookmark.bookmarked_by_user = false
