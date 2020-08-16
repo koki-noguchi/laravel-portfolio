@@ -2466,6 +2466,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -12104,11 +12107,21 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-col",
-    { staticClass: "text-center pink lighten-5", attrs: { cols: "12" } },
+    {
+      staticClass: "text-center pink lighten-5 d-flex flex-column",
+      attrs: { cols: "12" }
+    },
     [
-      _vm._v("\n   " + _vm._s(new Date().getFullYear()) + " — "),
-      _c("strong", [_vm._v("MessageShare")])
-    ]
+      _c("div", { staticClass: "d-flex flex-row justify-center" }, [
+        _vm._v("\n        " + _vm._s(new Date().getFullYear()) + " — "),
+        _c("strong", [_vm._v("MessageShare")])
+      ]),
+      _vm._v(" "),
+      _c("RouterLink", { attrs: { to: "/about" } }, [
+        _vm._v("MessageShareとは？")
+      ])
+    ],
+    1
   )
 }
 var staticRenderFns = []
