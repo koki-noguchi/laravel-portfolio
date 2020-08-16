@@ -1,9 +1,12 @@
 <template>
-   <v-col
-      class="text-center pink lighten-5"
-      cols="12"
+    <v-col
+        class="text-center pink lighten-5 d-flex flex-column"
+        cols="12"
     >
-      {{ new Date().getFullYear() }} — <strong>MessageShare</strong>
+        <div class="d-flex flex-row justify-center">
+            {{ new Date().getFullYear() }} — <strong>MessageShare</strong>
+        </div>
+        <RouterLink to="/about">MessageShareとは？</RouterLink>
     </v-col>
 </template>
 
