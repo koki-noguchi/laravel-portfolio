@@ -6,6 +6,8 @@ use Monolog\Handler\SyslogUdpHandler;
 
 return [
 
+    'enable_sql_log' => env('ENABLE_SQL_LOG', false),
+
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -45,6 +47,7 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
+            'days' => 14,
         ],
 
         'daily' => [
