@@ -17,6 +17,17 @@
             centered
             class="mt-5"
         >
+            <v-tab href="#timeline" v-if="isMyAccount && isLogin">
+            timeline
+            </v-tab>
+            <v-tab-item id="timeline" v-if="isMyAccount">
+                <Post
+                    v-for="timeline in timelines"
+                    :key="timeline.id"
+                    :item="timeline"
+                    @bookmark="onBookmarkClick"
+                ></Post>
+            </v-tab-item>
             <v-tab href="#history">
             History
             </v-tab>
@@ -74,6 +85,8 @@ export default {
             histories: null,
             bookmarks: null,
             errors: null,
+            timelines: null,
+            account_check: false,
         }
     },
     methods: {
@@ -94,6 +107,18 @@ export default {
             this.user.follower_count = response.data.follower_count
             this.histories = response.data.posts
             this.bookmarks = response.data.bookmark_post
+        },
+        async fetchTimeline () {
+            if (this.account_check) {
+                const response = await axios.get('/api/post/timeline')
+
+                if (response.status !== OK) {
+                    this.$store.commit('error/setCode', response.status)
+                    return false
+                }
+
+                this.timelines = response.data.data
+            }
         },
         async updateUser ({ login_id, name }) {
             const response = await axios.put('/api/user', {
@@ -176,6 +201,17 @@ export default {
                 return history
             })
 
+            this.timelines = this.timelines.map(timeline => {
+                if (timeline.id === response.data.post_id) {
+                    timeline.bookmarked_by_user = true
+                    if (String(this.$store.getters['auth/id']) === this.id) {
+                        this.bookmarks.push(timeline)
+                    }
+                }
+
+                return timeline
+            })
+
             this.$store.commit('message/setSuccessContent', {
                 successContent: 'ブックマークしました。',
             })
@@ -199,6 +235,14 @@ export default {
                 }
 
                     return history
+                })
+
+                this.timelines = this.timelines.map(timeline => {
+                if (timeline.id === response.data.post_id) {
+                    timeline.bookmarked_by_user = false
+                }
+
+                    return timeline
                 })
 
                 this.bookmarks.filter((bookmark, i) => {
@@ -267,7 +311,9 @@ export default {
     },
     computed: {
         isMyAccount () {
-            return String(this.$store.getters['auth/id']) === this.id
+            const check = String(this.$store.getters['auth/id']) === this.id
+            this.account_check = check
+            return check
         },
         isLogin () {
             return this.$store.getters['auth/check']
@@ -277,6 +323,7 @@ export default {
         $route: {
             async handler () {
                 await this.fetchProfile()
+                await this.fetchTimeline()
             },
             immediate: true
         }

@@ -24,6 +24,7 @@ Route::get('/users/{id}', 'UserController@profile')->name('user.profile');
 Route::put('/user', 'UserController@update')->name('user.update');
 Route::delete('/user', 'UserController@delete')->name('user.delete');
 Route::get('/post', 'PostController@index')->name('post.index');
+Route::get('/post/timeline', 'PostController@timeline')->name('post.timeline');
 Route::get('/post/{id}', 'PostController@show')->name('post.show');
 Route::delete('/post/{id}', 'PostController@delete')->name('post.delete');
 Route::put('/post/{id}', 'PostController@update')->name('post.update');
