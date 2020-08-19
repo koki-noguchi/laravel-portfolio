@@ -22,7 +22,7 @@ class ReplyController extends Controller
      */
     public function create(Post $post, Message $message, StoreReplies $request)
     {
-        if (! $post) {
+        if (!$post || !$message) {
             abort(401);
         } else {
             $reply = new Reply();
@@ -31,7 +31,7 @@ class ReplyController extends Controller
             $reply->message_id = $message->id;
             $message->replies()->save($reply);
 
-            $new_reply = Reply::where('id', $reply->id)->with('reply_user')->first();
+            $new_reply = Reply::where('id', $reply->id)->with(['reply_user', 'message.post'])->first();
 
             return response($new_reply, 201);
         }
@@ -58,13 +58,10 @@ class ReplyController extends Controller
 
     /**
      * メッセージ募集の削除
-     * @params string $id
-     * @return Reply
+     * @params Reply $reply
      */
-    public function delete(string $id)
+    public function delete(Reply $reply)
     {
-        $reply = Reply::where('id', $id)->first();
-
         if ((int) $reply->user_id !==  Auth::user()->id || ! $reply) {
             abort(401);
         } else {

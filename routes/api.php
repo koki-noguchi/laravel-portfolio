@@ -35,7 +35,7 @@ Route::put('/post/{id}/bookmark', 'PostController@bookmark')->name('bookmark.add
 Route::delete('/post/{id}/bookmark', 'PostController@deleteBookmark')->name('bookmark.delete');
 Route::post('/post/{post}/message/{message}', 'ReplyController@create')->name('reply.create');
 Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('reply.show');
-Route::delete('/reply/{id}', 'ReplyController@delete')->name('reply.delete');
+Route::delete('/reply/{reply}', 'ReplyController@delete')->name('reply.delete');
 Route::delete('/photo/{id}', 'PhotoController@delete')->name('photo.delete');
 Route::post('/post/{id}/photo', 'PhotoController@create')->name('photo.create');
 Route::put('/users/{id}/follow', 'UserController@follow')->name('follow.add');
