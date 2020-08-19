@@ -35,24 +35,17 @@ class MessageApiTest extends TestCase
                 'post' => $post->id,
             ]), compact('message_text'));
 
-        $messages = $post->messages()->get();
+        $messages = $post->messages()->first();
 
         $response->assertStatus(201)
                 ->assertJsonFragment([
-                    "author" => [
-                        'id' => $this->user->id,
-                        "name" => $this->user->name,
-                        "url" => '/images/default-image.jpeg',
-                        'followed_judge' => false,
-                        'follow_count' => 0,
-                        'follower_count' => 0,
-                    ],
-                    "message_text" => $message_text,
+                    "id" => $messages->id,
+                    "message_text" => $messages->message_text,
+                    "my_message" => true,
+                    "replies_count" => 0,
                 ]);
 
         $this->assertEquals(1, $messages->count());
-
-        $this->assertEquals($message_text, $messages[0]->message_text);
     }
 
     /**
@@ -71,12 +64,12 @@ class MessageApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('DELETE', route('message.delete', [
-                'id' => $message->id,
+                'message' => $message->id,
             ]));
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('messages', [
-            'id' => $message->id,
+            'message' => $message->id,
         ]);
     }
 
@@ -99,7 +92,7 @@ class MessageApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('GET', route('message.show', [
-                'id' => $post->id,
+                'post' => $post->id,
             ]));
 
         $response
