@@ -33,7 +33,7 @@ class UserProfileApiTest extends TestCase
 
         $this->actingAs($user)
             ->json('PUT', route('bookmark.add', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response = $this->actingAs($user)
@@ -89,7 +89,7 @@ class UserProfileApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->json('PUT', route('bookmark.add', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response = $this->actingAs($this->user)

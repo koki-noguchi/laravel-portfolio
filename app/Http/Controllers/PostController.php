@@ -78,24 +78,28 @@ class PostController extends Controller
         $keyword = $request->input('keyword');
         if ($request->has('keyword')) {
             $posts = Post::where('id', 'like', '%'.$keyword.'%')->orWhere('post_title', 'like', '%'.$keyword.'%')
-                ->with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
+                ->with(['user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'])->orderBy('created_at', 'desc')->paginate();
         } else {
-            $posts = Post::with(['user', 'bookmarks', 'photos'])->orderBy('created_at', 'desc')->paginate();
-            $posts->makeHidden(['messages']);
+            $posts = Post::with(['user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'])->orderBy('created_at', 'desc')->paginate();
         }
+
+        $posts->makeHidden(['messages']);
         return $posts;
     }
 
     /**
      * メッセージ募集の詳細
-     * @params string $id
+     * @param Post $post
      * @return Post
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        $post = Post::where('id', $id)->with(['user', 'messages.author', 'bookmarks', 'photos', 'messages'])->first();
+        $post->load([
+            'user', 'messages.author.followings',
+            'messages.author.followers', 'bookmarks', 'photos',
+            'messages.replies'])->first();
         $post->makeVisible(['messages']);
-        return $post ?? abort(404);
+        return $post;
     }
 
     /**
@@ -116,20 +120,15 @@ class PostController extends Controller
 
     /**
      * メッセージ募集の削除
-     * @params string $id
+     * @param Post $post
      * @return Post
      */
-    public function delete(string $id)
+    public function delete(Post $post)
     {
-        $post = Post::where('id', $id)->with(['photos'])->first();
+        $post->load('photos');
 
         if ((int) $post->user_id !== Auth::user()->id) {
             abort(401);
-            return;
-        }
-
-        if (! $post) {
-            abort(404);
             return;
         }
 
@@ -144,14 +143,12 @@ class PostController extends Controller
 
     /**
      * メッセージ募集の更新
-     * @params string $id
+     * @param Post $post
      * @param UpdatePost $request
      * @return \Illuminate\Http\Response
      */
-    public function update(string $id, UpdatePost $request)
+    public function update(Post $post, UpdatePost $request)
     {
-        $post = Post::find($id);
-
         if ((int) $post->user_id !== Auth::user()->id) {
             abort(401);
             return;
@@ -165,38 +162,30 @@ class PostController extends Controller
 
     /**
      * ブックマーク
-     * @param string $id
+     * @param Post $post
      * @return array
      */
-    public function bookmark(string $id)
+    public function bookmark(Post $post)
     {
-        $post = Post::where('id', $id)->with('bookmarks')->first();
-
-        if (! $post) {
-            abort(404);
-        }
+        $post->load('bookmarks');
 
         $post->bookmarks()->detach(Auth::user()->id);
         $post->bookmarks()->attach(Auth::user()->id);
 
-        return ["post_id" => (int) $id];
+        return ["post_id" => (int) $post->id];
     }
 
     /**
      * ブックマークを外す
-     * @param string $id
+     * @param Post $post
      * @return array
      */
-    public function deleteBookmark(string $id)
+    public function deleteBookmark(Post $post)
     {
-        $post = Post::where('id', $id)->with('bookmarks')->first();
-
-        if (! $post) {
-            abort(404);
-        }
+        $post->load('bookmarks');
 
         $post->bookmarks()->detach(Auth::user()->id);
 
-        return ["post_id" => (int) $id];
+        return ["post_id" => (int) $post->id];
     }
 }

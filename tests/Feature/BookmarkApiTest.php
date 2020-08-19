@@ -28,7 +28,7 @@ class BookmarkApiTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->json('PUT', route('bookmark.add', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response->assertStatus(200)
@@ -44,7 +44,7 @@ class BookmarkApiTest extends TestCase
      */
     public function should_1つのメッセージ募集にブックマークを2回できない()
     {
-        $param = ['id' => $this->post->id];
+        $param = ['post' => $this->post->id];
         $this->actingAs($this->user)->json('PUT', route('bookmark.add', $param));
         $this->actingAs($this->user)->json('PUT', route('bookmark.add', $param));
 
@@ -60,7 +60,7 @@ class BookmarkApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('DELETE', route('bookmark.delete', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response->assertStatus(200)
@@ -78,7 +78,7 @@ class BookmarkApiTest extends TestCase
     {
         $this->actingAs($this->user)
             ->json('PUT', route('bookmark.add', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response = $this->actingAs($this->user)
