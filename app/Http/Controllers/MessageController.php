@@ -18,7 +18,7 @@ class MessageController extends Controller
      * @param StoreMessage $request
      * @return \Illuminate\Http\Response
      */
-    public function addMessage(Post $post, StoreMessage $request)
+    public function create(Post $post, StoreMessage $request)
     {
         if ($post->messages->count() >= $post->max_number) {
             abort(401);
@@ -31,21 +31,19 @@ class MessageController extends Controller
         $message->post_id = $post->id;
         $post->messages()->save($message);
 
-        $new_message = Message::where('id', $message->id)->with('author')->first();
+        $new_message = Message::where('id', $message->id)->first();
 
         return response($new_message, 201);
 
     }
 
     /**
-     * メッセージ募集の削除
-     * @params string $id
+     * メッセージの削除
+     * @params Message $message
      * @return Message
      */
-    public function delete(string $id)
+    public function delete(Message $message)
     {
-        $message = Message::where('id', $id)->first();
-
         if ((int) $message->user_id !== Auth::user()->id || ! $message) {
             abort(401);
         } else {
@@ -55,11 +53,11 @@ class MessageController extends Controller
 
     /**
      * メッセージ一覧の取得
-     * @params string $id
+     * @params Post $post
      */
-    public function index(string $id)
+    public function index(Post $post)
     {
-        $message = Message::where('post_id', $id)->get();
+        $message = Message::where('post_id', $post->id)->get();
 
         if ($message) {
             return $message;
