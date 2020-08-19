@@ -22,6 +22,9 @@ class Reply extends Model
      */
     public function getPostUserAttribute()
     {
+        if (Auth::guest()) {
+            return false;
+        }
         return (int) $this->message->post->user_id === $this->user_id;
     }
 
