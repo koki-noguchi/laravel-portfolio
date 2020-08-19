@@ -121,7 +121,7 @@ class ReplyApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('DELETE', route('reply.delete', [
-                'id' => $reply->id,
+                'reply' => $reply->id,
             ]));
 
         $response->assertStatus(200);
