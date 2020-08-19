@@ -59,7 +59,7 @@ class PostSubmitApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('DELETE',route('post.delete', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]));
 
         $response->assertStatus(200);
@@ -85,7 +85,7 @@ class PostSubmitApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('PUT', route('post.update', [
-                'id' => $this->post->id,
+                'post' => $this->post->id,
             ]),$data);
 
         $response->assertStatus(200)

@@ -33,7 +33,7 @@ class PostDetailApiTest extends TestCase
         $post = Post::first();
 
         $response = $this->actingAs($this->user)->json('GET', route('post.show', [
-            'id' => $post->id,
+            'post' => $post->id,
         ]));
 
         $response->assertStatus(200)
@@ -87,7 +87,7 @@ class PostDetailApiTest extends TestCase
         $post = Post::first();
 
         $response = $this->actingAs($this->user)->json('GET', route('post.show', [
-            'id' => $post->id,
+            'post' => $post->id,
         ]));
 
         $response->assertStatus(200)
