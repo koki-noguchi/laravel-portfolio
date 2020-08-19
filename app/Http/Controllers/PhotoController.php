@@ -14,22 +14,16 @@ class PhotoController extends Controller
 {
     /**
      * 画像の削除
-     * @params string $id
+     * @param Photo $photo
      * @return Photo
      */
-    public function delete(string $id)
+    public function delete(Photo $photo)
     {
-        $photo = Photo::where('id', $id)->first();
         $post_user = $photo->postBy->user_id;
 
         if ((int) $post_user !== Auth::user()->id) {
             abort(401);
             return;
-        }
-
-        if (!$photo) {
-            abort(404);
-            exit;
         }
 
         if (Storage::cloud()->exists($photo->post_photo)) {
@@ -42,15 +36,13 @@ class PhotoController extends Controller
 
     /**
      * 画像追加
-     * @params string $id
+     * @param Post $post
      * @param StorePhoto $request
      * @return \Illuminate\Http\Response
      */
-    public function create(string $id, StorePhoto $request)
+    public function create(Post $post, StorePhoto $request)
     {
         $images = $request->post_photo;
-
-        $post = Post::where('id', $id)->first();
 
         if ((int) $post->user_id !== Auth::user()->id) {
             abort(401);
@@ -70,7 +62,7 @@ class PhotoController extends Controller
                 DB::beginTransaction();
 
                 try {
-                    $photo->post_id = $id;
+                    $photo->post_id = $post->id;
                     $photo->save();
                     DB::commit();
                 } catch (\Exception $exception) {

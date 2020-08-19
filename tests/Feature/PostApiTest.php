@@ -184,14 +184,14 @@ class PostSubmitApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->json('POST', route('photo.create',[
-                'id' => $post->id,
+                'post' => $post->id,
             ]), $data);
 
         $photo = Photo::first();
 
         $response = $this->actingAs($this->user)
             ->json('DELETE', route('photo.delete', [
-                'id' => $photo->id,
+                'photo' => $photo->id,
             ]));
 
         $response->assertStatus(200);
@@ -220,7 +220,7 @@ class PostSubmitApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('POST', route('photo.create',[
-                'id' => $post->id,
+                'post' => $post->id,
             ]), $data);
 
         $response->assertStatus(201);
