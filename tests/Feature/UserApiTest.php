@@ -43,24 +43,4 @@ class UserApiTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals("", $response->content());
     }
-
-    /**
-     * @test
-     */
-    public function should_ユーザーの募集履歴を取得できる()
-    {
-        $post = factory(Post::class)->create();
-
-        $response = $this->actingAs($this->user)->json('GET', route('user.profile', [
-            'id' => $post->user->id,
-        ]));
-
-        $response
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'name' => $post->user->name,
-                'id' => $post->user->id,
-                'url' => '/images/default-image.jpeg'
-            ]);
-    }
 }
