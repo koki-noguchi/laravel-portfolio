@@ -2372,6 +2372,222 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Bookmark.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Bookmark.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post.vue */ "./resources/js/components/Post.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Post: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      bookmarks: null
+    };
+  },
+  methods: {
+    fetchBookmarks: function fetchBookmarks() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/bookmark");
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.bookmarks = response.data;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked_by_user = _ref.bookmarked_by_user;
+
+      if (bookmarked_by_user) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.bookmarks = _this2.bookmarks.map(function (bookmark) {
+                  if (bookmark.id === response.data.post_id) {
+                    bookmark.bookmarked_by_user = true;
+                  }
+
+                  return bookmark;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.bookmarks.filter(function (bookmark, i) {
+                  if (bookmark.id === response.data.post_id) {
+                    bookmark.bookmarked_by_user = false;
+
+                    _this3.bookmarks.splice(i, 1);
+                  }
+
+                  return bookmark;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchBookmarks();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Follow.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Follow.vue?vue&type=script&lang=js& ***!
@@ -2684,6 +2900,226 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return state.auth.loginErrorMessages;
     }
   }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/History.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/History.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post.vue */ "./resources/js/components/Post.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Post: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      histories: null
+    };
+  },
+  methods: {
+    fetchHistory: function fetchHistory() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/".concat(_this.id, "/history"));
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.histories = response.data;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked_by_user = _ref.bookmarked_by_user;
+
+      if (bookmarked_by_user) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.histories = _this2.histories.map(function (history) {
+                  if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = true;
+                  }
+
+                  return history;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.histories = _this3.histories.map(function (history) {
+                  if (history.id === response.data.post_id) {
+                    history.bookmarked_by_user = false;
+                  }
+
+                  return history;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchHistory();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
 });
 
 /***/ }),
@@ -4209,6 +4645,220 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     isLogin: function isLogin() {
       return this.$store.getters['auth/check'];
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Timeline.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Timeline.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post.vue */ "./resources/js/components/Post.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Post: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      timelines: null
+    };
+  },
+  methods: {
+    fetchTimeline: function fetchTimeline() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/timeline");
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.timelines = response.data.data;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    onBookmarkClick: function onBookmarkClick(_ref) {
+      var id = _ref.id,
+          bookmarked_by_user = _ref.bookmarked_by_user;
+
+      if (bookmarked_by_user) {
+        this.deleteBookmark(id);
+      } else {
+        this.bookmark(id);
+      }
+    },
+    bookmark: function bookmark(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.timelines = _this2.timelines.map(function (timeline) {
+                  if (timeline.id === response.data.post_id) {
+                    timeline.bookmarked_by_user = true;
+                  }
+
+                  return timeline;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteBookmark: function deleteBookmark(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.timelines = _this3.timelines.map(function (timeline) {
+                  if (timeline.id === response.data.post_id) {
+                    timeline.bookmarked_by_user = false;
+                  }
+
+                  return timeline;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'ブックマークを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchTimeline();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
     }
   }
 });
@@ -7103,8 +7753,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
-/* harmony import */ var _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post.vue */ "./resources/js/components/Post.vue");
-/* harmony import */ var _components_User_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/User.vue */ "./resources/js/components/User.vue");
+/* harmony import */ var _components_User_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/User.vue */ "./resources/js/components/User.vue");
+/* harmony import */ var _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Timeline.vue */ "./resources/js/components/Timeline.vue");
+/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/History.vue */ "./resources/js/components/History.vue");
+/* harmony import */ var _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Bookmark.vue */ "./resources/js/components/Bookmark.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7139,41 +7791,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Post: _components_Post_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    User: _components_User_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    User: _components_User_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Timeline: _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    History: _components_History_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Bookmark: _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
     id: {
@@ -7183,21 +7811,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      posts: '',
-      user: {
-        user_id: '',
-        login_id: '',
-        name: '',
-        url: '',
-        follow_count: '',
-        follower_count: ''
-      },
-      my_bookmark_post: '',
-      histories: null,
-      bookmarks: null,
+      user: {},
       errors: null,
-      timelines: null,
-      account_check: false
+      account_check: false,
+      tab: "/users/".concat(this.id, "/timeline")
     };
   },
   methods: {
@@ -7226,17 +7843,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.posts = response.data;
-                _this.user.user_id = response.data.id;
-                _this.user.login_id = response.data.login_id;
-                _this.user.name = response.data.name;
-                _this.user.url = response.data.url;
-                _this.user.follow_count = response.data.follow_count;
-                _this.user.follower_count = response.data.follower_count;
-                _this.histories = response.data.posts;
-                _this.bookmarks = response.data.bookmark_post;
+                _this.user = response.data;
 
-              case 15:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -7244,39 +7853,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    fetchTimeline: function fetchTimeline() {
+    updateUser: function updateUser(_ref) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
+        var login_id, name, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this2.account_check) {
-                  _context2.next = 8;
-                  break;
-                }
-
+                login_id = _ref.login_id, name = _ref.name;
                 _context2.next = 3;
-                return axios.get('/api/post/timeline');
+                return axios.put('/api/user', {
+                  login_id: login_id,
+                  name: name
+                });
 
               case 3:
                 response = _context2.sent;
 
+                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                _this2.errors = response.data.errors;
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 8:
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 7;
+                  _context2.next = 12;
                   break;
                 }
 
                 _this2.$store.commit('error/setCode', response.status);
 
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
                 return _context2.abrupt("return", false);
 
-              case 7:
-                _this2.timelines = response.data.data;
+              case 12:
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'プロフィールを変更しました。'
+                });
 
-              case 8:
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -7284,20 +7912,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    updateUser: function updateUser(_ref) {
+    setUserPhoto: function setUserPhoto(_ref2) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var login_id, name, response;
+        var user_image, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                login_id = _ref.login_id, name = _ref.name;
+                user_image = _ref2.user_image;
                 _context3.next = 3;
                 return axios.put('/api/user', {
-                  login_id: login_id,
-                  name: name
+                  user_image: user_image
                 });
 
               case 3:
@@ -7331,11 +7958,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return", false);
 
               case 12:
+                _this3.user.url = response.data.url;
+
                 _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'プロフィールを変更しました。'
+                  successContent: 'プロフィール画像を変更しました'
                 });
 
-              case 13:
+              case 14:
               case "end":
                 return _context3.stop();
             }
@@ -7343,40 +7972,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    setUserPhoto: function setUserPhoto(_ref2) {
+    followBtnClick: function followBtnClick() {
+      if (this.user.followed_judge) {
+        this.deleteFollow();
+      } else {
+        this.follow();
+      }
+    },
+    follow: function follow() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var user_image, response;
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                user_image = _ref2.user_image;
-                _context4.next = 3;
-                return axios.put('/api/user', {
-                  user_image: user_image
-                });
+                _context4.next = 2;
+                return axios.put("/api/users/".concat(_this4.id, "/follow"));
 
-              case 3:
+              case 2:
                 response = _context4.sent;
 
-                if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context4.next = 8;
-                  break;
-                }
-
-                _this4.errors = response.data.errors;
-
-                _this4.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context4.abrupt("return", false);
-
-              case 8:
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context4.next = 12;
+                  _context4.next = 7;
                   break;
                 }
 
@@ -7388,14 +8007,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context4.abrupt("return", false);
 
-              case 12:
-                _this4.user.url = response.data.url;
+              case 7:
+                _this4.user.follower_count += 1;
+                _this4.user.followed_judge = true;
 
                 _this4.$store.commit('message/setSuccessContent', {
-                  successContent: 'プロフィール画像を変更しました'
+                  successContent: 'フォローしました。'
                 });
 
-              case 14:
+              case 10:
               case "end":
                 return _context4.stop();
             }
@@ -7403,17 +8023,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    onBookmarkClick: function onBookmarkClick(_ref3) {
-      var id = _ref3.id,
-          bookmarked_by_user = _ref3.bookmarked_by_user;
-
-      if (bookmarked_by_user) {
-        this.deleteBookmark(id);
-      } else {
-        this.bookmark(id);
-      }
-    },
-    bookmark: function bookmark(id) {
+    deleteFollow: function deleteFollow() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
@@ -7423,7 +8033,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios.put("/api/post/".concat(id, "/bookmark"));
+                return axios["delete"]("/api/users/".concat(_this5.id, "/follow"));
 
               case 2:
                 response = _context5.sent;
@@ -7442,31 +8052,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context5.abrupt("return", false);
 
               case 7:
-                _this5.histories = _this5.histories.map(function (history) {
-                  if (history.id === response.data.post_id) {
-                    history.bookmarked_by_user = true;
-
-                    if (String(_this5.$store.getters['auth/id']) === _this5.id) {
-                      _this5.bookmarks.push(history);
-                    }
-                  }
-
-                  return history;
-                });
-                _this5.timelines = _this5.timelines.map(function (timeline) {
-                  if (timeline.id === response.data.post_id) {
-                    timeline.bookmarked_by_user = true;
-
-                    if (String(_this5.$store.getters['auth/id']) === _this5.id) {
-                      _this5.bookmarks.push(timeline);
-                    }
-                  }
-
-                  return timeline;
-                });
+                _this5.user.follower_count -= 1;
+                _this5.user.followed_judge = false;
 
                 _this5.$store.commit('message/setSuccessContent', {
-                  successContent: 'ブックマークしました。'
+                  successContent: 'フォローを外しました。'
                 });
 
               case 10:
@@ -7475,177 +8065,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
-      }))();
-    },
-    deleteBookmark: function deleteBookmark(id) {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return axios["delete"]("/api/post/".concat(id, "/bookmark"));
-
-              case 2:
-                response = _context6.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context6.next = 7;
-                  break;
-                }
-
-                _this6.$store.commit('error/setCode', response.status);
-
-                _this6.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context6.abrupt("return", false);
-
-              case 7:
-                if (String(_this6.$store.getters['auth/id']) === _this6.id) {
-                  _this6.histories = _this6.histories.map(function (history) {
-                    if (history.id === response.data.post_id) {
-                      history.bookmarked_by_user = false;
-                    }
-
-                    return history;
-                  });
-                  _this6.timelines = _this6.timelines.map(function (timeline) {
-                    if (timeline.id === response.data.post_id) {
-                      timeline.bookmarked_by_user = false;
-                    }
-
-                    return timeline;
-                  });
-
-                  _this6.bookmarks.filter(function (bookmark, i) {
-                    if (bookmark.id === response.data.post_id) {
-                      bookmark.bookmarked_by_user = false;
-
-                      _this6.bookmarks.splice(i, 1);
-                    }
-
-                    return bookmark;
-                  });
-                } else {
-                  _this6.histories = _this6.histories.map(function (history) {
-                    if (history.id === response.data.post_id) {
-                      history.bookmarked_by_user = false;
-                    }
-
-                    return history;
-                  });
-                }
-
-                _this6.$store.commit('message/setSuccessContent', {
-                  successContent: 'ブックマークを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    followBtnClick: function followBtnClick() {
-      if (this.posts.followed_judge) {
-        this.deleteFollow();
-      } else {
-        this.follow();
-      }
-    },
-    follow: function follow() {
-      var _this7 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return axios.put("/api/users/".concat(_this7.id, "/follow"));
-
-              case 2:
-                response = _context7.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context7.next = 7;
-                  break;
-                }
-
-                _this7.$store.commit('error/setCode', response.status);
-
-                _this7.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context7.abrupt("return", false);
-
-              case 7:
-                _this7.user.follower_count += 1;
-                _this7.posts.followed_judge = true;
-
-                _this7.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 10:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7);
-      }))();
-    },
-    deleteFollow: function deleteFollow() {
-      var _this8 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return axios["delete"]("/api/users/".concat(_this8.id, "/follow"));
-
-              case 2:
-                response = _context8.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context8.next = 7;
-                  break;
-                }
-
-                _this8.$store.commit('error/setCode', response.status);
-
-                _this8.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context8.abrupt("return", false);
-
-              case 7:
-                _this8.user.follower_count -= 1;
-                _this8.posts.followed_judge = false;
-
-                _this8.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 10:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8);
       }))();
     }
   },
@@ -7662,26 +8081,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     $route: {
       handler: function handler() {
-        var _this9 = this;
+        var _this6 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context9.prev = _context9.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
-                  _context9.next = 2;
-                  return _this9.fetchProfile();
+                  _context6.next = 2;
+                  return _this6.fetchProfile();
 
                 case 2:
-                  _context9.next = 4;
-                  return _this9.fetchTimeline();
-
-                case 4:
                 case "end":
-                  return _context9.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee9);
+          }, _callee6);
         }))();
       },
       immediate: true
@@ -12067,6 +12482,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.bookmarks, function(bookmark) {
+      return _c("Post", {
+        key: bookmark.id,
+        attrs: { item: bookmark },
+        on: { bookmark: _vm.onBookmarkClick }
+      })
+    }),
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Follow.vue?vue&type=template&id=01ada95c&":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Follow.vue?vue&type=template&id=01ada95c& ***!
@@ -12322,6 +12771,40 @@ var render = function() {
         ],
         2
       )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/History.vue?vue&type=template&id=270eb80e&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/History.vue?vue&type=template&id=270eb80e& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.histories, function(history) {
+      return _c("Post", {
+        key: history.id,
+        attrs: { item: history },
+        on: { bookmark: _vm.onBookmarkClick }
+      })
+    }),
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -14177,6 +14660,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.timelines, function(timeline) {
+      return _c("Post", {
+        key: timeline.id,
+        attrs: { item: timeline },
+        on: { bookmark: _vm.onBookmarkClick }
+      })
+    }),
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/User.vue?vue&type=template&id=d884f594&":
 /*!*******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/User.vue?vue&type=template&id=d884f594& ***!
@@ -14243,7 +14760,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.isMyAccount === _vm.user.user_id
+                      _vm.isMyAccount === _vm.user.id
                         ? _c(
                             "v-card-actions",
                             [
@@ -14282,9 +14799,7 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "ml-5 mr-2",
-                          attrs: {
-                            to: "/users/" + _vm.user.user_id + "/follow"
-                          }
+                          attrs: { to: "/users/" + _vm.user.id + "/follow" }
                         },
                         [_vm._v(_vm._s(_vm.user.follow_count) + " follow")]
                       ),
@@ -14293,9 +14808,7 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "mr-5 ml-2",
-                          attrs: {
-                            to: "/users/" + _vm.user.user_id + "/follower"
-                          }
+                          attrs: { to: "/users/" + _vm.user.id + "/follower" }
                         },
                         [_vm._v(_vm._s(_vm.user.follower_count) + " follower")]
                       )
@@ -14306,7 +14819,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.isMyAccount === _vm.user.user_id
+              _vm.isMyAccount === _vm.user.id
                 ? _c("UserEditModal", {
                     ref: "dialog",
                     attrs: { user: _vm.user, errors: _vm.errors },
@@ -15944,7 +16457,7 @@ var render = function() {
                 {
                   staticClass: "ma-2 white--text text-decoration-none",
                   attrs: {
-                    color: _vm.posts.followed_judge === true ? "grey" : "blue"
+                    color: _vm.user.followed_judge === true ? "grey" : "blue"
                   },
                   on: { click: _vm.followBtnClick }
                 },
@@ -15962,69 +16475,53 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-tabs",
-        { staticClass: "mt-5", attrs: { centered: "" } },
+        {
+          staticClass: "mt-5",
+          attrs: { centered: "" },
+          model: {
+            value: _vm.tab,
+            callback: function($$v) {
+              _vm.tab = $$v
+            },
+            expression: "tab"
+          }
+        },
         [
-          _vm.isMyAccount && _vm.isLogin
-            ? _c("v-tab", { attrs: { href: "#timeline" } }, [
-                _vm._v("\n        timeline\n        ")
-              ])
-            : _vm._e(),
-          _vm._v(" "),
           _vm.isMyAccount
             ? _c(
-                "v-tab-item",
-                { attrs: { id: "timeline" } },
-                _vm._l(_vm.timelines, function(timeline) {
-                  return _c("Post", {
-                    key: timeline.id,
-                    attrs: { item: timeline },
-                    on: { bookmark: _vm.onBookmarkClick }
-                  })
-                }),
-                1
+                "v-tab",
+                {
+                  key: "timeline",
+                  attrs: { to: "/users/" + this.id + "/timeline" }
+                },
+                [_vm._v("Timeline")]
               )
             : _vm._e(),
           _vm._v(" "),
-          _c("v-tab", { attrs: { href: "#history" } }, [
-            _vm._v("\n        History\n        ")
-          ]),
-          _vm._v(" "),
           _c(
-            "v-tab-item",
-            { attrs: { id: "history" } },
-            _vm._l(_vm.histories, function(history) {
-              return _c("Post", {
-                key: history.id,
-                attrs: { item: history },
-                on: { bookmark: _vm.onBookmarkClick }
-              })
-            }),
-            1
+            "v-tab",
+            {
+              key: "history",
+              attrs: { to: "/users/" + this.id + "/history", id: this.id }
+            },
+            [_vm._v("History")]
           ),
-          _vm._v(" "),
-          _vm.isMyAccount && _vm.isLogin
-            ? _c("v-tab", { attrs: { href: "#bookmark" } }, [
-                _vm._v("\n        Bookmark\n        ")
-              ])
-            : _vm._e(),
           _vm._v(" "),
           _vm.isMyAccount
             ? _c(
-                "v-tab-item",
-                { attrs: { id: "bookmark" } },
-                _vm._l(_vm.bookmarks, function(bookmark) {
-                  return _c("Post", {
-                    key: bookmark.id,
-                    attrs: { item: bookmark },
-                    on: { bookmark: _vm.onBookmarkClick }
-                  })
-                }),
-                1
+                "v-tab",
+                {
+                  key: "bookmark",
+                  attrs: { to: "/users/" + this.id + "/bookmark" }
+                },
+                [_vm._v("Bookmark")]
               )
             : _vm._e()
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("router-view", { key: _vm.$route.path })
     ],
     1
   )
@@ -76730,6 +77227,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Bookmark.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Bookmark.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bookmark.vue?vue&type=template&id=e305a0be& */ "./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be&");
+/* harmony import */ var _Bookmark_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bookmark.vue?vue&type=script&lang=js& */ "./resources/js/components/Bookmark.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Bookmark_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Bookmark.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Bookmark.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Bookmark.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Bookmark_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Bookmark.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Bookmark.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Bookmark_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Bookmark.vue?vue&type=template&id=e305a0be& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Bookmark.vue?vue&type=template&id=e305a0be&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bookmark_vue_vue_type_template_id_e305a0be___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Follow.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Follow.vue ***!
@@ -76932,6 +77498,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FooterResponsive_vue_vue_type_template_id_5b6bd49a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FooterResponsive_vue_vue_type_template_id_5b6bd49a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/History.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/History.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./History.vue?vue&type=template&id=270eb80e& */ "./resources/js/components/History.vue?vue&type=template&id=270eb80e&");
+/* harmony import */ var _History_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./History.vue?vue&type=script&lang=js& */ "./resources/js/components/History.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _History_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/History.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/History.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/History.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_History_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./History.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/History.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_History_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/History.vue?vue&type=template&id=270eb80e&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/History.vue?vue&type=template&id=270eb80e& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./History.vue?vue&type=template&id=270eb80e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/History.vue?vue&type=template&id=270eb80e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_History_vue_vue_type_template_id_270eb80e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -77829,6 +78464,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ServiceDescription_vue_vue_type_template_id_90e9bf9c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ServiceDescription_vue_vue_type_template_id_90e9bf9c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Timeline.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Timeline.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Timeline.vue?vue&type=template&id=7199e12c& */ "./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c&");
+/* harmony import */ var _Timeline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Timeline.vue?vue&type=script&lang=js& */ "./resources/js/components/Timeline.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Timeline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Timeline.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Timeline.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Timeline.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Timeline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Timeline.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Timeline.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Timeline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Timeline.vue?vue&type=template&id=7199e12c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Timeline.vue?vue&type=template&id=7199e12c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Timeline_vue_vue_type_template_id_7199e12c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -78931,8 +79635,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_FollowerList_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/FollowerList.vue */ "./resources/js/pages/FollowerList.vue");
 /* harmony import */ var _pages_FeatureDescription_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/FeatureDescription.vue */ "./resources/js/pages/FeatureDescription.vue");
 /* harmony import */ var _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/errors/NotFound.vue */ "./resources/js/pages/errors/NotFound.vue");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/errors/System.vue */ "./resources/js/pages/errors/System.vue");
+/* harmony import */ var _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Timeline.vue */ "./resources/js/components/Timeline.vue");
+/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
+/* harmony import */ var _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/Bookmark.vue */ "./resources/js/components/Bookmark.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/errors/System.vue */ "./resources/js/pages/errors/System.vue");
+
+
+
 
 
 
@@ -78958,7 +79668,7 @@ var routes = [{
   path: '/register',
   component: _pages_register_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_15__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
       next('/');
     } else {
       next();
@@ -78968,7 +79678,7 @@ var routes = [{
   path: '/login',
   component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_15__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
       next('/');
     } else {
       next();
@@ -78978,7 +79688,7 @@ var routes = [{
   path: '/posting',
   component: _pages_Posting_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_15__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
       next();
     } else {
       next('/');
@@ -79006,7 +79716,36 @@ var routes = [{
 }, {
   path: '/users/:id',
   component: _pages_UserProfile_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
-  props: true
+  props: true,
+  children: [{
+    path: 'timeline',
+    component: _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/id'])) {
+        next();
+      } else {
+        next({
+          path: "/users/".concat(to.params.id, "/history")
+        });
+      }
+    }
+  }, {
+    path: 'history',
+    component: _components_History_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    props: true
+  }, {
+    path: 'bookmark',
+    component: _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/id'])) {
+        next();
+      } else {
+        next({
+          path: "/users/".concat(to.params.id, "/history")
+        });
+      }
+    }
+  }]
 }, {
   path: '/users/:id/follow',
   component: _pages_FollowList_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
@@ -79023,7 +79762,7 @@ var routes = [{
   component: _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
 }, {
   path: '/500',
-  component: _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
+  component: _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_19__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
