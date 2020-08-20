@@ -25,7 +25,7 @@
                 <v-icon>{{ item.icon }}</v-icon>
             </v-btn>
             <v-btn
-                :to="`/users/${user_id}`"
+                :to="`/users/${user_id}/timeline`"
                 class="text-decoration-none">
                 <span>Mypage</span>
                 <v-icon>dashboard</v-icon>

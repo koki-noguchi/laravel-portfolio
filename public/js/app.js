@@ -12344,7 +12344,7 @@ var render = function() {
                 "v-list-item",
                 {
                   attrs: {
-                    to: "/users/" + _vm.user_id,
+                    to: "/users/" + _vm.user_id + "/timeline",
                     "active-class": "pink lighten-4"
                   }
                 },
@@ -12449,7 +12449,7 @@ var render = function() {
                   staticClass: "text-decoration-none",
                   attrs: {
                     text: "",
-                    to: "/users/" + _vm.user_id,
+                    to: "/users/" + _vm.user_id + "/timeline",
                     "active-class": "pink lighten-4"
                   }
                 },
@@ -12551,7 +12551,7 @@ var render = function() {
                 [
                   _c(
                     "router-link",
-                    { attrs: { to: "/users/" + _vm.item.id } },
+                    { attrs: { to: "/users/" + _vm.item.id + "/history" } },
                     [
                       _c(
                         "v-list-item-avatar",
@@ -12748,7 +12748,7 @@ var render = function() {
             "v-btn",
             {
               staticClass: "text-decoration-none",
-              attrs: { to: "/users/" + _vm.user_id }
+              attrs: { to: "/users/" + _vm.user_id + "/timeline" }
             },
             [
               _c("span", [_vm._v("Mypage")]),
@@ -15890,7 +15890,7 @@ var render = function() {
               _vm._v("\n        posted_by\n        "),
               _c(
                 "router-link",
-                { attrs: { to: "/users/" + _vm.post.user.id } },
+                { attrs: { to: "/users/" + _vm.post.user.id + "/history" } },
                 [
                   _c("v-avatar", { attrs: { size: "30px" } }, [
                     _c("img", { attrs: { src: _vm.post.user.url } })
