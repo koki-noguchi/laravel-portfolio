@@ -59,24 +59,6 @@ class UserEditApiTest extends TestCase
     /**
      * @test
      */
-    public function should_ログイン中のユーザー情報をid含めて取得できる()
-    {
-        $response = $this->actingAs($this->user)->json('GET', route('user.profile', [
-            'id' => $this->user->id,
-        ]));
-
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                'id' => $this->user->id,
-                'login_id' => $this->user->login_id,
-                'name' => $this->user->name,
-            ]);
-    }
-
-    /**
-     * @test
-     */
     public function should_ユーザーを削除できる()
     {
         $response = $this->actingAs($this->user)

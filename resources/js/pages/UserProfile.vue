@@ -3,7 +3,7 @@
         <div class="text-right" v-if="!isMyAccount && isLogin">
             <v-btn
                 class="ma-2 white--text text-decoration-none"
-                :color="posts.followed_judge === true ? 'grey' : 'blue'"
+                :color="user.followed_judge === true ? 'grey' : 'blue'"
                 @click="followBtnClick">フォロー
             </v-btn>
         </div>
@@ -16,53 +16,29 @@
         <v-tabs
             centered
             class="mt-5"
+            v-model="tab"
         >
-            <v-tab href="#timeline" v-if="isMyAccount && isLogin">
-            timeline
-            </v-tab>
-            <v-tab-item id="timeline" v-if="isMyAccount">
-                <Post
-                    v-for="timeline in timelines"
-                    :key="timeline.id"
-                    :item="timeline"
-                    @bookmark="onBookmarkClick"
-                ></Post>
-            </v-tab-item>
-            <v-tab href="#history">
-            History
-            </v-tab>
-            <v-tab-item id="history">
-                <Post
-                    v-for="history in histories"
-                    :key="history.id"
-                    :item="history"
-                    @bookmark="onBookmarkClick"
-                ></Post>
-            </v-tab-item>
-            <v-tab href="#bookmark" v-if="isMyAccount && isLogin">
-            Bookmark
-            </v-tab>
-            <v-tab-item id="bookmark" v-if="isMyAccount">
-                <Post
-                    v-for="bookmark in bookmarks"
-                    :key="bookmark.id"
-                    :item="bookmark"
-                    @bookmark="onBookmarkClick"
-                ></Post>
-            </v-tab-item>
+            <v-tab key="timeline" :to="`/users/${this.id}/timeline`" v-if="isMyAccount">Timeline</v-tab>
+            <v-tab key="history" :to="`/users/${this.id}/history`" :id="this.id">History</v-tab>
+            <v-tab key="bookmark" :to="`/users/${this.id}/bookmark`" v-if="isMyAccount">Bookmark</v-tab>
         </v-tabs>
+        <router-view :key="$route.path"></router-view>
     </div>
 </template>
 
 <script>
 import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
-import Post from '../components/Post.vue'
 import User from '../components/User.vue'
+import Timeline from '../components/Timeline.vue'
+import History from '../components/History.vue'
+import Bookmark from '../components/Bookmark.vue'
 
 export default {
     components: {
-        Post,
-        User
+        User,
+        Timeline,
+        History,
+        Bookmark,
     },
     props: {
         id: {
@@ -72,21 +48,10 @@ export default {
     },
     data () {
         return {
-            posts: '',
-            user: {
-                user_id: '',
-                login_id: '',
-                name: '',
-                url: '',
-                follow_count: '',
-                follower_count: '',
-            },
-            my_bookmark_post: '',
-            histories: null,
-            bookmarks: null,
+            user: {},
             errors: null,
-            timelines: null,
             account_check: false,
+            tab: `/users/${this.id}/timeline`,
         }
     },
     methods: {
@@ -98,27 +63,7 @@ export default {
                 return false
             }
 
-            this.posts = response.data
-            this.user.user_id = response.data.id
-            this.user.login_id = response.data.login_id
-            this.user.name = response.data.name
-            this.user.url = response.data.url
-            this.user.follow_count = response.data.follow_count
-            this.user.follower_count = response.data.follower_count
-            this.histories = response.data.posts
-            this.bookmarks = response.data.bookmark_post
-        },
-        async fetchTimeline () {
-            if (this.account_check) {
-                const response = await axios.get('/api/post/timeline')
-
-                if (response.status !== OK) {
-                    this.$store.commit('error/setCode', response.status)
-                    return false
-                }
-
-                this.timelines = response.data.data
-            }
+            this.user = response.data
         },
         async updateUser ({ login_id, name }) {
             const response = await axios.put('/api/user', {
@@ -172,102 +117,8 @@ export default {
                 successContent: 'プロフィール画像を変更しました',
             })
         },
-        onBookmarkClick ({id, bookmarked_by_user}) {
-            if (bookmarked_by_user) {
-                this.deleteBookmark(id)
-            } else {
-                this.bookmark(id)
-            }
-        },
-        async bookmark (id) {
-            const response = await axios.put(`/api/post/${id}/bookmark`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                this.$store.commit('message/setErrorContent', {
-                    errorContent: 'エラーが発生しました。',
-                })
-                return false
-            }
-
-            this.histories = this.histories.map(history => {
-                if (history.id === response.data.post_id) {
-                    history.bookmarked_by_user = true
-                    if (String(this.$store.getters['auth/id']) === this.id) {
-                        this.bookmarks.push(history)
-                    }
-                }
-
-                return history
-            })
-
-            this.timelines = this.timelines.map(timeline => {
-                if (timeline.id === response.data.post_id) {
-                    timeline.bookmarked_by_user = true
-                    if (String(this.$store.getters['auth/id']) === this.id) {
-                        this.bookmarks.push(timeline)
-                    }
-                }
-
-                return timeline
-            })
-
-            this.$store.commit('message/setSuccessContent', {
-                successContent: 'ブックマークしました。',
-            })
-        },
-        async deleteBookmark (id) {
-            const response = await axios.delete(`/api/post/${id}/bookmark`)
-
-            if (response.status !== OK) {
-                this.$store.commit('error/setCode', response.status)
-                this.$store.commit('message/setErrorContent', {
-                    errorContent: 'エラーが発生しました。',
-                })
-                return false
-            }
-
-            if (String(this.$store.getters['auth/id']) === this.id) {
-
-                this.histories = this.histories.map(history => {
-                if (history.id === response.data.post_id) {
-                    history.bookmarked_by_user = false
-                }
-
-                    return history
-                })
-
-                this.timelines = this.timelines.map(timeline => {
-                if (timeline.id === response.data.post_id) {
-                    timeline.bookmarked_by_user = false
-                }
-
-                    return timeline
-                })
-
-                this.bookmarks.filter((bookmark, i) => {
-                    if (bookmark.id === response.data.post_id) {
-                        bookmark.bookmarked_by_user = false
-                        this.bookmarks.splice(i, 1)
-                    }
-                    return bookmark
-                })
-            } else {
-                this.histories = this.histories.map(history => {
-                if (history.id === response.data.post_id) {
-                    history.bookmarked_by_user = false
-                }
-
-                return history
-                })
-            }
-
-            this.$store.commit('message/setSuccessContent', {
-                successContent: 'ブックマークを外しました。',
-            })
-        },
         followBtnClick () {
-            if (this.posts.followed_judge) {
+            if (this.user.followed_judge) {
                 this.deleteFollow()
             } else {
                 this.follow()
@@ -284,7 +135,7 @@ export default {
                 return false
             }
             this.user.follower_count += 1
-            this.posts.followed_judge = true
+            this.user.followed_judge = true
 
             this.$store.commit('message/setSuccessContent', {
                 successContent: 'フォローしました。',
@@ -302,7 +153,7 @@ export default {
             }
 
             this.user.follower_count -= 1
-            this.posts.followed_judge = false
+            this.user.followed_judge = false
 
             this.$store.commit('message/setSuccessContent', {
                 successContent: 'フォローを外しました。',
@@ -323,7 +174,6 @@ export default {
         $route: {
             async handler () {
                 await this.fetchProfile()
-                await this.fetchTimeline()
             },
             immediate: true
         }

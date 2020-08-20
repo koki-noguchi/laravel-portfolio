@@ -21,7 +21,7 @@
         <h1>{{ post.post_title }}</h1>
         <div class="text-right">
             posted_by
-            <router-link :to="`/users/${post.user.id}`">
+            <router-link :to="`/users/${post.user.id}/history`">
                 <v-avatar size="30px">
                     <img :src="post.user.url">
                 </v-avatar>

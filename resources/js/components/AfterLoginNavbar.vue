@@ -30,7 +30,7 @@
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item
-                        :to="`/users/${user_id}`"
+                        :to="`/users/${user_id}/timeline`"
                         active-class="pink lighten-4"
                     >
                         <v-list-item-action>
@@ -69,7 +69,7 @@
                             ホーム
                     </v-btn>
                     <v-btn
-                        text :to="`/users/${user_id}`"
+                        text :to="`/users/${user_id}/timeline`"
                         class="text-decoration-none"
                         active-class="pink lighten-4"
                     >

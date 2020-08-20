@@ -3,7 +3,7 @@
         <v-row class="text-body-2 pt-2">
             <v-col>
                 <v-card-actions class="justify-center ml-7">
-                    <router-link :to="`/users/${item.id}`">
+                    <router-link :to="`/users/${item.id}/history`">
                         <v-list-item-avatar size="30">
                             <v-img :src="item.url"></v-img>
                         </v-list-item-avatar>

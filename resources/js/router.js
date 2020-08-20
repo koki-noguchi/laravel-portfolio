@@ -14,6 +14,9 @@ import FollowList from './pages/FollowList.vue'
 import FollowerList from './pages/FollowerList.vue'
 import ServiceDescription from './pages/FeatureDescription.vue'
 import NotFound from './pages/errors/NotFound.vue'
+import Timeline from './components/Timeline.vue'
+import History from './components/History.vue'
+import Bookmark from './components/Bookmark.vue'
 
 import store from './store'
 
@@ -86,7 +89,36 @@ const routes = [
     {
         path: '/users/:id',
         component: UserProfile,
-        props: true
+        props: true,
+        children: [
+            {
+                path: 'timeline',
+                component: Timeline,
+                beforeEnter (to, from, next) {
+                    if (to.params.id === String(store.getters['auth/id'])) {
+                        next()
+                    } else {
+                        next({ path: `/users/${to.params.id}/history` })
+                    }
+                }
+            },
+            {
+                path: 'history',
+                component: History,
+                props: true
+            },
+            {
+                path: 'bookmark',
+                component: Bookmark,
+                beforeEnter (to, from, next) {
+                    if (to.params.id === String(store.getters['auth/id'])) {
+                        next()
+                    } else {
+                        next({ path: `/users/${to.params.id}/history` })
+                    }
+                }
+            }
+        ]
     },
     {
         path: '/users/:id/follow',
@@ -109,7 +141,7 @@ const routes = [
     {
         path: '/500',
         component: SystemError
-    }
+    },
 ]
 
 const router = new VueRouter({
