@@ -81,20 +81,16 @@ class UserController extends Controller
 
     /**
      * ユーザーの取得
-     * @params string $id
+     * @param User $user
      * @return User
      */
-    public function profile(string $id)
+    public function show(User $user)
     {
-        if (!Auth::guest() && (string) Auth::user()->id === $id) {
-            $user = User::where('id', $id)->with([
-                'posts', 'bookmark_post.user', 'bookmark_post.photos',
-                'posts.user', 'posts.photos'
-            ])->first();
-            $user->makeVisible(['posts', 'bookmark_post', 'login_id']);
+        if (!Auth::guest() && Auth::user()->id === $user->id) {
+            $user = User::where('id', $user->id)->first();
+            $user->makeVisible(['login_id']);
         } else {
-            $user = User::where('id', $id)->with(['posts', 'posts.user', 'posts.photos'])->first();
-            $user->makeVisible(['posts']);
+            $user = User::where('id', $user->id)->first();
         }
         return $user;
     }

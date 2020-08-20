@@ -103,7 +103,7 @@ class PostController extends Controller
     }
 
     /**
-     * フォロー中のユーザーの募集リストを取得
+     * タイムラインを取得
      * @return array
      */
     public function timeline()
@@ -116,6 +116,21 @@ class PostController extends Controller
             )
                 ->orderBy('created_at', 'desc')->paginate();
         return $post;
+    }
+
+    /**
+     * ユーザーのメッセージ募集履歴を取得
+     * @param User $user
+     * @return Post
+     */
+    public function History(User $user)
+    {
+        $posts = Post::where('user_id', $user->id)->with([
+            'user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'
+        ])->get();
+
+        $posts->makeHidden(['messages']);
+        return $posts;
     }
 
     /**
@@ -187,5 +202,22 @@ class PostController extends Controller
         $post->bookmarks()->detach(Auth::user()->id);
 
         return ["post_id" => (int) $post->id];
+    }
+
+    /**
+     * ログイン中ユーザーのブックマークを取得
+     * @return array
+     */
+    public function bookmarkList()
+    {
+        $posts = Post::query()
+            ->whereIn('id', Auth::user()->bookmark_post->pluck('id'))
+            ->with(
+                'user', 'user.followings', 'user.followers',
+                'bookmarks', 'photos', 'messages'
+            )
+            ->orderBy('created_at', 'desc')->get();
+
+        return $posts;
     }
 }
