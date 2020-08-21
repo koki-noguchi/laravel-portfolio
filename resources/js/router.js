@@ -10,8 +10,9 @@ import PostList from './pages/PostList.vue'
 import PostDetail from './pages/PostDetail.vue'
 import MessageDetail from './pages/MessageDetail.vue'
 import UserProfile from './pages/UserProfile.vue'
-import FollowList from './pages/FollowList.vue'
-import FollowerList from './pages/FollowerList.vue'
+import FollowTab from './pages/FollowTab.vue'
+import FollowList from './components/FollowList.vue'
+import FollowerList from './components/FollowerList.vue'
 import ServiceDescription from './pages/FeatureDescription.vue'
 import NotFound from './pages/errors/NotFound.vue'
 import Timeline from './components/Timeline.vue'
@@ -122,13 +123,20 @@ const routes = [
     },
     {
         path: '/users/:id/follow',
-        component: FollowList,
-        props: true
-    },
-    {
-        path: '/users/:id/follower',
-        component: FollowerList,
-        props: true
+        component: FollowTab,
+        props: true,
+        children: [
+            {
+                path: '',
+                component: FollowList,
+                props: true
+            },
+            {
+                path: 'follower',
+                component: FollowerList,
+                props: true
+            },
+        ]
     },
     {
         path: '/about',
