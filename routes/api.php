@@ -40,9 +40,10 @@ Route::get('/post/{post}/message/{message}', 'ReplyController@show')->name('repl
 Route::delete('/reply/{reply}', 'ReplyController@delete')->name('reply.delete');
 Route::delete('/photo/{photo}', 'PhotoController@delete')->name('photo.delete');
 Route::post('/post/{post}/photo', 'PhotoController@create')->name('photo.create');
-Route::put('/users/{id}/follow', 'UserController@follow')->name('follow.add');
-Route::delete('/users/{id}/follow', 'UserController@deleteFollow')->name('follow.delete');
-Route::get('/users/{id}/follow', 'UserController@followList')->name('follow.show');
+Route::put('/users/{user}/follow', 'RelationshipsController@follow')->name('follow.add');
+Route::delete('/users/{user}/follow', 'RelationshipsController@deleteFollow')->name('follow.delete');
+Route::get('/users/{user}/follow', 'RelationshipsController@followList')->name('follow.show');
+Route::get('/users/{user}/follower', 'RelationshipsController@followerList')->name('follower.show');
 Route::get('/refresh-token', function (\Illuminate\Http\Request $request) {
     $request->session()->regenerateToken();
     return response()->json();

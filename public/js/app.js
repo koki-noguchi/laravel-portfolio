@@ -2656,6 +2656,446 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowList.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowList.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Follow.vue */ "./resources/js/components/Follow.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Follower: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      followers: null
+    };
+  },
+  methods: {
+    fetchFollower: function fetchFollower() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/".concat(_this.id, "/follower"));
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.followers = response.data.followers;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    followBtnClick: function followBtnClick(_ref) {
+      var id = _ref.id,
+          followed_judge = _ref.followed_judge;
+
+      if (followed_judge) {
+        this.deleteFollow(id);
+      } else {
+        this.follow(id);
+      }
+    },
+    follow: function follow(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.followers = _this2.followers.map(function (follower) {
+                  if (follower.id === response.data.followee_id) {
+                    follower.followed_judge = true;
+                  }
+
+                  return follower;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteFollow: function deleteFollow(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.followers = _this3.followers.map(function (follower) {
+                  if (follower.id === response.data.followee_id) {
+                    follower.followed_judge = false;
+                  }
+
+                  return follower;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchFollower();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerList.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Follow.vue */ "./resources/js/components/Follow.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Follow: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      follows: null
+    };
+  },
+  methods: {
+    fetchFollow: function fetchFollow() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/".concat(_this.id, "/follow"));
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.follows = response.data.followings;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    followBtnClick: function followBtnClick(_ref) {
+      var id = _ref.id,
+          followed_judge = _ref.followed_judge;
+
+      if (followed_judge) {
+        this.deleteFollow(id);
+      } else {
+        this.follow(id);
+      }
+    },
+    follow: function follow(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.follows = _this2.follows.map(function (follow) {
+                  if (follow.id === response.data.followee_id) {
+                    follow.followed_judge = true;
+                  }
+
+                  return follow;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteFollow: function deleteFollow(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.follows = _this3.follows.map(function (follow) {
+                  if (follow.id === response.data.followee_id) {
+                    follow.followed_judge = false;
+                  }
+
+                  return follow;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchFollow();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Footer.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Footer.vue?vue&type=script&lang=js& ***!
@@ -5277,10 +5717,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowList.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowList.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowTab.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowTab.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5327,25 +5767,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5360,16 +5781,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      follows: '',
-      followers: '',
-      user: {
-        url: '',
-        name: ''
-      }
+      user: {},
+      tab: "/users/".concat(this.id, "/follow")
     };
   },
   methods: {
-    fetchFollow: function fetchFollow() {
+    fetchProfile: function fetchProfile() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -5379,7 +5796,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get("/api/users/".concat(_this.id, "/follow"));
+                return axios.get("/api/users/".concat(_this.id));
 
               case 2:
                 response = _context.sent;
@@ -5394,630 +5811,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.follows = response.data.followings;
-                _this.followers = response.data.followers;
-                _this.user.url = response.data.url;
-                _this.user.name = response.data.name;
+                _this.user = response.data;
 
-              case 10:
+              case 7:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
-    },
-    followBtnClick: function followBtnClick(_ref) {
-      var id = _ref.id,
-          followed_judge = _ref.followed_judge;
-
-      if (followed_judge) {
-        this.deleteFollow(id);
-      } else {
-        this.follow(id);
-      }
-    },
-    follow: function follow(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context2.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _this2.$store.commit('error/setCode', response.status);
-
-                _this2.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context2.abrupt("return", false);
-
-              case 7:
-                _this2.follows = _this2.follows.map(function (follow) {
-                  if (follow.id === response.data.followee_id) {
-                    follow.followed_judge = true;
-                  }
-
-                  return follow;
-                });
-
-                _this2.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    deleteFollow: function deleteFollow(id) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return axios["delete"]("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context3.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context3.next = 7;
-                  break;
-                }
-
-                _this3.$store.commit('error/setCode', response.status);
-
-                _this3.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context3.abrupt("return", false);
-
-              case 7:
-                _this3.follows = _this3.follows.map(function (follow) {
-                  if (follow.id === response.data.followee_id) {
-                    follow.followed_judge = false;
-                  }
-
-                  return follow;
-                });
-
-                _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    followerBtnClick: function followerBtnClick(_ref2) {
-      var id = _ref2.id,
-          followed_judge = _ref2.followed_judge;
-
-      if (followed_judge) {
-        this.followerDeleteFollow(id);
-      } else {
-        this.followerFollow(id);
-      }
-    },
-    followerFollow: function followerFollow(id) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return axios.put("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context4.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context4.next = 7;
-                  break;
-                }
-
-                _this4.$store.commit('error/setCode', response.status);
-
-                _this4.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context4.abrupt("return", false);
-
-              case 7:
-                _this4.followers = _this4.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = true;
-                  }
-
-                  return follower;
-                });
-
-                _this4.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    followerDeleteFollow: function followerDeleteFollow(id) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return axios["delete"]("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context5.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context5.next = 7;
-                  break;
-                }
-
-                _this5.$store.commit('error/setCode', response.status);
-
-                _this5.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context5.abrupt("return", false);
-
-              case 7:
-                _this5.followers = _this5.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = false;
-                  }
-
-                  return follower;
-                });
-
-                _this5.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this6 = this;
+        var _this2 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
             while (1) {
-              switch (_context6.prev = _context6.next) {
+              switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context6.next = 2;
-                  return _this6.fetchFollow();
+                  _context2.next = 2;
+                  return _this2.fetchProfile();
 
                 case 2:
                 case "end":
-                  return _context6.stop();
+                  return _context2.stop();
               }
             }
-          }, _callee6);
-        }))();
-      },
-      immediate: true
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowerList.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowerList.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Follow_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Follow.vue */ "./resources/js/components/Follow.vue");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    Follow: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
-  data: function data() {
-    return {
-      follows: '',
-      followers: '',
-      user: {
-        url: '',
-        name: ''
-      }
-    };
-  },
-  methods: {
-    fetchFollow: function fetchFollow() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get("/api/users/".concat(_this.id, "/follow"));
-
-              case 2:
-                response = _context.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context.next = 6;
-                  break;
-                }
-
-                _this.$store.commit('error/setCode', response.status);
-
-                return _context.abrupt("return", false);
-
-              case 6:
-                _this.follows = response.data.followings;
-                _this.followers = response.data.followers;
-                _this.user.url = response.data.url;
-                _this.user.name = response.data.name;
-
-              case 10:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    followBtnClick: function followBtnClick(_ref) {
-      var id = _ref.id,
-          followed_judge = _ref.followed_judge;
-
-      if (followed_judge) {
-        this.deleteFollow(id);
-      } else {
-        this.follow(id);
-      }
-    },
-    follow: function follow(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context2.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _this2.$store.commit('error/setCode', response.status);
-
-                _this2.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context2.abrupt("return", false);
-
-              case 7:
-                _this2.follows = _this2.follows.map(function (follow) {
-                  if (follow.id === response.data.followee_id) {
-                    follow.followed_judge = true;
-                  }
-
-                  return follow;
-                });
-
-                _this2.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    deleteFollow: function deleteFollow(id) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return axios["delete"]("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context3.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context3.next = 7;
-                  break;
-                }
-
-                _this3.$store.commit('error/setCode', response.status);
-
-                _this3.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context3.abrupt("return", false);
-
-              case 7:
-                _this3.follows = _this3.follows.map(function (follow) {
-                  if (follow.id === response.data.followee_id) {
-                    follow.followed_judge = false;
-                  }
-
-                  return follow;
-                });
-
-                _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    followerBtnClick: function followerBtnClick(_ref2) {
-      var id = _ref2.id,
-          followed_judge = _ref2.followed_judge;
-
-      if (followed_judge) {
-        this.followerDeleteFollow(id);
-      } else {
-        this.followerFollow(id);
-      }
-    },
-    followerFollow: function followerFollow(id) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return axios.put("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context4.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context4.next = 7;
-                  break;
-                }
-
-                _this4.$store.commit('error/setCode', response.status);
-
-                _this4.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context4.abrupt("return", false);
-
-              case 7:
-                _this4.followers = _this4.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = true;
-                  }
-
-                  return follower;
-                });
-
-                _this4.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    followerDeleteFollow: function followerDeleteFollow(id) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return axios["delete"]("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context5.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_2__["OK"])) {
-                  _context5.next = 7;
-                  break;
-                }
-
-                _this5.$store.commit('error/setCode', response.status);
-
-                _this5.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context5.abrupt("return", false);
-
-              case 7:
-                _this5.followers = _this5.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = false;
-                  }
-
-                  return follower;
-                });
-
-                _this5.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    }
-  },
-  watch: {
-    $route: {
-      handler: function handler() {
-        var _this6 = this;
-
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-            while (1) {
-              switch (_context6.prev = _context6.next) {
-                case 0:
-                  _context6.next = 2;
-                  return _this6.fetchFollow();
-
-                case 2:
-                case "end":
-                  return _context6.stop();
-              }
-            }
-          }, _callee6);
+          }, _callee2);
         }))();
       },
       immediate: true
@@ -12624,6 +12447,74 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.followers, function(follower) {
+      return _c("Follower", {
+        key: follower.id,
+        attrs: { item: follower },
+        on: { followBtnClick: _vm.followBtnClick }
+      })
+    }),
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.follows, function(follow) {
+      return _c("Follow", {
+        key: follow.id,
+        attrs: { item: follow },
+        on: { followBtnClick: _vm.followBtnClick }
+      })
+    }),
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Footer.vue?vue&type=template&id=61a7c374&":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Footer.vue?vue&type=template&id=61a7c374& ***!
@@ -14808,7 +14699,9 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "mr-5 ml-2",
-                          attrs: { to: "/users/" + _vm.user.id + "/follower" }
+                          attrs: {
+                            to: "/users/" + _vm.user.id + "/follow/follower"
+                          }
                         },
                         [_vm._v(_vm._s(_vm.user.follower_count) + " follower")]
                       )
@@ -15220,10 +15113,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90&":
-/*!********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90& ***!
-  \********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a& ***!
+  \*******************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15295,164 +15188,31 @@ var render = function() {
         "v-tabs",
         { staticClass: "mt-5", attrs: { centered: "" } },
         [
-          _c("v-tab", { attrs: { href: "#follow" } }, [
-            _vm._v("\n        Follow\n        ")
-          ]),
-          _vm._v(" "),
           _c(
-            "v-tab-item",
-            { attrs: { id: "follow" } },
-            _vm._l(_vm.follows, function(follow) {
-              return _c("Follow", {
-                key: follow.id,
-                attrs: { item: follow },
-                on: { followBtnClick: _vm.followBtnClick }
-              })
-            }),
-            1
+            "v-tab",
+            {
+              key: "follow",
+              attrs: { to: "/users/" + this.id + "/follow", id: this.id }
+            },
+            [_vm._v("FollowList")]
           ),
           _vm._v(" "),
-          _c("v-tab", { attrs: { href: "#follower" } }, [
-            _vm._v("\n        Follower\n        ")
-          ]),
-          _vm._v(" "),
           _c(
-            "v-tab-item",
-            { attrs: { id: "follower" } },
-            _vm._l(_vm.followers, function(follower) {
-              return _c("Follow", {
-                key: follower.id,
-                attrs: { item: follower },
-                on: { followBtnClick: _vm.followerBtnClick }
-              })
-            }),
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36& ***!
-  \**********************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-row",
-        { staticClass: "my-10", attrs: { justify: "center" } },
-        [
-          _c(
-            "v-card",
-            { staticClass: "text-decoration-none", attrs: { width: "200" } },
-            [
-              _c(
-                "v-row",
-                { staticClass: "text-body-2 pt-2" },
-                [
-                  _c(
-                    "v-col",
-                    [
-                      _c(
-                        "v-card-actions",
-                        { staticClass: "justify-center ml-7" },
-                        [
-                          _c(
-                            "v-list-item-avatar",
-                            { attrs: { size: "30" } },
-                            [_c("v-img", { attrs: { src: _vm.user.url } })],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-list-item-title",
-                            { staticClass: "text-body-2 text-wrap" },
-                            [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(_vm.user.name) +
-                                  "\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
+            "v-tab",
+            {
+              key: "follower",
+              attrs: {
+                to: "/users/" + this.id + "/follow/follower",
+                id: this.id
+              }
+            },
+            [_vm._v("FollowerList")]
           )
         ],
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-tabs",
-        { staticClass: "mt-5", attrs: { centered: "" } },
-        [
-          _c("v-tab", { attrs: { href: "#follower" } }, [
-            _vm._v("\n        Follower\n        ")
-          ]),
-          _vm._v(" "),
-          _c(
-            "v-tab-item",
-            { attrs: { id: "follower" } },
-            _vm._l(_vm.followers, function(follower) {
-              return _c("Follow", {
-                key: follower.id,
-                attrs: { item: follower },
-                on: { followBtnClick: _vm.followerBtnClick }
-              })
-            }),
-            1
-          ),
-          _vm._v(" "),
-          _c("v-tab", { attrs: { href: "#follow" } }, [
-            _vm._v("\n        Follow\n        ")
-          ]),
-          _vm._v(" "),
-          _c(
-            "v-tab-item",
-            { attrs: { id: "follow" } },
-            _vm._l(_vm.follows, function(follow) {
-              return _c("Follow", {
-                key: follow.id,
-                attrs: { item: follow },
-                on: { followBtnClick: _vm.followBtnClick }
-              })
-            }),
-            1
-          )
-        ],
-        1
-      )
+      _c("router-view", { key: _vm.$route.path })
     ],
     1
   )
@@ -77365,6 +77125,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/FollowList.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/FollowList.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowList.vue?vue&type=template&id=2ff43d1a& */ "./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a&");
+/* harmony import */ var _FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowList.vue?vue&type=script&lang=js& */ "./resources/js/components/FollowList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FollowList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowList.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/FollowList.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowList.vue?vue&type=template&id=2ff43d1a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowList.vue?vue&type=template&id=2ff43d1a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_2ff43d1a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerList.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/FollowerList.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowerList.vue?vue&type=template&id=71bd2bc7& */ "./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7&");
+/* harmony import */ var _FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowerList.vue?vue&type=script&lang=js& */ "./resources/js/components/FollowerList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FollowerList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerList.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/FollowerList.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerList.vue?vue&type=template&id=71bd2bc7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=template&id=71bd2bc7&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_71bd2bc7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Footer.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Footer.vue ***!
@@ -78745,17 +78643,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/FollowList.vue":
-/*!*******************************************!*\
-  !*** ./resources/js/pages/FollowList.vue ***!
-  \*******************************************/
+/***/ "./resources/js/pages/FollowTab.vue":
+/*!******************************************!*\
+  !*** ./resources/js/pages/FollowTab.vue ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowList.vue?vue&type=template&id=671f3a90& */ "./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90&");
-/* harmony import */ var _FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowList.vue?vue&type=script&lang=js& */ "./resources/js/pages/FollowList.vue?vue&type=script&lang=js&");
+/* harmony import */ var _FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowTab.vue?vue&type=template&id=7fc56e2a& */ "./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a&");
+/* harmony import */ var _FollowTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowTab.vue?vue&type=script&lang=js& */ "./resources/js/pages/FollowTab.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -78765,9 +78663,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _FollowTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -78777,107 +78675,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/FollowList.vue"
+component.options.__file = "resources/js/pages/FollowTab.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/FollowList.vue?vue&type=script&lang=js&":
-/*!********************************************************************!*\
-  !*** ./resources/js/pages/FollowList.vue?vue&type=script&lang=js& ***!
-  \********************************************************************/
+/***/ "./resources/js/pages/FollowTab.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/pages/FollowTab.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowTab.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowTab.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90&":
-/*!**************************************************************************!*\
-  !*** ./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90& ***!
-  \**************************************************************************/
+/***/ "./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a& ***!
+  \*************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowList.vue?vue&type=template&id=671f3a90& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowList.vue?vue&type=template&id=671f3a90&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowTab.vue?vue&type=template&id=7fc56e2a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowTab.vue?vue&type=template&id=7fc56e2a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowList_vue_vue_type_template_id_671f3a90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/pages/FollowerList.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/pages/FollowerList.vue ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowerList.vue?vue&type=template&id=40733c36& */ "./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36&");
-/* harmony import */ var _FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowerList.vue?vue&type=script&lang=js& */ "./resources/js/pages/FollowerList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/pages/FollowerList.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/pages/FollowerList.vue?vue&type=script&lang=js&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/pages/FollowerList.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowerList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36& ***!
-  \****************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerList.vue?vue&type=template&id=40733c36& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/FollowerList.vue?vue&type=template&id=40733c36&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerList_vue_vue_type_template_id_40733c36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowTab_vue_vue_type_template_id_7fc56e2a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -79631,15 +79460,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_PostDetail_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/PostDetail.vue */ "./resources/js/pages/PostDetail.vue");
 /* harmony import */ var _pages_MessageDetail_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/MessageDetail.vue */ "./resources/js/pages/MessageDetail.vue");
 /* harmony import */ var _pages_UserProfile_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/UserProfile.vue */ "./resources/js/pages/UserProfile.vue");
-/* harmony import */ var _pages_FollowList_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/FollowList.vue */ "./resources/js/pages/FollowList.vue");
-/* harmony import */ var _pages_FollowerList_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/FollowerList.vue */ "./resources/js/pages/FollowerList.vue");
-/* harmony import */ var _pages_FeatureDescription_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/FeatureDescription.vue */ "./resources/js/pages/FeatureDescription.vue");
-/* harmony import */ var _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/errors/NotFound.vue */ "./resources/js/pages/errors/NotFound.vue");
-/* harmony import */ var _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Timeline.vue */ "./resources/js/components/Timeline.vue");
-/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
-/* harmony import */ var _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/Bookmark.vue */ "./resources/js/components/Bookmark.vue");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/errors/System.vue */ "./resources/js/pages/errors/System.vue");
+/* harmony import */ var _pages_FollowTab_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/FollowTab.vue */ "./resources/js/pages/FollowTab.vue");
+/* harmony import */ var _components_FollowList_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/FollowList.vue */ "./resources/js/components/FollowList.vue");
+/* harmony import */ var _components_FollowerList_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/FollowerList.vue */ "./resources/js/components/FollowerList.vue");
+/* harmony import */ var _pages_FeatureDescription_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/FeatureDescription.vue */ "./resources/js/pages/FeatureDescription.vue");
+/* harmony import */ var _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/errors/NotFound.vue */ "./resources/js/pages/errors/NotFound.vue");
+/* harmony import */ var _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/Timeline.vue */ "./resources/js/components/Timeline.vue");
+/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
+/* harmony import */ var _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/Bookmark.vue */ "./resources/js/components/Bookmark.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/errors/System.vue */ "./resources/js/pages/errors/System.vue");
+
 
 
 
@@ -79668,7 +79499,7 @@ var routes = [{
   path: '/register',
   component: _pages_register_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_19__["default"].getters['auth/check']) {
       next('/');
     } else {
       next();
@@ -79678,7 +79509,7 @@ var routes = [{
   path: '/login',
   component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_19__["default"].getters['auth/check']) {
       next('/');
     } else {
       next();
@@ -79688,7 +79519,7 @@ var routes = [{
   path: '/posting',
   component: _pages_Posting_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/check']) {
+    if (_store__WEBPACK_IMPORTED_MODULE_19__["default"].getters['auth/check']) {
       next();
     } else {
       next('/');
@@ -79719,9 +79550,9 @@ var routes = [{
   props: true,
   children: [{
     path: 'timeline',
-    component: _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    component: _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
     beforeEnter: function beforeEnter(to, from, next) {
-      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/id'])) {
+      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_19__["default"].getters['auth/id'])) {
         next();
       } else {
         next({
@@ -79731,13 +79562,13 @@ var routes = [{
     }
   }, {
     path: 'history',
-    component: _components_History_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    component: _components_History_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
     props: true
   }, {
     path: 'bookmark',
-    component: _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    component: _components_Bookmark_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
     beforeEnter: function beforeEnter(to, from, next) {
-      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_18__["default"].getters['auth/id'])) {
+      if (to.params.id === String(_store__WEBPACK_IMPORTED_MODULE_19__["default"].getters['auth/id'])) {
         next();
       } else {
         next({
@@ -79748,21 +79579,26 @@ var routes = [{
   }]
 }, {
   path: '/users/:id/follow',
-  component: _pages_FollowList_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
-  props: true
-}, {
-  path: '/users/:id/follower',
-  component: _pages_FollowerList_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
-  props: true
+  component: _pages_FollowTab_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+  props: true,
+  children: [{
+    path: '',
+    component: _components_FollowList_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    props: true
+  }, {
+    path: 'follower',
+    component: _components_FollowerList_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
+    props: true
+  }]
 }, {
   path: '/about',
-  component: _pages_FeatureDescription_vue__WEBPACK_IMPORTED_MODULE_13__["default"]
+  component: _pages_FeatureDescription_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
 }, {
   path: '*',
-  component: _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
+  component: _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
 }, {
   path: '/500',
-  component: _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_19__["default"]
+  component: _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_20__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

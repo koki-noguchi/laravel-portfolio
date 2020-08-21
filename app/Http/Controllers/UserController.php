@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('profile', 'followList');
+        $this->middleware('auth')->except('show');
     }
 
     /**
@@ -89,61 +89,6 @@ class UserController extends Controller
         if (!Auth::guest() && Auth::user()->id === $user->id) {
             $user->makeVisible(['login_id']);
         }
-        return $user;
-    }
-
-    /**
-     * フォロー
-     * @params string $id
-     * @return array
-     */
-    public function follow(string $id)
-    {
-        $user = User::where('id', Auth::user()->id)->with('followings')->first();
-
-        if (! $user) {
-            abort(404);
-        }
-
-        $user->followings()->detach($id);
-        $user->followings()->attach($id);
-
-        return ["followee_id" => (int) $id];
-    }
-
-    /**
-     * フォローを外す
-     * @params string $id
-     * @return array
-     */
-    public function deleteFollow(string $id)
-    {
-        $user = User::where('id', Auth::user()->id)->with('followings')->first();
-
-        if (! $user) {
-            abort(404);
-        }
-
-        $user->followings()->detach($id);
-
-        return ["followee_id" => (int) $id];
-    }
-
-    /**
-     * フォロー
-     * @params string $id
-     * @return array
-     */
-    public function followList(string $id)
-    {
-        $user = User::where('id', $id)
-            ->with(['followings', 'followers'])->first();
-
-        if (! $user) {
-            abort(404);
-        }
-
-        $user->makeVisible(['followings', 'followers']);
         return $user;
     }
 }

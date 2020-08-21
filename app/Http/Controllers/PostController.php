@@ -17,7 +17,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth')->except('index', 'show', 'history');
     }
 
     /**
@@ -123,7 +123,7 @@ class PostController extends Controller
      * @param User $user
      * @return Post
      */
-    public function History(User $user)
+    public function history(User $user)
     {
         $posts = Post::where('user_id', $user->id)->with([
             'user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'
