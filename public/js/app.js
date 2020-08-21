@@ -14699,7 +14699,9 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "mr-5 ml-2",
-                          attrs: { to: "/users/" + _vm.user.id + "/follower" }
+                          attrs: {
+                            to: "/users/" + _vm.user.id + "/follow/follower"
+                          }
                         },
                         [_vm._v(_vm._s(_vm.user.follower_count) + " follower")]
                       )
