@@ -80,7 +80,7 @@ class UserProfileApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->json('PUT', route('follow.add', [
-                'id' => $this->follow_user->id,
+                'user' => $this->follow_user->id,
             ]));
 
         $response = $this->actingAs($this->user)->json('GET', route('user.timeline'));

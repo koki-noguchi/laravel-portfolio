@@ -26,7 +26,7 @@ class FollowApiTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->json('PUT', route('follow.add', [
-                'id' => $this->follow_user->id,
+                'user' => $this->follow_user->id,
             ]));
 
         $response->assertStatus(200)
@@ -42,7 +42,7 @@ class FollowApiTest extends TestCase
      */
     public function should_同じユーザーを2回フォローできない()
     {
-        $param = ['id' => $this->follow_user->id];
+        $param = ['user' => $this->follow_user->id];
         $this->actingAs($this->user)->json('PUT', route('follow.add', $param));
         $this->actingAs($this->user)->json('PUT', route('follow.add', $param));
 
@@ -58,7 +58,7 @@ class FollowApiTest extends TestCase
 
         $response = $this->actingAs($this->user)
             ->json('DELETE', route('follow.delete', [
-                'id' => $this->follow_user->id,
+                'user' => $this->follow_user->id,
             ]));
 
         $response->assertStatus(200)
@@ -72,21 +72,16 @@ class FollowApiTest extends TestCase
     /**
      * @test
      */
-    public function should_フォロー・フォロワー一覧を取得できる()
+    public function should_フォロー一覧を取得できる()
     {
         $this->actingAs($this->user)
             ->json('PUT', route('follow.add', [
-                'id' => $this->follow_user->id,
+                'user' => $this->follow_user->id,
             ]));
-
-        $this->actingAs($this->follow_user)
-        ->json('PUT', route('follow.add', [
-            'id' => $this->user->id,
-        ]));
 
         $response = $this->actingAs($this->user)
             ->json('GET', route('follow.show', [
-                'id' => $this->user->id,
+                'user' => $this->user->id,
             ]));
 
         $response->assertStatus(200)
@@ -96,22 +91,48 @@ class FollowApiTest extends TestCase
                     'url' => '/images/default-image.jpeg',
                     'followed_judge' => false,
                     'follow_count' => 1,
-                    'follower_count' => 1,
+                    'follower_count' => 0,
                     'followings' => [[
                         'id' => $this->follow_user->id,
                         'name' => $this->follow_user->name,
                         'url' => '/images/default-image.jpeg',
                         'followed_judge' => true,
-                        'follow_count' => 1,
+                        'follow_count' => 0,
                         'follower_count' => 1,
-                    ]],
+                    ]]
+                ]);
+    }
+
+    /**
+     * @test
+     */
+    public function should_フォロワー一覧を取得できる()
+    {
+        $this->actingAs($this->follow_user)
+            ->json('PUT', route('follow.add', [
+                'user' => $this->user->id,
+            ]));
+
+        $response = $this->actingAs($this->user)
+            ->json('GET', route('follower.show', [
+                'user' => $this->user->id,
+            ]));
+
+        $response->assertStatus(200)
+                ->assertJsonFragment([
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                    'url' => '/images/default-image.jpeg',
+                    'followed_judge' => false,
+                    'follow_count' => 0,
+                    'follower_count' => 1,
                     'followers' => [[
                         'id' => $this->follow_user->id,
                         'name' => $this->follow_user->name,
                         'url' => '/images/default-image.jpeg',
-                        'followed_judge' => true,
+                        'followed_judge' => false,
                         'follow_count' => 1,
-                        'follower_count' => 1,
+                        'follower_count' => 0,
                     ]]
                 ]);
     }
