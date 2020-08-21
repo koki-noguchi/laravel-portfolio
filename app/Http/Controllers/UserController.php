@@ -87,10 +87,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         if (!Auth::guest() && Auth::user()->id === $user->id) {
-            $user = User::where('id', $user->id)->first();
             $user->makeVisible(['login_id']);
-        } else {
-            $user = User::where('id', $user->id)->first();
         }
         return $user;
     }
