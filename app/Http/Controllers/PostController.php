@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePost;
 use App\Post;
 use App\User;
 use App\Photo;
+use App\Services\PostListInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -73,17 +74,9 @@ class PostController extends Controller
     /**
      * メッセージ募集一覧
      */
-    public function index(Request $request)
+    public function index(Request $request, PostListInterface $postSearch)
     {
-        $keyword = $request->input('keyword');
-        if ($request->has('keyword')) {
-            $posts = Post::where('id', 'like', '%'.$keyword.'%')->orWhere('post_title', 'like', '%'.$keyword.'%')
-                ->with(['user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'])->orderBy('created_at', 'desc')->paginate();
-        } else {
-            $posts = Post::with(['user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'])->orderBy('created_at', 'desc')->paginate();
-        }
-
-        $posts->makeHidden(['messages']);
+        $posts = $postSearch->Search($request->input('keyword'));
         return $posts;
     }
 
@@ -106,16 +99,10 @@ class PostController extends Controller
      * タイムラインを取得
      * @return array
      */
-    public function timeline()
+    public function timeline(PostListInterface $postList)
     {
-        $post = Post::query()
-            ->whereIn('user_id', Auth::user()->followings->pluck('id'))
-            ->with(
-                'user', 'messages', 'bookmarks',
-                'photos', 'user.followings', 'user.followers'
-            )
-                ->orderBy('created_at', 'desc')->paginate();
-        return $post;
+        $posts = $postList->List(Auth::user()->followings->pluck('id'));
+        return $posts;
     }
 
     /**
@@ -123,13 +110,9 @@ class PostController extends Controller
      * @param User $user
      * @return Post
      */
-    public function history(User $user)
+    public function history(User $user, PostListInterface $postList)
     {
-        $posts = Post::where('user_id', $user->id)->with([
-            'user', 'user.followings', 'user.followers', 'bookmarks', 'photos', 'messages'
-        ])->get();
-
-        $posts->makeHidden(['messages']);
+        $posts = $postList->List([$user->id]);
         return $posts;
     }
 
@@ -173,51 +156,5 @@ class PostController extends Controller
 
         $new_post = Post::where('id', $post->id)->first();
         return $new_post;
-    }
-
-    /**
-     * ブックマーク
-     * @param Post $post
-     * @return array
-     */
-    public function bookmark(Post $post)
-    {
-        $post->load('bookmarks');
-
-        $post->bookmarks()->detach(Auth::user()->id);
-        $post->bookmarks()->attach(Auth::user()->id);
-
-        return ["post_id" => (int) $post->id];
-    }
-
-    /**
-     * ブックマークを外す
-     * @param Post $post
-     * @return array
-     */
-    public function deleteBookmark(Post $post)
-    {
-        $post->load('bookmarks');
-
-        $post->bookmarks()->detach(Auth::user()->id);
-
-        return ["post_id" => (int) $post->id];
-    }
-
-    /**
-     * ログイン中ユーザーのブックマークを取得
-     * @return array
-     */
-    public function bookmarkList()
-    {
-        $posts = Post::query()
-            ->whereIn('id', Auth::user()->bookmark_post->pluck('id'))
-            ->with(
-                'user', 'user.followings', 'user.followers',
-                'bookmarks', 'photos', 'messages'
-            )
-            ->orderBy('created_at', 'desc')->get();
-
-        return $posts;
     }
 }
