@@ -37,7 +37,7 @@ export default {
                 return false
             }
 
-            this.histories = response.data
+            this.histories = response.data.data
         },
         onBookmarkClick ({id, bookmarked_by_user}) {
             if (bookmarked_by_user) {

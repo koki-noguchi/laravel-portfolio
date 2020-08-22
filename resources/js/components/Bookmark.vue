@@ -31,7 +31,7 @@ export default {
                 return false
             }
 
-            this.bookmarks = response.data
+            this.bookmarks = response.data.data
         },
         onBookmarkClick ({id, bookmarked_by_user}) {
             if (bookmarked_by_user) {
