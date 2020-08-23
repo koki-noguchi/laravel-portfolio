@@ -12,8 +12,6 @@ use App\Services\PostListInterface;
 use App\Services\PostSaveInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -83,18 +81,8 @@ class PostController extends Controller
 
         if ($images) {
             foreach ($images as $image ) {
-                $photo = $photoCreate->Create($image);
-                DB::beginTransaction();
-
-                try {
-                    $post->photos()->save($photo);
-                    DB::commit();
-                } catch (\Exception $exception) {
-                    DB::rollBack();
-
-                    Storage::cloud()->delete($photo->post_photo);
-                    throw $exception;
-                }
+                $photo = $photoCreate->NewFileName($image);
+                $photoCreate->PhotoSave($post, $photo, "post_photo", $photo->post_photo, $image);
             }
         }
 
