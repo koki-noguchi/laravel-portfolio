@@ -7,8 +7,6 @@ use App\Post;
 use App\Http\Requests\StorePhoto;
 use App\Services\AuthorizationInterface;
 use App\Services\PhotoInterface;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -38,20 +36,8 @@ class PhotoController extends Controller
 
         if ($images) {
             foreach ($images as $image ) {
-
-                $photo = $photoCreate->Create($image);
-                DB::beginTransaction();
-
-                try {
-                    $photo->post_id = $post->id;
-                    $photo->save();
-                    DB::commit();
-                } catch (\Exception $exception) {
-                    DB::rollBack();
-
-                    Storage::cloud()->delete($photo->post_photo);
-                    throw $exception;
-                }
+                $photo = $photoCreate->NewFileName($image);
+                $photoCreate->PhotoSave($photo, $post, "post_photo", $photo->post_photo, $image);
             }
 
             return response($photo, 201);
