@@ -2439,7 +2439,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.bookmarks = response.data;
+                _this.bookmarks = response.data.data;
 
               case 7:
               case "end":
@@ -3417,7 +3417,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.histories = response.data;
+                _this.histories = response.data.data;
 
               case 7:
               case "end":

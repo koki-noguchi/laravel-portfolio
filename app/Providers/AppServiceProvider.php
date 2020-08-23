@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Components\Authorization;
+use App\Services\AuthorizationInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(AuthorizationInterface::class, function ($app) {
+            return new Authorization();
+        });
     }
 
     /**

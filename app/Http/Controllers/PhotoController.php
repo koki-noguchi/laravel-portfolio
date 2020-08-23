@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Photo;
 use App\Post;
 use App\Http\Requests\StorePhoto;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\AuthorizationInterface;
+use App\Services\PhotoInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,21 +17,11 @@ class PhotoController extends Controller
      * @param Photo $photo
      * @return Photo
      */
-    public function delete(Photo $photo)
+    public function delete(Photo $photo, AuthorizationInterface $authorization, PhotoInterface $photoDelete)
     {
-        $post_user = $photo->postBy->user_id;
+        $authorization->Check((int) $photo->postBy->user_id);
 
-        if ((int) $post_user !== Auth::user()->id) {
-            abort(401);
-            return;
-        }
-
-        if (Storage::cloud()->exists($photo->post_photo)) {
-            Storage::cloud()->delete($photo->post_photo);
-            $photo->delete();
-        } else {
-            abort(404);
-        }
+        $photoDelete->Delete([$photo]);
     }
 
     /**
@@ -40,25 +30,16 @@ class PhotoController extends Controller
      * @param StorePhoto $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Post $post, StorePhoto $request)
+    public function create(Post $post, StorePhoto $request, AuthorizationInterface $authorization, PhotoInterface $photoCreate)
     {
         $images = $request->post_photo;
 
-        if ((int) $post->user_id !== Auth::user()->id) {
-            abort(401);
-            return;
-        }
+        $authorization->Check((int) $post->user_id);
 
         if ($images) {
             foreach ($images as $image ) {
-                $photo = new Photo();
-                $extension = $image->extension();
 
-                $photo->post_photo = $photo->id . '.' . $extension;
-
-                Storage::cloud()->putFileAs('post_photo', $image, $photo->post_photo, 'public');
-                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
-
+                $photo = $photoCreate->Create($image);
                 DB::beginTransaction();
 
                 try {
