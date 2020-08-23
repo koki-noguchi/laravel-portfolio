@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Components\PostList;
+use App\Components\PostSave;
 use App\Services\PostListInterface;
+use App\Services\PostSaveInterface;
 use Illuminate\Support\ServiceProvider;
 
 class PostServiceProvider extends ServiceProvider
@@ -17,6 +19,9 @@ class PostServiceProvider extends ServiceProvider
     {
         $this->app->bind(PostListInterface::class, function ($app) {
             return new PostList();
+        });
+        $this->app->bind(PostSaveInterface::class, function ($app) {
+            return new PostSave();
         });
     }
 

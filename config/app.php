@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\DataBaseQueryServiceProvider::class,
         App\Providers\PostServiceProvider::class,
+        App\Providers\PhotoServiceProvider::class,
 
     ],
 
