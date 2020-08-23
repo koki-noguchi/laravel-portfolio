@@ -6,12 +6,13 @@ use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
 use App\Post;
 use App\User;
-use App\Photo;
+use App\Services\AuthorizationInterface;
+use App\Services\PhotoInterface;
 use App\Services\PostListInterface;
+use App\Services\PostSaveInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -22,77 +23,12 @@ class PostController extends Controller
     }
 
     /**
-     * メッセージ募集
-     * @param StorePost $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(StorePost $request)
-    {
-        $post = new Post();
-
-        $post->post_title = $request->get('post_title');
-        if ($request->get('post_password') !== null){
-            $post->post_password = Hash::make($request->get('post_password'));
-        } else {
-            $post->post_password = ($request->get('post_password'));
-        }
-
-        $post->max_number = $request->get('max_number');
-        $post->about = $request->get('about');
-        $post->user_id = Auth::user()->id;
-        $post->save();
-
-        $images = $request->post_photo;
-
-        if ($images) {
-            foreach ($images as $image ) {
-                $photo = new Photo();
-                $extension = $image->extension();
-
-                $photo->post_photo = $photo->id . '.' . $extension;
-
-                Storage::cloud()->putFileAs('post_photo', $image, $photo->post_photo, 'public');
-                $photo->post_photo = 'post_photo/' . $photo->id . '.' . $extension;
-
-                DB::beginTransaction();
-
-                try {
-                    $post->photos()->save($photo);
-                    DB::commit();
-                } catch (\Exception $exception) {
-                    DB::rollBack();
-
-                    Storage::cloud()->delete($photo->post_photo);
-                    throw $exception;
-                }
-            }
-        }
-
-        return response($post, 201);
-    }
-
-    /**
      * メッセージ募集一覧
      */
     public function index(Request $request, PostListInterface $postSearch)
     {
         $posts = $postSearch->Search($request->input('keyword'));
         return $posts;
-    }
-
-    /**
-     * メッセージ募集の詳細
-     * @param Post $post
-     * @return Post
-     */
-    public function show(Post $post)
-    {
-        $post->load([
-            'user', 'messages.author.followings',
-            'messages.author.followers', 'bookmarks', 'photos',
-            'messages.replies'])->first();
-        $post->makeVisible(['messages']);
-        return $post;
     }
 
     /**
@@ -117,26 +53,52 @@ class PostController extends Controller
     }
 
     /**
-     * メッセージ募集の削除
+     * メッセージ募集の詳細
      * @param Post $post
      * @return Post
      */
-    public function delete(Post $post)
+    public function show(Post $post)
     {
-        $post->load('photos');
+        $post->load([
+            'user', 'messages.author.followings',
+            'messages.author.followers', 'bookmarks', 'photos',
+            'messages.replies'])->first();
+        $post->makeVisible(['messages']);
+        return $post;
+    }
 
-        if ((int) $post->user_id !== Auth::user()->id) {
-            abort(401);
-            return;
-        }
+    /**
+     * メッセージ募集
+     * @param StorePost $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(StorePost $request, PostSaveInterface $postSave, PhotoInterface $photoCreate)
+    {
+        $post = $postSave->Create(
+            $request->get('post_title'), $request->passwordHash(),
+            $request->get('max_number'), $request->get('about')
+        );
 
-        foreach ($post->photos as $photo) {
-            if (Storage::cloud()->exists($photo->post_photo)) {
-                Storage::cloud()->delete($photo->post_photo);
+        $images = $request->post_photo;
+
+        if ($images) {
+            foreach ($images as $image ) {
+                $photo = $photoCreate->Create($image);
+                DB::beginTransaction();
+
+                try {
+                    $post->photos()->save($photo);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+
+                    Storage::cloud()->delete($photo->post_photo);
+                    throw $exception;
+                }
             }
         }
 
-        $post->delete();
+        return response($post, 201);
     }
 
     /**
@@ -145,16 +107,26 @@ class PostController extends Controller
      * @param UpdatePost $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Post $post, UpdatePost $request)
+    public function update(Post $post, UpdatePost $request, AuthorizationInterface $authorization, PostSaveInterface $postSave)
     {
-        if ((int) $post->user_id !== Auth::user()->id) {
-            abort(401);
-            return;
-        }
+        $authorization->Check((int) $post->user_id);
 
-        $post->fill($request->all())->save();
+        $new_post = $postSave->Update($post ,$request);
 
-        $new_post = Post::where('id', $post->id)->first();
         return $new_post;
+    }
+
+    /**
+     * メッセージ募集の削除
+     * @param Post $post
+     * @return Post
+     */
+    public function delete(Post $post, AuthorizationInterface $authorization, PhotoInterface $photoDelete)
+    {
+        $post->load('photos');
+        $authorization->Check((int) $post->user_id);
+
+        $photoDelete->Delete($post->photos);
+        $post->delete();
     }
 }

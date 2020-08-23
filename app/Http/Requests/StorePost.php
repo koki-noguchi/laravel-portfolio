@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class StorePost extends FormRequest
 {
@@ -30,5 +31,15 @@ class StorePost extends FormRequest
             'post_photo' => 'max:10240',
             'post_photo.*' => 'file|mimes:jpg,jpeg,png,gif'
         ];
+    }
+
+    public function passwordHash()
+    {
+        if ($this->filled('post_password')) {
+            $post_password = Hash::make($this->get('post_password'));
+        } else {
+            $post_password = $this->get('post_password');
+        }
+        return $post_password;
     }
 }
