@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Message;
-use App\User;
 use App\Http\Requests\StoreMessage;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use App\Services\AuthorizationInterface;
+use App\Services\MessageInterface;
 
 class MessageController extends Controller
 {
@@ -18,23 +16,12 @@ class MessageController extends Controller
      * @param StoreMessage $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Post $post, StoreMessage $request)
+    public function create(Post $post, StoreMessage $request, MessageInterface $messageSave)
     {
-        if ($post->messages->count() >= $post->max_number) {
-            abort(401);
-            return;
-        }
-
-        $message = new Message();
-        $message->message_text = $request->get('message_text');
-        $message->user_id = Auth::user()->id;
-        $message->post_id = $post->id;
-        $post->messages()->save($message);
-
-        $new_message = Message::where('id', $message->id)->first();
+        $messageSave->LimitCheck($post);
+        $new_message = $messageSave->Create($request->get('message_text'), $post);
 
         return response($new_message, 201);
-
     }
 
     /**
@@ -42,13 +29,10 @@ class MessageController extends Controller
      * @params Message $message
      * @return Message
      */
-    public function delete(Message $message)
+    public function delete(Message $message, AuthorizationInterface $authorization)
     {
-        if ((int) $message->user_id !== Auth::user()->id || ! $message) {
-            abort(401);
-        } else {
-            $message->delete();
-        }
+        $authorization->Check((int) $message->user_id);
+        $message->delete();
     }
 
     /**
@@ -58,11 +42,6 @@ class MessageController extends Controller
     public function index(Post $post)
     {
         $message = Message::where('post_id', $post->id)->get();
-
-        if ($message) {
-            return $message;
-        } else {
-            abort(404);
-        }
+        return $message;
     }
 }

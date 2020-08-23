@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Message;
-use App\User;
 use App\Http\Requests\StoreReplies;
 use App\Reply;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use App\Services\AuthorizationInterface;
+use App\Services\ReplyInterface;
 
 class ReplyController extends Controller
 {
@@ -20,21 +18,10 @@ class ReplyController extends Controller
      * @param StoreReplies $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Post $post, Message $message, StoreReplies $request)
+    public function create(Post $post, Message $message, StoreReplies $request, ReplyInterface $replySave)
     {
-        if (!$post || !$message) {
-            abort(401);
-        } else {
-            $reply = new Reply();
-            $reply->reply_text = $request->get('reply_text');
-            $reply->user_id = Auth::user()->id;
-            $reply->message_id = $message->id;
-            $message->replies()->save($reply);
-
-            $new_reply = Reply::where('id', $reply->id)->with(['reply_user', 'message.post'])->first();
-
-            return response($new_reply, 201);
-        }
+        $new_reply = $replySave->Create($request->get('reply_text'), $message);
+        return response($new_reply, 201);
     }
 
     /**
@@ -45,14 +32,11 @@ class ReplyController extends Controller
      */
     public function show(Post $post, Message $message)
     {
-        if (! $post) {
-            abort(401);
-        } else {
-            $message->load([
-                'author', 'replies.reply_user.followings', 'replies.reply_user.followers', 'replies.message.post'
-            ])->first();
-            $message->makeVisible(['replies']);
-        }
+        $message->load([
+            'author', 'replies.reply_user.followings', 'replies.reply_user.followers', 'replies.message.post'
+        ])->first();
+        $message->makeVisible(['replies']);
+
         return $message ?? abort(404);
     }
 
@@ -60,12 +44,9 @@ class ReplyController extends Controller
      * メッセージ募集の削除
      * @params Reply $reply
      */
-    public function delete(Reply $reply)
+    public function delete(Reply $reply, AuthorizationInterface $authorization)
     {
-        if ((int) $reply->user_id !==  Auth::user()->id || ! $reply) {
-            abort(401);
-        } else {
-            $reply->delete();
-        }
+        $authorization->Check((int) $reply->user_id);
+        $reply->delete();
     }
 }
