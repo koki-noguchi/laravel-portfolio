@@ -177,6 +177,8 @@ return [
         App\Providers\DataBaseQueryServiceProvider::class,
         App\Providers\PostServiceProvider::class,
         App\Providers\PhotoServiceProvider::class,
+        App\Providers\MessageServiceProvider::class,
+        App\Providers\ReplyServiceProvider::class,
 
     ],
 
