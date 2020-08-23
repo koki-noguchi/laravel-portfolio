@@ -179,6 +179,7 @@ return [
         App\Providers\PhotoServiceProvider::class,
         App\Providers\MessageServiceProvider::class,
         App\Providers\ReplyServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
 
     ],
 

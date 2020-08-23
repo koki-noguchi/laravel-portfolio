@@ -14,4 +14,12 @@ class Authorization implements AuthorizationInterface
             return;
         }
     }
+
+    public function CheckGuest()
+    {
+        if (Auth::user()->login_id === "guest001") {
+            abort(401);
+            return;
+        }
+    }
 }
