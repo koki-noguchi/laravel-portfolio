@@ -7,11 +7,10 @@
             cols="12"
             sm="12"
             md="4"
+            v-for="message in messages"
+            :key="message.id"
         >
-            <v-card
-                v-for="message in messages"
-                :key="message.id"
-            >
+            <v-card>
                 <v-card-text
                 class="text-body-1 black--text"
                 >
@@ -85,7 +84,7 @@
                 </v-card>
             </v-dialog>
         <v-btn
-            v-if="limit_judge !== true && isLogin"
+            v-if="!limit_judge && isLogin && !isSubmitted"
             fixed
             dark
             fab
@@ -139,6 +138,11 @@ export default {
         isLogin () {
             return this.$store.getters['auth/check']
         },
+        isSubmitted () {
+            return this.messages.some(message => {
+                return parseInt(message.author.id) === this.$store.getters['auth/id']
+            })
+        }
     },
     methods: {
         createMessage ({ text }) {

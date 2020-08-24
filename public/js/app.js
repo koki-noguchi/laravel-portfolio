@@ -3777,7 +3777,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3809,6 +3808,13 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isLogin: function isLogin() {
       return this.$store.getters['auth/check'];
+    },
+    isSubmitted: function isSubmitted() {
+      var _this = this;
+
+      return this.messages.some(function (message) {
+        return parseInt(message.author.id) === _this.$store.getters['auth/id'];
+      });
     }
   },
   methods: {
@@ -12941,130 +12947,131 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "v-col",
-        { attrs: { cols: "12", sm: "12", md: "4" } },
-        _vm._l(_vm.messages, function(message) {
-          return _c(
-            "v-card",
-            { key: message.id },
-            [
-              _c("v-card-text", { staticClass: "text-body-1 black--text" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(message.message_text) +
-                    "\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-list-item",
-                    [
-                      _c(
-                        "router-link",
-                        { attrs: { to: "/users/" + message.author.id } },
-                        [
-                          _c(
-                            "v-list-item-avatar",
-                            { attrs: { size: "30px" } },
-                            [
-                              _c("v-img", {
-                                attrs: { src: message.author.url }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-item-content",
-                        [
-                          _c(
-                            "v-list-item-title",
-                            { staticClass: "text-body-2 text-wrap" },
-                            [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(message.author.name) +
-                                  "\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
+      _vm._l(_vm.messages, function(message) {
+        return _c(
+          "v-col",
+          { key: message.id, attrs: { cols: "12", sm: "12", md: "4" } },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-text", { staticClass: "text-body-1 black--text" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(message.message_text) +
+                      "\n            "
                   )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-layout",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "text-decoration-none ml-3",
-                          attrs: {
-                            icon: "",
-                            to: "/post/" + _vm.id + "/message/" + message.id
-                          }
-                        },
-                        [_c("v-icon", [_vm._v("add_comment")])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      message.replies_count > 0
-                        ? _c("div", { staticClass: "mt-3" }, [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(message.replies_count) +
-                                "\n                "
+                ]),
+                _vm._v(" "),
+                _c(
+                  "v-card-actions",
+                  [
+                    _c(
+                      "v-list-item",
+                      [
+                        _c(
+                          "router-link",
+                          { attrs: { to: "/users/" + message.author.id } },
+                          [
+                            _c(
+                              "v-list-item-avatar",
+                              { attrs: { size: "30px" } },
+                              [
+                                _c("v-img", {
+                                  attrs: { src: message.author.url }
+                                })
+                              ],
+                              1
                             )
-                          ])
-                        : _vm._e()
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  message.my_message
-                    ? _c(
-                        "v-btn",
-                        {
-                          staticClass: "mr-1",
-                          attrs: { icon: "" },
-                          on: {
-                            click: function($event) {
-                              $event.stopPropagation()
-                              return _vm.onClickBtn(message.id)
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "text-body-2 text-wrap" },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(message.author.name) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-card-actions",
+                  [
+                    _c(
+                      "v-layout",
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            staticClass: "text-decoration-none ml-3",
+                            attrs: {
+                              icon: "",
+                              to: "/post/" + _vm.id + "/message/" + message.id
                             }
-                          }
-                        },
-                        [_c("v-icon", [_vm._v("delete")])],
-                        1
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          )
-        }),
-        1
-      ),
+                          },
+                          [_c("v-icon", [_vm._v("add_comment")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        message.replies_count > 0
+                          ? _c("div", { staticClass: "mt-3" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(message.replies_count) +
+                                  "\n                "
+                              )
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-spacer"),
+                    _vm._v(" "),
+                    message.my_message
+                      ? _c(
+                          "v-btn",
+                          {
+                            staticClass: "mr-1",
+                            attrs: { icon: "" },
+                            on: {
+                              click: function($event) {
+                                $event.stopPropagation()
+                                return _vm.onClickBtn(message.id)
+                              }
+                            }
+                          },
+                          [_c("v-icon", [_vm._v("delete")])],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      }),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -13132,7 +13139,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.limit_judge !== true && _vm.isLogin
+      !_vm.limit_judge && _vm.isLogin && !_vm.isSubmitted
         ? _c(
             "v-btn",
             {
@@ -13163,7 +13170,7 @@ var render = function() {
         on: { create: _vm.createMessage }
       })
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
