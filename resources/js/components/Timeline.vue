@@ -27,12 +27,11 @@ export default {
     data () {
         return {
             timelines: null,
-            page: 1
         }
     },
     methods: {
         async fetchTimeline () {
-            const response = await axios.get(`/api/users/timeline/?page=${this.page}`)
+            const response = await axios.get(`/api/users/timeline`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
