@@ -5221,6 +5221,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5229,7 +5236,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      timelines: null
+      timelines: null,
+      page: 1
     };
   },
   methods: {
@@ -5243,7 +5251,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get("/api/users/timeline");
+                return axios.get("/api/users/timeline/?page=".concat(_this.page));
 
               case 2:
                 response = _context.sent;
@@ -5267,6 +5275,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    getPage: function getPage() {
+      this.page = Number(this.$route.query.page);
+
+      if (!this.page) {
+        this.page = 1;
+      }
     },
     onBookmarkClick: function onBookmarkClick(_ref) {
       var id = _ref.id,
@@ -5375,22 +5390,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3);
       }))();
+    },
+    infiniteHandler: function infiniteHandler($state) {
+      var _this4 = this;
+
+      axios.get("/api/users/timeline/?page=".concat(this.page + 1)).then(function (response) {
+        var timelines = response.data.data;
+        setTimeout(function () {
+          if (timelines.length) {
+            _this4.timelines = _this4.timelines.concat(timelines);
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+
+          ++_this4.page;
+        }, 1500);
+      })["catch"](function (err) {
+        $state.complete();
+      });
     }
   },
   watch: {
     $route: {
       handler: function handler() {
-        var _this4 = this;
+        var _this5 = this;
 
         return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
               switch (_context4.prev = _context4.next) {
                 case 0:
-                  _context4.next = 2;
-                  return _this4.fetchTimeline();
+                  _this5.getPage();
 
-                case 2:
+                  _context4.next = 3;
+                  return _this5.fetchTimeline();
+
+                case 3:
                 case "end":
                   return _context4.stop();
               }
@@ -14723,14 +14759,31 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.timelines, function(timeline) {
-      return _c("Post", {
-        key: timeline.id,
-        attrs: { item: timeline },
-        on: { bookmark: _vm.onBookmarkClick }
-      })
-    }),
-    1
+    [
+      _vm._l(_vm.timelines, function(timeline) {
+        return _c("Post", {
+          key: timeline.id,
+          attrs: { item: timeline },
+          on: { bookmark: _vm.onBookmarkClick }
+        })
+      }),
+      _vm._v(" "),
+      _c(
+        "infinite-loading",
+        {
+          attrs: { direction: "bottom", spinner: "spiral" },
+          on: { infinite: _vm.infiniteHandler }
+        },
+        [
+          _c("div", { attrs: { slot: "no-more" }, slot: "no-more" }),
+          _vm._v(" "),
+          _c("div", { attrs: { slot: "no-results" }, slot: "no-results" }, [
+            _vm._v("データがありません")
+          ])
+        ]
+      )
+    ],
+    2
   )
 }
 var staticRenderFns = []
