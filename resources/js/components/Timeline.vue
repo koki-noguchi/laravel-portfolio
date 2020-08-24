@@ -6,6 +6,13 @@
             :item="timeline"
             @bookmark="onBookmarkClick"
         ></Post>
+        <infinite-loading
+            @infinite="infiniteHandler"
+            direction="bottom"
+            spinner="spiral">
+            <div slot="no-more"></div>
+            <div slot="no-results">データがありません</div>
+        </infinite-loading>
     </div>
 </template>
 
@@ -32,6 +39,12 @@ export default {
             }
 
             this.timelines = response.data.data
+        },
+        getPage () {
+            this.page = Number(this.$route.query.page)
+            if (! this.page) {
+                this.page = 1
+            }
         },
         onBookmarkClick ({id, bookmarked_by_user}) {
             if (bookmarked_by_user) {
@@ -85,10 +98,30 @@ export default {
                 successContent: 'ブックマークを外しました。',
             })
         },
+        infiniteHandler($state) {
+            axios.get(`/api/users/timeline/?page=${this.page + 1}`)
+            .then(response => {
+                let timelines = response.data.data
+
+            setTimeout(() => {
+                if (timelines.length) {
+                this.timelines =this.timelines.concat(timelines)
+                $state.loaded()
+                } else {
+                $state.complete()
+                }
+                ++this.page
+            }, 1500)
+            })
+            .catch((err) => {
+            $state.complete()
+            })
+        }
     },
     watch: {
         $route: {
             async handler () {
+                this.getPage()
                 await this.fetchTimeline()
             },
             immediate: true
