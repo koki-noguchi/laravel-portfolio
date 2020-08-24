@@ -25,7 +25,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-card-actions>
-            <v-card-actions>
+            <v-card-actions class="amber lighten-5">
                 <v-spacer></v-spacer>
                 <v-btn
                     v-if="reply.my_reply"

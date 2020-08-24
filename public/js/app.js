@@ -13009,6 +13009,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "v-card-actions",
+                  { staticClass: "amber lighten-5" },
                   [
                     _c(
                       "v-layout",
@@ -14468,6 +14469,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
+            { staticClass: "amber lighten-5" },
             [
               _c("v-spacer"),
               _vm._v(" "),

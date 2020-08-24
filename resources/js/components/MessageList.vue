@@ -33,7 +33,7 @@
                         </v-list-item-content>
                     </v-list-item>
                 </v-card-actions>
-                <v-card-actions>
+                <v-card-actions class="amber lighten-5">
                     <v-layout>
                     <v-btn
                         icon
