@@ -2654,7 +2654,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
@@ -4228,7 +4227,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
-//
 //
 //
 //
@@ -12553,8 +12551,6 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
           _c(
             "v-col",
             [
@@ -13598,42 +13594,49 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "post" },
+    "v-row",
+    {
+      staticClass: "mx-auto",
+      staticStyle: { "max-width": "800px" },
+      attrs: { justify: "center" }
+    },
     [
       _c(
-        "v-card",
-        {
-          staticClass: "text-decoration-none my-10",
-          on: { click: _vm.goToPostLink }
-        },
+        "v-col",
+        { attrs: { cols: "10" } },
         [
           _c(
-            "v-row",
-            { staticClass: "text-body-2 pt-2" },
+            "v-card",
+            {
+              staticClass: "text-decoration-none my-10",
+              on: { click: _vm.goToPostLink }
+            },
             [
               _c(
-                "v-col",
-                [
-                  _c("v-card-text", { staticClass: "ml-3 justify-center" }, [
-                    _vm._v(
-                      "\n          " +
-                        _vm._s(_vm.item.updated_at) +
-                        "\n        "
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-col",
+                "v-row",
+                { staticClass: "text-body-2 pt-2" },
                 [
                   _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-card-text",
+                        { staticClass: "ml-3 justify-center" },
+                        [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(_vm.item.updated_at) +
+                              "\n          "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "v-card-actions",
-                    { staticClass: "bookmark justify-center" },
+                    { staticClass: "text-right mr-10" },
                     [
                       _vm.isLogin
                         ? _c(
@@ -13657,7 +13660,6 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v("bookmark\n            "),
                               _c("v-icon", { attrs: { color: "white" } }, [
                                 _vm._v("bookmark")
                               ])
@@ -13670,70 +13672,72 @@ var render = function() {
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list",
-            { staticClass: "d-flex flex-no-wrap justify-space-between" },
-            [
+              ),
+              _vm._v(" "),
               _c(
-                "div",
+                "v-list",
+                { staticClass: "d-flex flex-no-wrap justify-space-between" },
                 [
-                  _c("v-card-title", { staticClass: "headline ml-2" }, [
-                    _vm._v(_vm._s(_vm.item.post_title))
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "v-row",
+                    "div",
                     [
+                      _c("v-card-title", { staticClass: "headline ml-2" }, [
+                        _vm._v(_vm._s(_vm.item.post_title))
+                      ]),
+                      _vm._v(" "),
                       _c(
-                        "v-col",
-                        {
-                          staticClass: "text-truncate",
-                          attrs: { cols: "2", sm: "2", md: "3" }
-                        },
-                        [
-                          _c("v-card-subtitle", { staticClass: "ml-6" }, [
-                            _vm._v(_vm._s(_vm.item.about))
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c(
-                        "v-list-item",
+                        "v-row",
                         [
                           _c(
-                            "v-list-item-avatar",
-                            { attrs: { size: "30px" } },
+                            "v-col",
+                            {
+                              staticClass: "text-truncate",
+                              attrs: { cols: "2", sm: "2", md: "3" }
+                            },
                             [
-                              _c("v-img", { attrs: { src: _vm.item.user.url } })
+                              _c("v-card-subtitle", { staticClass: "ml-6" }, [
+                                _vm._v(_vm._s(_vm.item.about))
+                              ])
                             ],
                             1
-                          ),
-                          _vm._v(" "),
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
                           _c(
-                            "v-list-item-content",
+                            "v-list-item",
                             [
                               _c(
-                                "v-list-item-title",
-                                { staticClass: "text-body-2 text-wrap" },
+                                "v-list-item-avatar",
+                                { attrs: { size: "30px" } },
                                 [
-                                  _vm._v(
-                                    "\n                      " +
-                                      _vm._s(_vm.item.user.name) +
-                                      "\n                  "
+                                  _c("v-img", {
+                                    attrs: { src: _vm.item.user.url }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-item-content",
+                                [
+                                  _c(
+                                    "v-list-item-title",
+                                    { staticClass: "text-body-2 text-wrap" },
+                                    [
+                                      _vm._v(
+                                        "\n                        " +
+                                          _vm._s(_vm.item.user.name) +
+                                          "\n                    "
+                                      )
+                                    ]
                                   )
-                                ]
+                                ],
+                                1
                               )
                             ],
                             1
@@ -13743,23 +13747,26 @@ var render = function() {
                       )
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.item.photos.length > 0
+                    ? _c(
+                        "v-avatar",
+                        {
+                          staticClass: "ma-3",
+                          attrs: { size: "150", tile: "" }
+                        },
+                        [
+                          _c("v-img", {
+                            attrs: { src: _vm.item.photos[0].photos_url }
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e()
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _vm.item.photos.length > 0
-                ? _c(
-                    "v-avatar",
-                    { staticClass: "ma-3", attrs: { size: "150", tile: "" } },
-                    [
-                      _c("v-img", {
-                        attrs: { src: _vm.item.photos[0].photos_url }
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e()
+              )
             ],
             1
           )

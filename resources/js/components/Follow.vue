@@ -15,7 +15,6 @@
                     </v-list-item-title>
                 </v-card-actions>
             </v-col>
-            <v-spacer></v-spacer>
             <v-col>
                 <v-card-actions class="justify-center">
                     <v-btn
