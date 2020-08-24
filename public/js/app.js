@@ -2654,7 +2654,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
@@ -12551,8 +12550,6 @@ var render = function() {
             ],
             1
           ),
-          _vm._v(" "),
-          _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-col",
