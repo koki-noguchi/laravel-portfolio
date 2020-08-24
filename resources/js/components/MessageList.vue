@@ -13,6 +13,7 @@
             <v-card>
                 <v-card-text
                 class="text-body-1 black--text"
+                style="white-space:pre-line;"
                 >
                     {{ message.message_text }}
                 </v-card-text>
@@ -33,7 +34,7 @@
                         </v-list-item-content>
                     </v-list-item>
                 </v-card-actions>
-                <v-card-actions>
+                <v-card-actions class="amber lighten-5">
                     <v-layout>
                     <v-btn
                         icon

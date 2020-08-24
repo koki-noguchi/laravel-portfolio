@@ -5,6 +5,7 @@
             class="my-5">
             <v-card-text
                 class="text-body-1 black--text"
+                style="white-space:pre-line;"
             >
                 {{ reply.reply_text }}
             </v-card-text>
@@ -25,7 +26,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-card-actions>
-            <v-card-actions>
+            <v-card-actions class="amber lighten-5">
                 <v-spacer></v-spacer>
                 <v-btn
                     v-if="reply.my_reply"
