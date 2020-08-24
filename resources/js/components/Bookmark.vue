@@ -6,25 +6,36 @@
             :item="bookmark"
             @bookmark="onBookmarkClick"
         ></Post>
+        <Pagination :id="id" :page="page" :last-page="lastPage" @next="next" />
     </div>
 </template>
 
 <script>
 import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 import Post from '../components/Post.vue'
+import Pagination from '../components/Pagination.vue'
 
 export default {
     components: {
         Post,
+        Pagination,
+    },
+    props: {
+        id: {
+            type: String,
+            required: true
+        }
     },
     data () {
         return {
             bookmarks: null,
+            page: 1,
+            lastPage: 0,
         }
     },
     methods: {
         async fetchBookmarks () {
-            const response = await axios.get(`/api/users/bookmark`)
+            const response = await axios.get(`/api/users/bookmark/?page=${this.page}`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
@@ -32,6 +43,16 @@ export default {
             }
 
             this.bookmarks = response.data.data
+            this.lastPage = response.data.last_page
+        },
+        getPage () {
+            this.page = Number(this.$route.query.page)
+            if (! this.page) {
+                this.page = 1
+            }
+        },
+        next ({page}) {
+            this.$router.push(`/users/${this.id}/bookmark/?page=${page}`)
         },
         onBookmarkClick ({id, bookmarked_by_user}) {
             if (bookmarked_by_user) {
@@ -90,6 +111,7 @@ export default {
     watch: {
         $route: {
             async handler () {
+                this.getPage()
                 await this.fetchBookmarks()
             },
             immediate: true

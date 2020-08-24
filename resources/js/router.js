@@ -117,7 +117,8 @@ const routes = [
                     } else {
                         next({ path: `/users/${to.params.id}/history` })
                     }
-                }
+                },
+                props: true
             }
         ]
     },
