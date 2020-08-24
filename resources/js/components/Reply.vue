@@ -5,6 +5,7 @@
             class="my-5">
             <v-card-text
                 class="text-body-1 black--text"
+                style="white-space:pre-line;"
             >
                 {{ reply.reply_text }}
             </v-card-text>

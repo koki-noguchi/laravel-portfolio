@@ -3776,6 +3776,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4943,6 +4944,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -12951,13 +12953,20 @@ var render = function() {
             _c(
               "v-card",
               [
-                _c("v-card-text", { staticClass: "text-body-1 black--text" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(message.message_text) +
-                      "\n            "
-                  )
-                ]),
+                _c(
+                  "v-card-text",
+                  {
+                    staticClass: "text-body-1 black--text",
+                    staticStyle: { "white-space": "pre-line" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(message.message_text) +
+                        "\n            "
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "v-card-actions",
@@ -14413,11 +14422,18 @@ var render = function() {
         "v-card",
         { staticClass: "my-5", attrs: { shaped: "" } },
         [
-          _c("v-card-text", { staticClass: "text-body-1 black--text" }, [
-            _vm._v(
-              "\n            " + _vm._s(_vm.reply.reply_text) + "\n        "
-            )
-          ]),
+          _c(
+            "v-card-text",
+            {
+              staticClass: "text-body-1 black--text",
+              staticStyle: { "white-space": "pre-line" }
+            },
+            [
+              _vm._v(
+                "\n            " + _vm._s(_vm.reply.reply_text) + "\n        "
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "v-card-actions",
