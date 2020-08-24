@@ -27,6 +27,7 @@ export default {
     data () {
         return {
             timelines: null,
+            page: 1,
         }
     },
     methods: {

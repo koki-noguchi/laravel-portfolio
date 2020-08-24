@@ -5236,7 +5236,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      timelines: null
+      timelines: null,
+      page: 1
     };
   },
   methods: {
