@@ -11,24 +11,20 @@ jobs:
     steps:
       - checkout
 
-      - run:
-        name: Docker php extensions install
-        command: sudo docker-php-ext-install pdo_mysql
+      # Install PHP Extension
+      - run: sudo docker-php-ext-install pdo_mysql
 
+      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "composer.json" }}
-          - v1-dependencies-
 
-      - run:
-        name: Install PHP libraries
-        command: composer install -n --prefer-dist
+      # Install PHP libraries
+      - run: composer install -n --prefer-dist
 
       - save_cache:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
-      - run:
-          name: Run PHPUnit
-          command: vendor/bin/phpunit
+      - run: php ./vendor/bin/phpunit
