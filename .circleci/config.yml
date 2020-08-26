@@ -18,6 +18,7 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "composer.json" }}
+          - v1-dependencies-
 
       # Install PHP libraries
       - run: composer install -n --prefer-dist
