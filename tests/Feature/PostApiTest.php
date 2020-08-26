@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
-class PostSubmitApiTest extends TestCase
+class PostApiTest extends TestCase
 {
     use RefreshDatabase;
 
