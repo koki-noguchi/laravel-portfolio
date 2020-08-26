@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ReplyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/posting', 'PostController@create')->name('posting.create');
-Route::get('/user', fn() => Auth::user())->name('user');
+Route::get('/user', function() {return Auth::user();})->name('user');
 Route::get('/users/bookmark', 'BookmarkController@bookmarkList')->name('user.bookmark');
 Route::get('/users/timeline', 'PostController@timeline')->name('user.timeline');
 Route::get('/users/{user}/history', 'PostController@history')->name('user.history');
