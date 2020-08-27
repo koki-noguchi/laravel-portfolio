@@ -116,30 +116,30 @@ class PostApiTest extends TestCase
         Storage::cloud()->assertExists($photo->post_photo);
     }
 
-    /**
-     * @test
-     */
-    public function should_データベースにエラーがある場合は保存しない()
-    {
-        Schema::drop('photos');
+//     /**
+//      * @test
+//      */
+//     public function should_データベースにエラーがある場合は保存しない()
+//     {
+//         Schema::drop('photos');
 
-        Storage::fake('s3');
+//         Storage::fake('s3');
 
-        $data = [
-            'post_title' => 'postsample',
-            'post_password' => 'sample',
-            'about' => 'about',
-            'max_number' => '5',
-            'post_photo' => array(UploadedFile::fake()->image('photo.jpg')),
-        ];
+//         $data = [
+//             'post_title' => 'postsample',
+//             'post_password' => 'sample',
+//             'about' => 'about',
+//             'max_number' => '5',
+//             'post_photo' => array(UploadedFile::fake()->image('photo.jpg')),
+//         ];
 
-        $response = $this->actingAs($this->user)
-            ->json('POST', route('posting.create'), $data);
+//         $response = $this->actingAs($this->user)
+//             ->json('POST', route('posting.create'), $data);
 
-        $response->assertStatus(500);
+//         $response->assertStatus(500);
 
-        $this->assertEquals(0, count(Storage::cloud()->files()));
-    }
+//         $this->assertEquals(0, count(Storage::cloud()->files()));
+//     }
 
     /**
      * @test

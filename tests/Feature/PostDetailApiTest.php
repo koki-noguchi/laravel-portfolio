@@ -80,9 +80,8 @@ class PostDetailApiTest extends TestCase
      */
     public function should_画像一覧を取得()
     {
-        factory(Post::class)->create()->each(function ($post) {
-            $post->photos()->saveMany(factory(Photo::class, 3)->make());
-        });
+        factory(Post::class)->create();
+        factory(Photo::class, 3)->create();
 
         $post = Post::first();
 

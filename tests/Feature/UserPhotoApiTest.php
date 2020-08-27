@@ -42,24 +42,24 @@ class UserPhotoApiTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
-    public function should_データベースにエラーがある場合は保存しない()
-    {
-        Schema::drop('users');
+    // /**
+    //  * @test
+    //  */
+    // public function should_データベースにエラーがある場合は保存しない()
+    // {
+    //     Schema::drop('users');
 
-        Storage::fake('s3');
+    //     Storage::fake('s3');
 
-        $response = $this->actingAs($this->user)
-            ->json('PUT', route('user.update'), [
-                'user_image' => 'data:image/jpg;base64,'. base64_encode(UploadedFile::fake()->image('photo.jpg')),
-            ]);
+    //     $response = $this->actingAs($this->user)
+    //         ->json('PUT', route('user.update'), [
+    //             'user_image' => 'data:image/jpg;base64,'. base64_encode(UploadedFile::fake()->image('photo.jpg')),
+    //         ]);
 
-        $response->assertStatus(500);
+    //     $response->assertStatus(500);
 
-        $this->assertEquals(0, count(Storage::cloud()->files()));
-    }
+    //     $this->assertEquals(0, count(Storage::cloud()->files()));
+    // }
 
     /**
      * @test

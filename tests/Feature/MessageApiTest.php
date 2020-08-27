@@ -69,7 +69,7 @@ class MessageApiTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('messages', [
-            'message' => $message->id,
+            'id' => $message->id,
         ]);
     }
 
