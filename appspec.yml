@@ -1,16 +1,16 @@
 version: 0.0
 os: linux
 files:
-    - source: /
-        destination: /var/www/laravel-portfolio
+  - source: /
+    destination: /var/www/laravel-portfolio
 
 permissions:
-    - object: /var/www/laravel-portfolio
-        owner: koki
-        group: koki
+  - object: /var/www/laravel-portfolio
+    owner: koki
+    group: koki
 
 hooks:
-    AfterInstall:
-        - location: ./scripts/after_install.sh
-            timeout: 60
-            runas: koki
+  AfterInstall:
+    - location: ./scripts/after_install.sh
+      timeout: 60
+      runas: koki
