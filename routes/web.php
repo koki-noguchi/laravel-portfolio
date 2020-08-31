@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+if (env('APP_ENV') === 'production') {
+    URL::forceScheme('https');
+}
 Route::get('/{any?}', function () {return view('index');})->where('any',  '.+');
 
