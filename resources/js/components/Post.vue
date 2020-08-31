@@ -1,64 +1,51 @@
 <template>
-  <v-row justify="center" class="mx-auto" style="max-width: 800px;">
-    <v-col cols="10">
-      <v-card class="text-decoration-none my-10" @click="goToPostLink">
-        <v-row class="text-body-2 pt-2">
+      <v-card
+        class="text-decoration-none my-10 mx-auto"
+        max-width="600"
+        @click="goToPostLink">
+        <v-row class="text-body-2 pt-0">
           <v-col>
-            <v-card-text class="ml-3 justify-center">
+            <v-card-text class="justify-center py-0">
               {{ item.updated_at }}
             </v-card-text>
           </v-col>
-          <v-card-actions class="text-right mr-10">
-            <v-btn
-              v-if="isLogin"
-              class="white--text text-decoration-none"
-              :color="item.bookmarked_by_user === true ? 'grey' : 'orange'"
-              @click.stop="bookmark(item.id, item.bookmarked_by_user)"
-            >
-              <v-icon color="white">bookmark</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-row>
-        <v-list class="d-flex flex-no-wrap justify-space-between">
-          <div>
-            <v-card-title class="headline ml-2">{{ item.post_title }}</v-card-title>
-            <v-row>
-              <v-col
-                cols="2"
-                sm="2"
-                md="3"
-                class="text-truncate">
-                <v-card-subtitle class="ml-6">{{ item.about }}</v-card-subtitle>
-              </v-col>
-            </v-row>
-            <v-card-actions>
-              <v-list-item>
-                  <v-list-item-avatar size="30px">
-                      <v-img
-                          :src="item.user.url"
-                      ></v-img>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                      <v-list-item-title
-                          class="text-body-2 text-wrap">
-                          {{ item.user.name }}
-                      </v-list-item-title>
-                  </v-list-item-content>
-              </v-list-item>
+          <v-col class="pb-0">
+            <v-card-actions class="text-right mr-3 pa-0">
+              <v-spacer></v-spacer>
+              <v-btn
+                v-if="isLogin"
+                class="white--text text-decoration-none"
+                :color="item.bookmarked_by_user === true ? 'grey' : 'orange'"
+                @click.stop="bookmark(item.id, item.bookmarked_by_user)"
+              >
+                <v-icon color="white">bookmark</v-icon>
+              </v-btn>
             </v-card-actions>
-          </div>
-          <v-avatar
-            class="ma-3"
-            size="150"
-            tile
-            v-if="item.photos.length > 0"
-          >
-            <v-img :src="item.photos[0].photos_url"></v-img>
-          </v-avatar>
-        </v-list>
+          </v-col>
+        </v-row>
+        <v-card-title class="headline ml-3 mt-1 pa-0">{{ item.post_title }}</v-card-title>
+        <v-card-subtitle class="ml-3 my-3 text-truncate pa-0">{{ item.about }}</v-card-subtitle>
+        <v-img
+          v-if="item.photos.length > 0"
+          height="300"
+          :src="item.photos[0].photos_url"
+        ></v-img>
+        <v-card-actions>
+          <v-list-item>
+            <v-list-item-avatar size="30px">
+                <v-img
+                    :src="item.user.url"
+                ></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+                <v-list-item-title
+                    class="text-body-2 text-wrap">
+                    {{ item.user.name }}
+                </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card-actions>
       </v-card>
-    </v-col>
-  </v-row>
 </template>
 
 <script>
