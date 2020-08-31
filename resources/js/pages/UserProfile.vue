@@ -15,7 +15,7 @@
         ></User>
         <v-tabs
             centered
-            class="mt-5"
+            class="mt-5 my-3"
             v-model="tab"
         >
             <v-tab key="timeline" :to="`/users/${this.id}/timeline`" v-if="isMyAccount">Timeline</v-tab>

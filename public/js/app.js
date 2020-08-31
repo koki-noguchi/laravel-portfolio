@@ -4278,19 +4278,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -13604,176 +13591,117 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-row",
+    "v-card",
     {
-      staticClass: "mx-auto",
-      staticStyle: { "max-width": "800px" },
-      attrs: { justify: "center" }
+      staticClass: "text-decoration-none my-10 mx-auto",
+      attrs: { "max-width": "600" },
+      on: { click: _vm.goToPostLink }
     },
     [
       _c(
-        "v-col",
-        { attrs: { cols: "10" } },
+        "v-row",
+        { staticClass: "text-body-2 pt-0" },
         [
           _c(
-            "v-card",
-            {
-              staticClass: "text-decoration-none my-10",
-              on: { click: _vm.goToPostLink }
-            },
+            "v-col",
+            [
+              _c("v-card-text", { staticClass: "justify-center py-0" }, [
+                _vm._v("\n        " + _vm._s(_vm.item.updated_at) + "\n      ")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pb-0" },
             [
               _c(
-                "v-row",
-                { staticClass: "text-body-2 pt-2" },
+                "v-card-actions",
+                { staticClass: "text-right mr-3 pa-0" },
                 [
-                  _c(
-                    "v-col",
-                    [
-                      _c(
-                        "v-card-text",
-                        { staticClass: "ml-3 justify-center" },
-                        [
-                          _vm._v(
-                            "\n            " +
-                              _vm._s(_vm.item.updated_at) +
-                              "\n          "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  ),
+                  _c("v-spacer"),
                   _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    { staticClass: "text-right mr-10" },
-                    [
-                      _vm.isLogin
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "white--text text-decoration-none",
-                              attrs: {
-                                color:
-                                  _vm.item.bookmarked_by_user === true
-                                    ? "grey"
-                                    : "orange"
-                              },
-                              on: {
-                                click: function($event) {
-                                  $event.stopPropagation()
-                                  return _vm.bookmark(
-                                    _vm.item.id,
-                                    _vm.item.bookmarked_by_user
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("v-icon", { attrs: { color: "white" } }, [
-                                _vm._v("bookmark")
-                              ])
-                            ],
-                            1
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list",
-                { staticClass: "d-flex flex-no-wrap justify-space-between" },
-                [
-                  _c(
-                    "div",
-                    [
-                      _c("v-card-title", { staticClass: "headline ml-2" }, [
-                        _vm._v(_vm._s(_vm.item.post_title))
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "text-truncate",
-                              attrs: { cols: "2", sm: "2", md: "3" }
-                            },
-                            [
-                              _c("v-card-subtitle", { staticClass: "ml-6" }, [
-                                _vm._v(_vm._s(_vm.item.about))
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c(
-                            "v-list-item",
-                            [
-                              _c(
-                                "v-list-item-avatar",
-                                { attrs: { size: "30px" } },
-                                [
-                                  _c("v-img", {
-                                    attrs: { src: _vm.item.user.url }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-content",
-                                [
-                                  _c(
-                                    "v-list-item-title",
-                                    { staticClass: "text-body-2 text-wrap" },
-                                    [
-                                      _vm._v(
-                                        "\n                        " +
-                                          _vm._s(_vm.item.user.name) +
-                                          "\n                    "
-                                      )
-                                    ]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm.item.photos.length > 0
+                  _vm.isLogin
                     ? _c(
-                        "v-avatar",
+                        "v-btn",
                         {
-                          staticClass: "ma-3",
-                          attrs: { size: "150", tile: "" }
+                          staticClass: "white--text text-decoration-none",
+                          attrs: {
+                            color:
+                              _vm.item.bookmarked_by_user === true
+                                ? "grey"
+                                : "orange"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              return _vm.bookmark(
+                                _vm.item.id,
+                                _vm.item.bookmarked_by_user
+                              )
+                            }
+                          }
                         },
                         [
-                          _c("v-img", {
-                            attrs: { src: _vm.item.photos[0].photos_url }
-                          })
+                          _c("v-icon", { attrs: { color: "white" } }, [
+                            _vm._v("bookmark")
+                          ])
                         ],
                         1
                       )
                     : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-card-title", { staticClass: "headline ml-3 mt-1 pa-0" }, [
+        _vm._v(_vm._s(_vm.item.post_title))
+      ]),
+      _vm._v(" "),
+      _c("v-card-subtitle", { staticClass: "ml-3 my-3 text-truncate pa-0" }, [
+        _vm._v(_vm._s(_vm.item.about))
+      ]),
+      _vm._v(" "),
+      _vm.item.photos.length > 0
+        ? _c("v-img", {
+            attrs: { height: "300", src: _vm.item.photos[0].photos_url }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c(
+            "v-list-item",
+            [
+              _c(
+                "v-list-item-avatar",
+                { attrs: { size: "30px" } },
+                [_c("v-img", { attrs: { src: _vm.item.user.url } })],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item-content",
+                [
+                  _c(
+                    "v-list-item-title",
+                    { staticClass: "text-body-2 text-wrap" },
+                    [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.item.user.name) +
+                          "\n          "
+                      )
+                    ]
+                  )
                 ],
                 1
               )
@@ -16476,7 +16404,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          staticClass: "mt-5",
+          staticClass: "mt-5 my-3",
           attrs: { centered: "" },
           model: {
             value: _vm.tab,
