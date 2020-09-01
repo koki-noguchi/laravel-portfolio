@@ -2715,226 +2715,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Follower: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
-  data: function data() {
-    return {
-      followers: null
-    };
-  },
-  methods: {
-    fetchFollower: function fetchFollower() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get("/api/users/".concat(_this.id, "/follower"));
-
-              case 2:
-                response = _context.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
-                  break;
-                }
-
-                _this.$store.commit('error/setCode', response.status);
-
-                return _context.abrupt("return", false);
-
-              case 6:
-                _this.followers = response.data.followers;
-
-              case 7:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    followBtnClick: function followBtnClick(_ref) {
-      var id = _ref.id,
-          followed_judge = _ref.followed_judge;
-
-      if (followed_judge) {
-        this.deleteFollow(id);
-      } else {
-        this.follow(id);
-      }
-    },
-    follow: function follow(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context2.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _this2.$store.commit('error/setCode', response.status);
-
-                _this2.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context2.abrupt("return", false);
-
-              case 7:
-                _this2.followers = _this2.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = true;
-                  }
-
-                  return follower;
-                });
-
-                _this2.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローしました。'
-                });
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    deleteFollow: function deleteFollow(id) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return axios["delete"]("/api/users/".concat(id, "/follow"));
-
-              case 2:
-                response = _context3.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 7;
-                  break;
-                }
-
-                _this3.$store.commit('error/setCode', response.status);
-
-                _this3.$store.commit('message/setErrorContent', {
-                  errorContent: 'エラーが発生しました。'
-                });
-
-                return _context3.abrupt("return", false);
-
-              case 7:
-                _this3.followers = _this3.followers.map(function (follower) {
-                  if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = false;
-                  }
-
-                  return follower;
-                });
-
-                _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'フォローを外しました。'
-                });
-
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    }
-  },
-  watch: {
-    $route: {
-      handler: function handler() {
-        var _this4 = this;
-
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-            while (1) {
-              switch (_context4.prev = _context4.next) {
-                case 0:
-                  _context4.next = 2;
-                  return _this4.fetchFollower();
-
-                case 2:
-                case "end":
-                  return _context4.stop();
-              }
-            }
-          }, _callee4);
-        }))();
-      },
-      immediate: true
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerList.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
-/* harmony import */ var _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Follow.vue */ "./resources/js/components/Follow.vue");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
     Follow: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: {
@@ -3105,6 +2885,226 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 case 0:
                   _context4.next = 2;
                   return _this4.fetchFollow();
+
+                case 2:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4);
+        }))();
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerList.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerList.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Follow.vue */ "./resources/js/components/Follow.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Follower: _components_Follow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      followers: null
+    };
+  },
+  methods: {
+    fetchFollower: function fetchFollower() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/api/users/".concat(_this.id, "/follower"));
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$store.commit('error/setCode', response.status);
+
+                return _context.abrupt("return", false);
+
+              case 6:
+                _this.followers = response.data.followers;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    followBtnClick: function followBtnClick(_ref) {
+      var id = _ref.id,
+          followed_judge = _ref.followed_judge;
+
+      if (followed_judge) {
+        this.deleteFollow(id);
+      } else {
+        this.follow(id);
+      }
+    },
+    follow: function follow(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context2.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.$store.commit('error/setCode', response.status);
+
+                _this2.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _this2.followers = _this2.followers.map(function (follower) {
+                  if (follower.id === response.data.followee_id) {
+                    follower.followed_judge = true;
+                  }
+
+                  return follower;
+                });
+
+                _this2.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローしました。'
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteFollow: function deleteFollow(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/api/users/".concat(id, "/follow"));
+
+              case 2:
+                response = _context3.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _this3.$store.commit('error/setCode', response.status);
+
+                _this3.$store.commit('message/setErrorContent', {
+                  errorContent: 'エラーが発生しました。'
+                });
+
+                return _context3.abrupt("return", false);
+
+              case 7:
+                _this3.followers = _this3.followers.map(function (follower) {
+                  if (follower.id === response.data.followee_id) {
+                    follower.followed_judge = false;
+                  }
+
+                  return follower;
+                });
+
+                _this3.$store.commit('message/setSuccessContent', {
+                  successContent: 'フォローを外しました。'
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return _this4.fetchFollower();
 
                 case 2:
                 case "end":
@@ -12611,10 +12611,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.followers, function(follower) {
-      return _c("Follower", {
-        key: follower.id,
-        attrs: { item: follower },
+    _vm._l(_vm.follows, function(follow) {
+      return _c("Follow", {
+        key: follow.id,
+        attrs: { item: follow },
         on: { followBtnClick: _vm.followBtnClick }
       })
     }),
@@ -12645,10 +12645,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.follows, function(follow) {
-      return _c("Follow", {
-        key: follow.id,
-        attrs: { item: follow },
+    _vm._l(_vm.followers, function(follower) {
+      return _c("Follower", {
+        key: follower.id,
+        attrs: { item: follower },
         on: { followBtnClick: _vm.followBtnClick }
       })
     }),
