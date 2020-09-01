@@ -1,21 +1,21 @@
 <template>
     <div>
-        <Follower
-            v-for="follower in followers"
-            :key="follower.id"
-            :item="follower"
+        <Follow
+            v-for="follow in follows"
+            :key="follow.id"
+            :item="follow"
             @followBtnClick="followBtnClick"
-        ></Follower>
+        ></Follow>
     </div>
 </template>
 
 <script>
 import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
-import Follower from '../components/Follow.vue'
+import Follow from '../components/Follow.vue'
 
 export default {
     components: {
-        Follower,
+        Follow,
     },
     props: {
         id: {
@@ -25,19 +25,19 @@ export default {
     },
     data () {
         return {
-            followers: null,
+            follows: null,
         }
     },
     methods: {
-        async fetchFollower () {
-            const response = await axios.get(`/api/users/${this.id}/follower`)
+        async fetchFollow () {
+            const response = await axios.get(`/api/users/${this.id}/follow`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)
                 return false
             }
 
-            this.followers = response.data.followers
+            this.follows = response.data.followings
         },
         followBtnClick ({id, followed_judge}) {
             if (followed_judge) {
@@ -57,11 +57,11 @@ export default {
                 return false
             }
 
-            this.followers = this.followers.map(follower => {
-                if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = true
+            this.follows = this.follows.map(follow => {
+                if (follow.id === response.data.followee_id) {
+                    follow.followed_judge = true
                 }
-                return follower
+                return follow
             })
 
             this.$store.commit('message/setSuccessContent', {
@@ -79,11 +79,11 @@ export default {
                 return false
             }
 
-            this.followers = this.followers.map(follower => {
-                if (follower.id === response.data.followee_id) {
-                    follower.followed_judge = false
+            this.follows = this.follows.map(follow => {
+                if (follow.id === response.data.followee_id) {
+                    follow.followed_judge = false
                 }
-                return follower
+                return follow
             })
 
             this.$store.commit('message/setSuccessContent', {
@@ -94,7 +94,7 @@ export default {
     watch: {
         $route: {
             async handler () {
-                await this.fetchFollower()
+                await this.fetchFollow()
             },
             immediate: true
         }
