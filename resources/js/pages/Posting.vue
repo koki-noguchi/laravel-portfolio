@@ -67,7 +67,7 @@
               </v-text-field>
             </v-flex>
             <v-file-input
-                :rules="[rules.size]"
+                :rules="[rules.size, rules.limitNum]"
                 accept="image/*"
                 label="画像のアップロード"
                 prepend-icon="photo"
@@ -134,6 +134,7 @@ export default {
               required: value => !!value || '必須項目です。',
               maxTitle: v => (v && v.length <= 32) || '32文字以内で入力してください。',
               maxAbout: v => (v && v.length <= 2000) || '2000文字以内で入力してください。',
+              limitNum: v => v.length <= 6 || '一度に送信できるのは6個までです。',
             },
             valid: true,
             errors: null,
@@ -187,23 +188,32 @@ export default {
           this.posts.post_title = ''
           this.posts.about = ''
           this.posts.max_number = ''
-          this.posts.post_photo = ''
+          this.resetPhoto()
         },
         remove (index) {
           this.files.splice(index, 1)
         },
         onFileChange () {
-            this.files.forEach((file, f) => {
-                this.readers[f] = new FileReader();
-                this.readers[f].onloadend = (e) => {
-                    let fileData = this.readers[f].result
-                    let imgRef = this.$refs.file[f]
-                    imgRef.src = fileData
-                }
+          if (this.files.length === 0) {
+                this.resetPhoto()
+                return false
+            }
 
-                this.readers[f].readAsDataURL(this.files[f]);
-                this.posts.post_photo[f] = this.files[f]
-            })
+          this.files.forEach((file, f) => {
+              this.readers[f] = new FileReader();
+              this.readers[f].onloadend = (e) => {
+                  let fileData = this.readers[f].result
+                  let imgRef = this.$refs.file[f]
+                  imgRef.src = fileData
+              }
+
+              this.readers[f].readAsDataURL(this.files[f]);
+              this.posts.post_photo[f] = this.files[f]
+          })
+        },
+        resetPhoto () {
+            this.post_photo = ''
+            this.$el.querySelector('input[type="file"]').value = null
         }
     }
 }

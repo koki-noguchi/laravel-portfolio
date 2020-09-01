@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" width="500">
-      <v-card>
+    <v-dialog v-model="dialog">
+      <v-card width="500">
         <v-card-title class="justify-center"><slot>メッセージ</slot></v-card-title>
         <v-form
           @submit.prevent="create"
