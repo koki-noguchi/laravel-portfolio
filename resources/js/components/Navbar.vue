@@ -11,7 +11,7 @@
                             <v-icon>verified_user</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>Guest Login</v-list-item-title>
+                            <v-list-item-title>ゲストログイン</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item
@@ -61,9 +61,9 @@ export default {
             drawer: null,
             showSearchInput: false,
             items: [
-                { title: "Home", icon: "home", to: "/" },
-                { title: "Register", icon: "how_to_reg", to: "/register" },
-                { title: "Login", icon: "account_box", to: "/login" },
+                { title: "ホーム", icon: "home", to: "/" },
+                { title: "登録", icon: "how_to_reg", to: "/register" },
+                { title: "ログイン", icon: "account_box", to: "/login" },
             ],
         }
     },

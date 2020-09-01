@@ -79,7 +79,7 @@
                         text
                         @click.prevent="photoDelete(photo.id)"
                     >
-                    Delete
+                    削除
                     </v-btn>
                     </v-card-actions>
                 </v-card>

@@ -2260,11 +2260,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       drawer: null,
       showSearchInput: false,
       userItems: [{
-        title: "Index",
+        title: "一覧",
         icon: "view_list",
         to: "/post"
       }, {
-        title: "Post",
+        title: "募集する",
         icon: "question_answer",
         to: "/posting"
       }]
@@ -3265,24 +3265,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: 'i29tg58f'
       },
       items: [{
-        title: "Home",
+        title: "ホーム",
         icon: "home",
         to: "/"
       }, {
-        title: "Register",
+        title: "登録",
         icon: "how_to_reg",
         to: "/register"
       }, {
-        title: "Login",
+        title: "ログイン",
         icon: "account_box",
         to: "/login"
       }],
       userItems: [{
-        title: "Index",
+        title: "一覧",
         icon: "view_list",
         to: "/post"
       }, {
-        title: "Post",
+        title: "募集する",
         icon: "question_answer",
         to: "/posting"
       }]
@@ -4077,15 +4077,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       drawer: null,
       showSearchInput: false,
       items: [{
-        title: "Home",
+        title: "ホーム",
         icon: "home",
         to: "/"
       }, {
-        title: "Register",
+        title: "登録",
         icon: "how_to_reg",
         to: "/register"
       }, {
-        title: "Login",
+        title: "ログイン",
         icon: "account_box",
         to: "/login"
       }]
@@ -12309,7 +12309,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("Mypage")])],
+                    [_c("v-list-item-title", [_vm._v("マイページ")])],
                     1
                   )
                 ],
@@ -12328,7 +12328,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("Logout")])],
+                    [_c("v-list-item-title", [_vm._v("ログアウト")])],
                     1
                   )
                 ],
@@ -12739,7 +12739,7 @@ var render = function() {
               }
             },
             [
-              _c("span", [_vm._v("Guest Login")]),
+              _c("span", [_vm._v("ゲストログイン")]),
               _vm._v(" "),
               _c("v-icon", [_vm._v("verified_user")])
             ],
@@ -12776,7 +12776,7 @@ var render = function() {
               attrs: { to: "/users/" + _vm.user_id + "/timeline" }
             },
             [
-              _c("span", [_vm._v("Mypage")]),
+              _c("span", [_vm._v("マイページ")]),
               _vm._v(" "),
               _c("v-icon", [_vm._v("dashboard")])
             ],
@@ -12787,7 +12787,7 @@ var render = function() {
             "v-btn",
             { staticClass: "text-decoration-none", on: { click: _vm.logout } },
             [
-              _c("span", [_vm._v("Logout")]),
+              _c("span", [_vm._v("ログアウト")]),
               _vm._v(" "),
               _c("v-icon", [_vm._v("logout")])
             ],
@@ -12927,7 +12927,7 @@ var render = function() {
       _vm.messages.length < 1
         ? _c("v-col", { staticClass: "text-center", attrs: { cols: "12" } }, [
             _c("strong", { staticClass: "orange--text" }, [
-              _vm._v("No messages yet.")
+              _vm._v("まだメッセージはありません。")
             ])
           ])
         : _vm._e(),
@@ -13107,7 +13107,7 @@ var render = function() {
                         ]
                       }
                     },
-                    [_vm._v("\n                    Yes\n                    ")]
+                    [_vm._v("\n                    はい\n                    ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -13120,7 +13120,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    No\n                    ")]
+                    [
+                      _vm._v(
+                        "\n                    いいえ\n                    "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -13211,7 +13215,7 @@ var render = function() {
               _c(
                 "v-card-title",
                 { staticClass: "justify-center" },
-                [_vm._t("default", [_vm._v("Message")])],
+                [_vm._t("default", [_vm._v("メッセージ")])],
                 2
               ),
               _vm._v(" "),
@@ -13257,7 +13261,7 @@ var render = function() {
                       "auto-grow": "",
                       counter: "",
                       maxlength: "300",
-                      placeholder: "content",
+                      placeholder: "本文",
                       clearable: "",
                       rules: [_vm.rules.required, _vm.rules.maxText]
                     },
@@ -13453,7 +13457,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("Guest Login")])],
+                    [_c("v-list-item-title", [_vm._v("ゲストログイン")])],
                     1
                   )
                 ],
@@ -13926,7 +13930,7 @@ var render = function() {
                             ]
                           }
                         },
-                        [_vm._v("\n            Yes\n            ")]
+                        [_vm._v("\n            はい\n            ")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -13939,7 +13943,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("\n            No\n            ")]
+                        [_vm._v("\n            いいえ\n            ")]
                       )
                     ],
                     1
@@ -14151,11 +14155,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                Delete\n                "
-                              )
-                            ]
+                            [_vm._v("\n                削除\n                ")]
                           )
                         ],
                         1
@@ -14482,7 +14482,7 @@ var render = function() {
                         ]
                       }
                     },
-                    [_vm._v("\n                Yes\n                ")]
+                    [_vm._v("\n                はい\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -14495,7 +14495,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                No\n                ")]
+                    [_vm._v("\n                いいえ\n                ")]
                   )
                 ],
                 1
@@ -14860,7 +14860,7 @@ var render = function() {
                           staticClass: "ml-5 mr-2",
                           attrs: { to: "/users/" + _vm.user.id + "/follow" }
                         },
-                        [_vm._v(_vm._s(_vm.user.follow_count) + " follow")]
+                        [_vm._v(_vm._s(_vm.user.follow_count) + " フォロー")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -14871,7 +14871,11 @@ var render = function() {
                             to: "/users/" + _vm.user.id + "/follow/follower"
                           }
                         },
-                        [_vm._v(_vm._s(_vm.user.follower_count) + " follower")]
+                        [
+                          _vm._v(
+                            _vm._s(_vm.user.follower_count) + " フォロワー"
+                          )
+                        ]
                       )
                     ],
                     1
@@ -14943,7 +14947,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", { staticClass: "justify-center" }, [
-                _vm._v("User Edit")
+                _vm._v("ユーザーの編集")
               ]),
               _vm._v(" "),
               _c(
@@ -15010,7 +15014,7 @@ var render = function() {
                     attrs: {
                       filled: "",
                       clearable: "",
-                      label: "login_id",
+                      label: "ログインID",
                       rules: [_vm.rules.required, _vm.rules.min],
                       disabled: _vm.user.login_id === "guest001"
                     },
@@ -15028,7 +15032,7 @@ var render = function() {
                     attrs: {
                       filled: "",
                       clearable: "",
-                      label: "name",
+                      label: "名前",
                       rules: [_vm.rules.required],
                       disabled: _vm.user.login_id === "guest001"
                     },
@@ -15153,7 +15157,7 @@ var render = function() {
                         ]
                       }
                     },
-                    [_vm._v("\n                Yes\n                ")]
+                    [_vm._v("\n                はい\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -15166,7 +15170,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                No\n                ")]
+                    [_vm._v("\n                いいえ\n                ")]
                   )
                 ],
                 1
@@ -15417,7 +15421,7 @@ var render = function() {
         { attrs: { cols: "12" } },
         [
           _c("div", { staticClass: "h2 text-center mt-12" }, [
-            _vm._v("\n            メッセージ募集の最新一覧\n        ")
+            _vm._v("\n            最新のメッセージ募集\n        ")
           ]),
           _vm._v(" "),
           _vm._l(_vm.posts, function(post) {
@@ -15705,9 +15709,7 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _c("h2", { staticClass: "text-center mt-10" }, [
-                _vm._v("Replies")
-              ]),
+              _c("h2", { staticClass: "text-center mt-10" }, [_vm._v("返信")]),
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
@@ -15774,7 +15776,7 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._v("edit\n            "),
+                      _vm._v("編集\n            "),
                       _c("v-icon", { attrs: { color: "white" } }, [
                         _vm._v("edit")
                       ])
@@ -15794,7 +15796,7 @@ var render = function() {
                   on: { click: _vm.onBookmarkClick }
                 },
                 [
-                  _vm._v("bookmark\n            "),
+                  _vm._v("ブックマーク\n            "),
                   _c("v-icon", { attrs: { color: "white" } }, [
                     _vm._v("bookmark")
                   ])
@@ -15849,7 +15851,7 @@ var render = function() {
                     { staticClass: "mt-5", attrs: { shaped: "" } },
                     [
                       _c("v-card-title", { staticClass: "text-center" }, [
-                        _vm._v("about")
+                        _vm._v("概要")
                       ]),
                       _vm._v(" "),
                       _c("v-card-text", [_vm._v(_vm._s(_vm.post.about))])
@@ -15863,7 +15865,9 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("h2", { staticClass: "text-center mt-10" }, [_vm._v("Messages")]),
+          _c("h2", { staticClass: "text-center mt-10" }, [
+            _vm._v("メッセージ")
+          ]),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -15947,7 +15951,7 @@ var render = function() {
             { attrs: { centered: "" } },
             [
               _c("v-tab", { attrs: { href: "#post" } }, [
-                _vm._v("\n        Post\n      ")
+                _vm._v("\n        募集\n      ")
               ]),
               _vm._v(" "),
               _c(
@@ -15968,7 +15972,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("v-tab", { attrs: { href: "#photo" } }, [
-                _vm._v("\n        Photo\n      ")
+                _vm._v("\n        画像\n      ")
               ]),
               _vm._v(" "),
               _c(
@@ -16422,7 +16426,7 @@ var render = function() {
                   key: "timeline",
                   attrs: { to: "/users/" + this.id + "/timeline" }
                 },
-                [_vm._v("Timeline")]
+                [_vm._v("タイムライン")]
               )
             : _vm._e(),
           _vm._v(" "),
@@ -16432,7 +16436,7 @@ var render = function() {
               key: "history",
               attrs: { to: "/users/" + this.id + "/history", id: this.id }
             },
-            [_vm._v("History")]
+            [_vm._v("履歴")]
           ),
           _vm._v(" "),
           _vm.isMyAccount
@@ -16442,7 +16446,7 @@ var render = function() {
                   key: "bookmark",
                   attrs: { to: "/users/" + this.id + "/bookmark" }
                 },
-                [_vm._v("Bookmark")]
+                [_vm._v("ブックマーク")]
               )
             : _vm._e()
         ],
@@ -16536,7 +16540,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", { staticClass: "justify-center" }, [
-                _vm._v("Register")
+                _vm._v("ユーザー登録")
               ]),
               _vm._v(" "),
               _c(

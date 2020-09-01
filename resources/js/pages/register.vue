@@ -6,7 +6,7 @@
       sm="8"
       md="6">
         <v-card>
-          <v-card-title class="justify-center">Register</v-card-title>
+          <v-card-title class="justify-center">ユーザー登録</v-card-title>
           <v-form
             class="pa-8"
             @submit.prevent="register"

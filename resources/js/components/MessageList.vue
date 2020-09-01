@@ -1,7 +1,7 @@
 <template>
     <v-row class="mt-12">
         <v-col cols="12" class="text-center" v-if="messages.length < 1">
-            <strong class="orange--text">No messages yet.</strong>
+            <strong class="orange--text">まだメッセージはありません。</strong>
         </v-col>
         <v-col
             cols="12"
@@ -72,14 +72,14 @@
                         @click="dialog = false"
                         @click.stop="deleteMessage(message_id)"
                         >
-                        Yes
+                        はい
                         </v-btn>
                         <v-btn
                         color="red darken-1"
                         text
                         @click="dialog = false"
                         >
-                        No
+                        いいえ
                         </v-btn>
                     </v-card-actions>
                 </v-card>

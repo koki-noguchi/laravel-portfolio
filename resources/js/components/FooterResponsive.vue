@@ -11,7 +11,7 @@
             <v-btn
                 class="text-decoration-none"
                 @click.prevent="guestLogin">
-                <span>Guest Login</span>
+                <span>ゲストログイン</span>
                 <v-icon>verified_user</v-icon>
             </v-btn>
         </v-bottom-navigation>
@@ -27,13 +27,13 @@
             <v-btn
                 :to="`/users/${user_id}/timeline`"
                 class="text-decoration-none">
-                <span>Mypage</span>
+                <span>マイページ</span>
                 <v-icon>dashboard</v-icon>
             </v-btn>
             <v-btn
                 class="text-decoration-none"
                 @click="logout">
-                <span>Logout</span>
+                <span>ログアウト</span>
                 <v-icon>logout</v-icon>
             </v-btn>
         </v-bottom-navigation>
@@ -49,13 +49,13 @@ export default {
                 password: 'i29tg58f',
             },
             items: [
-                { title: "Home", icon: "home", to: "/"},
-                { title: "Register", icon: "how_to_reg", to: "/register" },
-                { title: "Login", icon: "account_box", to: "/login" },
+                { title: "ホーム", icon: "home", to: "/"},
+                { title: "登録", icon: "how_to_reg", to: "/register" },
+                { title: "ログイン", icon: "account_box", to: "/login" },
             ],
             userItems: [
-                { title: "Index", icon: "view_list", to: "/post"},
-                { title: "Post", icon: "question_answer", to: "/posting" },
+                { title: "一覧", icon: "view_list", to: "/post"},
+                { title: "募集する", icon: "question_answer", to: "/posting" },
             ]
         }
     },

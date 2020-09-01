@@ -6,14 +6,14 @@
                 class="ma-2 white--text text-decoration-none"
                 color="blue lighten-2"
                 :to="`/post/${id}/edit`"
-            >edit
+            >編集
                 <v-icon color="white">edit</v-icon>
             </v-btn>
             <v-btn
                 class="my-2 white--text text-decoration-none"
                 :color="post.bookmarked_by_user === true ? 'grey' : 'orange'"
                 @click="onBookmarkClick"
-            >bookmark
+            >ブックマーク
                 <v-icon color="white">bookmark</v-icon>
             </v-btn>
         </div>
@@ -39,12 +39,12 @@
                     shaped
                     class="mt-5"
                 >
-                    <v-card-title class="text-center">about</v-card-title>
+                    <v-card-title class="text-center">概要</v-card-title>
                     <v-card-text>{{ post.about }}</v-card-text>
                 </v-card>
             </v-col>
         </v-row>
-        <h2 class="text-center mt-10">Messages</h2>
+        <h2 class="text-center mt-10">メッセージ</h2>
         <v-divider ></v-divider>
         <MessageList
             :id="this.id"
