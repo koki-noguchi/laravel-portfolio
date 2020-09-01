@@ -15366,7 +15366,7 @@ var render = function() {
               key: "follow",
               attrs: { to: "/users/" + this.id + "/follow", id: this.id }
             },
-            [_vm._v("FollowList")]
+            [_vm._v("フォローリスト")]
           ),
           _vm._v(" "),
           _c(
@@ -15378,7 +15378,7 @@ var render = function() {
                 id: this.id
               }
             },
-            [_vm._v("FollowerList")]
+            [_vm._v("フォロワーリスト")]
           )
         ],
         1
@@ -15468,7 +15468,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", { staticClass: "justify-center" }, [
-                _vm._v("Login")
+                _vm._v("ログイン")
               ]),
               _vm._v(" "),
               _c(

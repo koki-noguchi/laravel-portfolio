@@ -6,7 +6,7 @@
             sm="8"
             md="6">
             <v-card>
-                <v-card-title class="justify-center">Login</v-card-title>
+                <v-card-title class="justify-center">ログイン</v-card-title>
                 <v-form
                     class="pa-8"
                     @submit.prevent="login"
