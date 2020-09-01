@@ -3891,8 +3891,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     errors: {
@@ -13208,108 +13206,99 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-row",
-    { attrs: { justify: "center" } },
+    "v-dialog",
+    {
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
     [
       _c(
-        "v-dialog",
-        {
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
+        "v-card",
+        { attrs: { width: "500" } },
         [
           _c(
-            "v-card",
-            { attrs: { width: "500" } },
+            "v-card-title",
+            { staticClass: "justify-center" },
+            [_vm._t("default", [_vm._v("メッセージ")])],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "v-form",
+            {
+              ref: "form",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.create($event)
+                }
+              },
+              model: {
+                value: _vm.valid,
+                callback: function($$v) {
+                  _vm.valid = $$v
+                },
+                expression: "valid"
+              }
+            },
             [
-              _c(
-                "v-card-title",
-                { staticClass: "justify-center" },
-                [_vm._t("default", [_vm._v("メッセージ")])],
-                2
-              ),
+              _vm.errors
+                ? _c("div", { staticClass: "errors red--text" }, [
+                    _vm.errors.message_text
+                      ? _c(
+                          "ul",
+                          _vm._l(_vm.errors.message_text, function(msg) {
+                            return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("v-textarea", {
+                staticClass: "ma-5",
+                attrs: {
+                  filled: "",
+                  "auto-grow": "",
+                  counter: "",
+                  maxlength: "300",
+                  placeholder: "本文",
+                  clearable: "",
+                  rules: [_vm.rules.required, _vm.rules.maxText]
+                },
+                model: {
+                  value: _vm.text,
+                  callback: function($$v) {
+                    _vm.text = $$v
+                  },
+                  expression: "text"
+                }
+              }),
               _vm._v(" "),
               _c(
-                "v-form",
-                {
-                  ref: "form",
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.create($event)
-                    }
-                  },
-                  model: {
-                    value: _vm.valid,
-                    callback: function($$v) {
-                      _vm.valid = $$v
-                    },
-                    expression: "valid"
-                  }
-                },
+                "v-card-actions",
+                { staticClass: "justify-center" },
                 [
-                  _vm.errors
-                    ? _c("div", { staticClass: "errors red--text" }, [
-                        _vm.errors.message_text
-                          ? _c(
-                              "ul",
-                              _vm._l(_vm.errors.message_text, function(msg) {
-                                return _c("li", { key: msg }, [
-                                  _vm._v(_vm._s(msg))
-                                ])
-                              }),
-                              0
-                            )
-                          : _vm._e()
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("v-textarea", {
-                    staticClass: "ma-5",
-                    attrs: {
-                      filled: "",
-                      "auto-grow": "",
-                      counter: "",
-                      maxlength: "300",
-                      placeholder: "本文",
-                      clearable: "",
-                      rules: [_vm.rules.required, _vm.rules.maxText]
-                    },
-                    model: {
-                      value: _vm.text,
-                      callback: function($$v) {
-                        _vm.text = $$v
-                      },
-                      expression: "text"
-                    }
-                  }),
-                  _vm._v(" "),
                   _c(
-                    "v-card-actions",
-                    { staticClass: "justify-center" },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "mb-5",
-                          attrs: {
-                            type: "submit",
-                            width: "160",
-                            outlined: "",
-                            color: "pink lighten-1",
-                            disabled: !_vm.valid
-                          },
-                          on: { click: _vm.close }
-                        },
-                        [_vm._v("送る")]
-                      )
-                    ],
-                    1
+                    "v-btn",
+                    {
+                      staticClass: "mb-5",
+                      attrs: {
+                        type: "submit",
+                        width: "160",
+                        outlined: "",
+                        color: "pink lighten-1",
+                        disabled: !_vm.valid
+                      },
+                      on: { click: _vm.close }
+                    },
+                    [_vm._v("送る")]
                   )
                 ],
                 1
