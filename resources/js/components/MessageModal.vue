@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" width="500">
       <v-card>
-        <v-card-title class="justify-center"><slot>Message</slot></v-card-title>
+        <v-card-title class="justify-center"><slot>メッセージ</slot></v-card-title>
         <v-form
           @submit.prevent="create"
           v-model="valid"
@@ -19,7 +19,7 @@
             auto-grow
             counter
             maxlength="300"
-            placeholder="content"
+            placeholder="本文"
             clearable
             :rules="[rules.required, rules.maxText]"
           >

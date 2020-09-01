@@ -53,7 +53,7 @@
                     @click="dialog = false"
                     @click.prevent="deleteReply(reply.id)"
                     >
-                    Yes
+                    はい
                     </v-btn>
 
                     <v-btn
@@ -61,7 +61,7 @@
                     text
                     @click="dialog = false"
                     >
-                    No
+                    いいえ
                     </v-btn>
                 </v-card-actions>
             </v-card>

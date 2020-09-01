@@ -3,7 +3,7 @@
         <Description />
         <v-col cols="12">
             <div class="h2 text-center mt-12">
-                メッセージ募集の最新一覧
+                最新のメッセージ募集
             </div>
             <Post
                 v-for="post in posts"

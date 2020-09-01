@@ -37,7 +37,7 @@
                             <v-icon>dashboard</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>Mypage</v-list-item-title>
+                            <v-list-item-title>マイページ</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item @click="logout">
@@ -45,7 +45,7 @@
                             <v-icon>logout</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>Logout</v-list-item-title>
+                            <v-list-item-title>ログアウト</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -102,8 +102,8 @@ export default {
             drawer: null,
             showSearchInput: false,
             userItems: [
-                { title: "Index", icon: "view_list", to: "/post"},
-                { title: "Post", icon: "question_answer", to: "/posting" },
+                { title: "一覧", icon: "view_list", to: "/post"},
+                { title: "募集する", icon: "question_answer", to: "/posting" },
             ]
         }
     },

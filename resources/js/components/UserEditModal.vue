@@ -2,7 +2,7 @@
     <v-row justify="center">
         <v-dialog v-model="dialog" width="550">
             <v-card>
-                <v-card-title class="justify-center">User Edit</v-card-title>
+                <v-card-title class="justify-center">ユーザーの編集</v-card-title>
                     <v-form
                         @submit.prevent="updateUser"
                         ref="form"
@@ -23,7 +23,7 @@
                             filled
                             v-model="user.login_id"
                             clearable
-                            label="login_id"
+                            label="ログインID"
                             class="ma-5"
                             :rules="[rules.required, rules.min]"
                             :disabled="user.login_id === 'guest001'"
@@ -33,7 +33,7 @@
                             filled
                             v-model="user.name"
                             clearable
-                            label="name"
+                            label="名前"
                             class="ma-5"
                             :rules="[rules.required]"
                             :disabled="user.login_id === 'guest001'"
@@ -77,14 +77,14 @@
                     @click="dialog2 = false"
                     @click.prevent="deleteUser"
                     >
-                    Yes
+                    はい
                     </v-btn>
                     <v-btn
                     color="red darken-1"
                     text
                     @click="dialog2 = false"
                     >
-                    No
+                    いいえ
                     </v-btn>
                 </v-card-actions>
             </v-card>

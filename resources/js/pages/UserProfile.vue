@@ -18,9 +18,9 @@
             class="mt-5 my-3"
             v-model="tab"
         >
-            <v-tab key="timeline" :to="`/users/${this.id}/timeline`" v-if="isMyAccount">Timeline</v-tab>
-            <v-tab key="history" :to="`/users/${this.id}/history`" :id="this.id">History</v-tab>
-            <v-tab key="bookmark" :to="`/users/${this.id}/bookmark`" v-if="isMyAccount">Bookmark</v-tab>
+            <v-tab key="timeline" :to="`/users/${this.id}/timeline`" v-if="isMyAccount">タイムライン</v-tab>
+            <v-tab key="history" :to="`/users/${this.id}/history`" :id="this.id">履歴</v-tab>
+            <v-tab key="bookmark" :to="`/users/${this.id}/bookmark`" v-if="isMyAccount">ブックマーク</v-tab>
         </v-tabs>
         <router-view :key="$route.path"></router-view>
     </div>

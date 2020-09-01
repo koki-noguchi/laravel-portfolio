@@ -80,7 +80,7 @@
                 @click="dialog = false"
                 @click.prevent="deletePost"
                 >
-                Yes
+                はい
                 </v-btn>
 
                 <v-btn
@@ -88,7 +88,7 @@
                 text
                 @click="dialog = false"
                 >
-                No
+                いいえ
                 </v-btn>
             </v-card-actions>
             </v-card>

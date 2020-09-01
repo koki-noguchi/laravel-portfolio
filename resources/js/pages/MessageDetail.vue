@@ -40,7 +40,7 @@
             >
                 <v-icon>insert_comment</v-icon>
             </v-btn>
-            <h2 class="text-center mt-10">Replies</h2>
+            <h2 class="text-center mt-10">返信</h2>
             <v-divider ></v-divider>
             <Message-modal
                 ref="dialog"

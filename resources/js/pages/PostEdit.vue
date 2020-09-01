@@ -14,7 +14,7 @@
         centered
       >
           <v-tab href="#post">
-            Post
+            募集
           </v-tab>
           <v-tab-item id="post">
             <PostEditForm
@@ -26,7 +26,7 @@
             ></PostEditForm>
           </v-tab-item>
           <v-tab href="#photo">
-            Photo
+            画像
           </v-tab>
           <v-tab-item id="photo">
             <PostEditPhoto
