@@ -45,7 +45,7 @@
             <Message-modal
                 ref="dialog"
                 @create="createReply"
-            >Reply</Message-modal>
+            >返信</Message-modal>
             <Reply
                 v-for="reply in message.replies"
                 :key="reply.id"

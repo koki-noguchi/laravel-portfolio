@@ -4673,6 +4673,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         required: function required(value) {
           return value.length > 0 || '必須項目です。';
+        },
+        limitNum: function limitNum(v) {
+          return v.length <= 6 || '一度に送信できるのは6個までです。';
         }
       },
       valid: true,
@@ -7577,6 +7580,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         maxAbout: function maxAbout(v) {
           return v && v.length <= 2000 || '2000文字以内で入力してください。';
+        },
+        limitNum: function limitNum(v) {
+          return v.length <= 6 || '一度に送信できるのは6個までです。';
         }
       },
       valid: true,
@@ -7666,13 +7672,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.posts.post_title = '';
       this.posts.about = '';
       this.posts.max_number = '';
-      this.posts.post_photo = '';
+      this.resetPhoto();
     },
     remove: function remove(index) {
       this.files.splice(index, 1);
     },
     onFileChange: function onFileChange() {
       var _this2 = this;
+
+      if (this.files.length === 0) {
+        this.resetPhoto();
+        return false;
+      }
 
       this.files.forEach(function (file, f) {
         _this2.readers[f] = new FileReader();
@@ -7687,6 +7698,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         _this2.posts.post_photo[f] = _this2.files[f];
       });
+    },
+    resetPhoto: function resetPhoto() {
+      this.post_photo = '';
+      this.$el.querySelector('input[type="file"]').value = null;
     }
   }
 });
@@ -13199,7 +13214,6 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "500" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -13211,6 +13225,7 @@ var render = function() {
         [
           _c(
             "v-card",
+            { attrs: { width: "500" } },
             [
               _c(
                 "v-card-title",
@@ -14033,7 +14048,11 @@ var render = function() {
                   _c("v-file-input", {
                     staticClass: "mt-5",
                     attrs: {
-                      rules: [_vm.rules.required, _vm.rules.size],
+                      rules: [
+                        _vm.rules.required,
+                        _vm.rules.size,
+                        _vm.rules.limitNum
+                      ],
                       accept: "image/*",
                       label: "画像の追加",
                       "prepend-icon": "photo",
@@ -14134,7 +14153,7 @@ var render = function() {
             _vm._l(_vm.photos_list, function(photo) {
               return _c(
                 "v-col",
-                { key: photo.photos_url, attrs: { sm: "4" } },
+                { key: photo.photos_url, attrs: { cols: "4" } },
                 [
                   _c(
                     "v-card",
@@ -15716,7 +15735,7 @@ var render = function() {
               _c(
                 "Message-modal",
                 { ref: "dialog", on: { create: _vm.createReply } },
-                [_vm._v("Reply")]
+                [_vm._v("返信")]
               ),
               _vm._v(" "),
               _vm._l(_vm.message.replies, function(reply) {
@@ -16260,7 +16279,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("v-file-input", {
                   attrs: {
-                    rules: [_vm.rules.size],
+                    rules: [_vm.rules.size, _vm.rules.limitNum],
                     accept: "image/*",
                     label: "画像のアップロード",
                     "prepend-icon": "photo",
