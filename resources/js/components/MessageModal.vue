@@ -1,44 +1,42 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog">
-      <v-card width="500">
-        <v-card-title class="justify-center"><slot>メッセージ</slot></v-card-title>
-        <v-form
-          @submit.prevent="create"
-          v-model="valid"
-          ref="form">
-          <div v-if="errors" class="errors red--text">
-            <ul v-if="errors.message_text">
-              <li v-for="msg in errors.message_text" :key="msg">{{ msg }}</li>
-            </ul>
-          </div>
-          <v-textarea
-            class="ma-5"
-            v-model="text"
-            filled
-            auto-grow
-            counter
-            maxlength="300"
-            placeholder="本文"
-            clearable
-            :rules="[rules.required, rules.maxText]"
-          >
-          </v-textarea>
-          <v-card-actions class="justify-center">
-            <v-btn
-              type="submit"
-              width="160"
-              class="mb-5"
-              outlined
-              color="pink lighten-1"
-              @click="close"
-              :disabled="!valid"
-            >送る</v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
-  </v-row>
+  <v-dialog v-model="dialog">
+    <v-card width="500">
+      <v-card-title class="justify-center"><slot>メッセージ</slot></v-card-title>
+      <v-form
+        @submit.prevent="create"
+        v-model="valid"
+        ref="form">
+        <div v-if="errors" class="errors red--text">
+          <ul v-if="errors.message_text">
+            <li v-for="msg in errors.message_text" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+        <v-textarea
+          class="ma-5"
+          v-model="text"
+          filled
+          auto-grow
+          counter
+          maxlength="300"
+          placeholder="本文"
+          clearable
+          :rules="[rules.required, rules.maxText]"
+        >
+        </v-textarea>
+        <v-card-actions class="justify-center">
+          <v-btn
+            type="submit"
+            width="160"
+            class="mb-5"
+            outlined
+            color="pink lighten-1"
+            @click="close"
+            :disabled="!valid"
+          >送る</v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
