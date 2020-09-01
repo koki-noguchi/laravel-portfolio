@@ -19,7 +19,7 @@
                     </div>
                     <v-file-input
                         class="mt-5"
-                        :rules="[rules.required, rules.size]"
+                        :rules="[rules.required, rules.size, rules.limitNum]"
                         accept="image/*"
                         label="画像の追加"
                         prepend-icon="photo"
@@ -64,7 +64,7 @@
         </v-row>
         <v-row v-if="photos_list.length > 0">
             <v-col
-            sm="4"
+            cols="4"
             v-for="photo in photos_list"
             :key="photo.photos_url"
             >
@@ -112,6 +112,7 @@ export default {
             rules: {
                 size: value => !value.length || value.reduce((size, file) => size + file.size, 0) < 10240000 || 'サイズを10MB以内に抑えてください。',
                 required: value => value.length > 0 || '必須項目です。',
+                limitNum: v => v.length <= 6 || '一度に送信できるのは6個までです。',
             },
             valid: true,
             errors: null,
