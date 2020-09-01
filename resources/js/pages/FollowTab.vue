@@ -22,8 +22,8 @@
             centered
             class="mt-5"
         >
-            <v-tab key="follow" :to="`/users/${this.id}/follow`" :id="this.id">FollowList</v-tab>
-            <v-tab key="follower" :to="`/users/${this.id}/follow/follower`" :id="this.id">FollowerList</v-tab>
+            <v-tab key="follow" :to="`/users/${this.id}/follow`" :id="this.id">フォローリスト</v-tab>
+            <v-tab key="follower" :to="`/users/${this.id}/follow/follower`" :id="this.id">フォロワーリスト</v-tab>
         </v-tabs>
         <router-view :key="$route.path"></router-view>
     </div>
