@@ -13208,6 +13208,7 @@ var render = function() {
   return _c(
     "v-dialog",
     {
+      attrs: { width: "500" },
       model: {
         value: _vm.dialog,
         callback: function($$v) {
@@ -13219,7 +13220,6 @@ var render = function() {
     [
       _c(
         "v-card",
-        { attrs: { width: "500" } },
         [
           _c(
             "v-card-title",
