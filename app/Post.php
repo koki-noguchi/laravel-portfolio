@@ -21,7 +21,7 @@ class Post extends Model
 
     protected $appends = ['password_judge', 'bookmarked_by_user', 'my_post', 'updated_at', 'limit_judge'];
 
-    protected $perPage = 5;
+    protected $perPage = 6;
     /**
      * The attributes that are mass assignable.
      *
