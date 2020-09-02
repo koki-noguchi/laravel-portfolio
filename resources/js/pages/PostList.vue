@@ -3,12 +3,20 @@
     <Search
       @search="search($event)">
     </Search>
-    <Post
-      v-for="post in posts"
-      :key="post.id"
-      :item="post"
-      @bookmark="onBookmarkClick"
-    />
+    <v-row class="mt-12">
+      <v-col
+        cols="12"
+        sm="12"
+        md="4"
+        v-for="post in posts"
+          :key="post.id"
+      >
+        <Post
+          :item="post"
+          @bookmark="onBookmarkClick"
+        />
+      </v-col>
+    </v-row>
     <infinite-loading
       @infinite="infiniteHandler"
       :identifier="infiniteId"

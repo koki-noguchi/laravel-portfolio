@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="dialog">
-    <v-card width="500">
+  <v-dialog v-model="dialog" width="500">
+    <v-card>
       <v-card-title class="justify-center"><slot>メッセージ</slot></v-card-title>
       <v-form
         @submit.prevent="create"
