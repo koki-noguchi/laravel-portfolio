@@ -4276,6 +4276,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -6023,6 +6028,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7181,6 +7192,14 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13601,7 +13620,7 @@ var render = function() {
   return _c(
     "v-card",
     {
-      staticClass: "text-decoration-none my-10 mx-auto",
+      staticClass: "text-decoration-none mx-auto",
       attrs: { "max-width": "600" },
       on: { click: _vm.goToPostLink }
     },
@@ -13681,7 +13700,9 @@ var render = function() {
         ? _c("v-img", {
             attrs: { height: "300", src: _vm.item.photos[0].photos_url }
           })
-        : _vm._e(),
+        : _c("v-img", {
+            attrs: { height: "300", src: "/images/default-post-image.png" }
+          }),
       _vm._v(" "),
       _c(
         "v-card-actions",
@@ -15432,11 +15453,21 @@ var render = function() {
             _vm._v("\n            最新のメッセージ募集\n        ")
           ]),
           _vm._v(" "),
-          _vm._l(_vm.posts, function(post) {
-            return _c("Post", { key: post.id, attrs: { item: post } })
-          })
+          _c(
+            "v-row",
+            { staticClass: "mt-12" },
+            _vm._l(_vm.posts, function(post) {
+              return _c(
+                "v-col",
+                { key: post.id, attrs: { cols: "12", sm: "12", md: "4" } },
+                [_c("Post", { attrs: { item: post } })],
+                1
+              )
+            }),
+            1
+          )
         ],
-        2
+        1
       )
     ],
     1
@@ -16036,13 +16067,24 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _vm._l(_vm.posts, function(post) {
-        return _c("Post", {
-          key: post.id,
-          attrs: { item: post },
-          on: { bookmark: _vm.onBookmarkClick }
-        })
-      }),
+      _c(
+        "v-row",
+        { staticClass: "mt-12" },
+        _vm._l(_vm.posts, function(post) {
+          return _c(
+            "v-col",
+            { key: post.id, attrs: { cols: "12", sm: "12", md: "4" } },
+            [
+              _c("Post", {
+                attrs: { item: post },
+                on: { bookmark: _vm.onBookmarkClick }
+              })
+            ],
+            1
+          )
+        }),
+        1
+      ),
       _vm._v(" "),
       _c(
         "infinite-loading",
@@ -16063,7 +16105,7 @@ var render = function() {
         ]
       )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

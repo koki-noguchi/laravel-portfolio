@@ -1,6 +1,6 @@
 <template>
       <v-card
-        class="text-decoration-none my-10 mx-auto"
+        class="text-decoration-none mx-auto"
         max-width="600"
         @click="goToPostLink">
         <v-row class="text-body-2 pt-0">
@@ -29,6 +29,11 @@
           v-if="item.photos.length > 0"
           height="300"
           :src="item.photos[0].photos_url"
+        ></v-img>
+        <v-img
+          v-else
+          height="300"
+          src="/images/default-post-image.png"
         ></v-img>
         <v-card-actions>
           <v-list-item>

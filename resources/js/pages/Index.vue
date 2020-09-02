@@ -5,11 +5,17 @@
             <div class="h2 text-center mt-12">
                 最新のメッセージ募集
             </div>
-            <Post
-                v-for="post in posts"
-                :key="post.id"
-                :item="post"
-            />
+            <v-row class="mt-12">
+                <v-col
+                    cols="12"
+                    sm="12"
+                    md="4"
+                    v-for="post in posts"
+                    :key="post.id"
+                >
+                    <Post :item="post" />
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 </template>
