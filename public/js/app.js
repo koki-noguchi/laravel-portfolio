@@ -6034,6 +6034,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -14664,7 +14665,9 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "subtitle-1 mt-2" }, [
-        _vm._v("\n        みんなで共有するサービスです。\n    ")
+        _vm._v(
+          "\n        出来上がったページをみんなで共有するサービスです。\n    "
+        )
       ]),
       _vm._v(" "),
       !_vm.isLogin
@@ -14680,7 +14683,7 @@ var render = function() {
                     _c(
                       "v-btn",
                       {
-                        staticClass: "font-weight-bold mt-8 white--text",
+                        staticClass: "font-weight-black mt-2 white--text",
                         attrs: {
                           outlined: "",
                           rounded: "",
@@ -14701,7 +14704,7 @@ var render = function() {
                     _c(
                       "v-btn",
                       {
-                        staticClass: "font-weight-bold mt-8 white--text",
+                        staticClass: "font-weight-black mt-4 white--text",
                         attrs: { outlined: "", rounded: "", width: "210" },
                         on: {
                           click: function($event) {
@@ -15453,9 +15456,10 @@ var render = function() {
             _vm._v("\n            最新のメッセージ募集\n        ")
           ]),
           _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
           _c(
             "v-row",
-            { staticClass: "mt-12" },
             _vm._l(_vm.posts, function(post) {
               return _c(
                 "v-col",

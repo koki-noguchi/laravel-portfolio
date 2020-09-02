@@ -7,20 +7,20 @@
             MessageShareはテーマに沿ったメッセージを募集して、
         </div>
         <div class="subtitle-1 mt-2">
-            みんなで共有するサービスです。
+            出来上がったページをみんなで共有するサービスです。
         </div>
         <v-row align="center" v-if="!isLogin">
             <v-col cols="12">
                 <div class="text-center">
                     <v-btn
-                        class="font-weight-bold mt-8 white--text"
+                        class="font-weight-black mt-2 white--text"
                         outlined rounded
                         width="210"
                         to="/register">新規登録はこちら</v-btn>
                 </div>
                 <div class="text-center">
                     <v-btn
-                        class="font-weight-bold mt-8 white--text"
+                        class="font-weight-black mt-4 white--text"
                         outlined rounded
                         width="210"
                         @click.prevent="guestLogin">ゲストとしてログインする</v-btn>

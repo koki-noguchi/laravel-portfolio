@@ -5,7 +5,8 @@
             <div class="h2 text-center mt-12">
                 最新のメッセージ募集
             </div>
-            <v-row class="mt-12">
+            <v-divider ></v-divider>
+            <v-row>
                 <v-col
                     cols="12"
                     sm="12"
