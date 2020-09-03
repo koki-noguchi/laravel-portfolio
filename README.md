@@ -14,8 +14,11 @@ MessageShareはメッセージを募集して、完成したページを仲間�
     * APIを作成するときに同時にテストを書いている
 
 ### フロントエンド
-    * Vue、Vuex、Vue Routerを使ってSPA（シングルページアプリケーション）で配信している
+    * Vue、Vuex、Vue Routerを使ってSPA（シングルページアプリケーション）に対応している
     * CSSフレームワークのVuetifyを採用し、レスポンシブデザインに対応している
+
+## サービス構成図
+![AWS構成図](https://user-images.githubusercontent.com/67818050/92076440-84dbf700-edf5-11ea-99c6-d783ae316fa4.png)
 
 ## 機能一覧
 ### 認証
