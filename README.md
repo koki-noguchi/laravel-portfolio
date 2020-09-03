@@ -1,8 +1,8 @@
 # MessageShare
 MessageShareはメッセージを募集して、完成したページを仲間と共有するWebアプリケーションです。
 
-## URL
-https://www.messageshare.work
+## URL：https://www.messageshare.work
+![スクリーンショット 2020-09-02 18-41-55](https://user-images.githubusercontent.com/67818050/91966136-6968e180-ed4c-11ea-9358-e868f8403c8e.png)
 
 ## ポートフォリオの見どころ
 ### インフラ
@@ -14,8 +14,11 @@ https://www.messageshare.work
     * APIを作成するときに同時にテストを書いている
 
 ### フロントエンド
-    * Vue、Vuex、Vue Routerを使ってSPA（シングルページアプリケーション）で配信している
+    * Vue、Vuex、Vue Routerを使ってSPA（シングルページアプリケーション）に対応している
     * CSSフレームワークのVuetifyを採用し、レスポンシブデザインに対応している
+
+## サービス構成図
+![AWS構成図](https://user-images.githubusercontent.com/67818050/92076440-84dbf700-edf5-11ea-99c6-d783ae316fa4.png)
 
 ## 機能一覧
 ### 認証
@@ -25,25 +28,25 @@ https://www.messageshare.work
     * Vuexを使用したログイン情報の管理
 
 ### 投稿機能
-    * 投稿・編集・削除
-    * 記事へのコメント投稿・削除・数を制限
-    * 記事へのコメントへのコメント投稿・削除
-    * ブックマーク
+* 投稿・編集・削除
+* 記事へのコメント投稿・削除・数を制限
+* 記事へのコメントへのコメント投稿・削除
+* ブックマーク
 
 ### ユーザーフォロー機能
-    * フォロー・フォロワー一覧を表示
-    * フォロー・フォロー解除
-    * タイムラインにフォロー中のユーザーの投稿を表示
+* フォロー・フォロワー一覧を表示
+* フォロー・フォロー解除
+* タイムラインにフォロー中のユーザーの投稿を表示
 
 ### ページネーション
-    * 募集ページと募集履歴には無限スクロール（Vue-infinite-loading）を使用
+* 募集ページと募集履歴には無限スクロール（Vue-infinite-loading）を使用
 
 ### 画像アップロード機能
-    * AWSのS3へ保存
-    * プロフィール画像をトリミングしてアップロード（Vue Croppaを使用）
+* AWSのS3へ保存
+* プロフィール画像をトリミングしてアップロード（Vue Croppaを使用）
 
 ### 投稿検索
-    * 記事IDまたはフリーワードで検索可能
+* 記事IDまたはフリーワードで検索可能
 
 ## 使用技術一覧
 * PHP7.4
@@ -56,5 +59,5 @@ https://www.messageshare.work
 * vuetify2.3.6
 * MySQL5.7
 * Docker/docker-compose(開発環境)
-* CircleCI(appspec自動化)
+* CircleCI
 * AWS(VPC,RDS,EC2,S3,ALB,Route53,ACM)
