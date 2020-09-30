@@ -62,4 +62,9 @@ class UserController extends Controller
         $authorization->CheckGuest();
         User::where('id', Auth::id())->delete();
     }
+
+    public function notifications()
+    {
+        return Auth::user()->notifications()->limit(5)->get();
+    }
 }

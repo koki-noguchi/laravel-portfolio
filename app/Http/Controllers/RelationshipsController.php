@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\UserFollowed;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class RelationshipsController extends Controller
 {
@@ -50,6 +50,8 @@ class RelationshipsController extends Controller
 
         $auth_user->followings()->detach($user->id);
         $auth_user->followings()->attach($user->id);
+
+        $user->notify(new UserFollowed($auth_user));
 
         return ["followee_id" => (int) $user->id];
     }
