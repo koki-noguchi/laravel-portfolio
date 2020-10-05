@@ -56,7 +56,8 @@ export default {
     },
     methods: {
         async fetchProfile () {
-            const response = await axios.get(`/api/users/${this.id}`)
+            const keyword = window.location.search
+            const response = await axios.get(`/api/users/${this.id}${keyword}`)
 
             if (response.status !== OK) {
                 this.$store.commit('error/setCode', response.status)

@@ -48,3 +48,6 @@ Route::get('/refresh-token', function (\Illuminate\Http\Request $request) {
     $request->session()->regenerateToken();
     return response()->json();
 });
+Route::group([ 'middleware' => 'auth'], function() {
+    Route::get('/notifications', 'UserController@notifications');
+});
