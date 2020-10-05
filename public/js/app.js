@@ -2145,7 +2145,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _components_NavSearch_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/NavSearch.vue */ "./resources/js/components/NavSearch.vue");
+/* harmony import */ var _notifications_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../notifications.js */ "./resources/js/notifications.js");
+/* harmony import */ var _components_NavSearch_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/NavSearch.vue */ "./resources/js/components/NavSearch.vue");
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2243,16 +2244,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Search: _components_NavSearch_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Search: _components_NavSearch_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
       keyword: '',
-      posts: [],
       loginForm: {
         login_id: 'guest001',
         password: 'i29tg58f'
@@ -2267,21 +2301,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "募集する",
         icon: "question_answer",
         to: "/posting"
-      }]
+      }],
+      notifications: [],
+      hasNotification: false
     };
   },
   methods: {
-    search: function search(params) {
+    fetchNotifications: function fetchNotifications() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, notifications;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.$router.push("/post/?page=1" + params)["catch"](function () {});
+                _context.next = 2;
+                return axios.get('/api/notifications');
 
-              case 1:
+              case 2:
+                response = _context.sent;
+                notifications = response.data;
+                _this.notifications = [];
+                _this.hasNotification = false;
+                Array.from(notifications).forEach(function (notification, i) {
+                  if (i > 0 && notifications[i].data.follower_id === notifications[i - 1].data.follower_id) {
+                    return false;
+                  }
+
+                  _this.notifications.push({
+                    message: Object(_notifications_js__WEBPACK_IMPORTED_MODULE_2__["makeNotificationMessage"])(notification),
+                    to: Object(_notifications_js__WEBPACK_IMPORTED_MODULE_2__["routeNotification"])(notification),
+                    read_at: notification.read_at
+                  });
+
+                  if (notification.read_at === null) {
+                    _this.hasNotification = true;
+                  }
+                });
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2289,7 +2348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    guestLogin: function guestLogin() {
+    search: function search(params) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -2297,19 +2356,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _this2.$store.dispatch('auth/login', _this2.loginForm);
+                _this2.$router.push("/post/?page=1" + params)["catch"](function () {});
 
-              case 2:
-                if (_this2.apiStatus) {
-                  _this2.$store.commit('message/setSuccessContent', {
-                    successContent: 'ログインしました。'
-                  });
-
-                  _this2.$router.push('/post')["catch"](function () {});
-                }
-
-              case 3:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -2317,10 +2366,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    clearError: function clearError() {
-      this.$store.commit('auth/setLoginErrorMessages', null);
-    },
-    logout: function logout() {
+    guestLogin: function guestLogin() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -2329,21 +2375,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return _this3.$store.dispatch('auth/logout');
+                return _this3.$store.dispatch('auth/login', _this3.loginForm);
 
               case 2:
-                _this3.$store.commit('message/setSuccessContent', {
-                  successContent: 'ログアウトしました。'
-                });
+                if (_this3.apiStatus) {
+                  _this3.$store.commit('message/setSuccessContent', {
+                    successContent: 'ログインしました。'
+                  });
 
-                _this3.$router.push('/login');
+                  _this3.$router.push('/post')["catch"](function () {});
+                }
 
-              case 4:
+              case 3:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
+      }))();
+    },
+    clearError: function clearError() {
+      this.$store.commit('auth/setLoginErrorMessages', null);
+    },
+    logout: function logout() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _this4.$store.dispatch('auth/logout');
+
+              case 2:
+                _this4.$store.commit('message/setSuccessContent', {
+                  successContent: 'ログアウトしました。'
+                });
+
+                _this4.$router.push('/login');
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   },
@@ -2367,7 +2444,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loginErrors: function loginErrors(state) {
       return state.auth.loginErrorMessages;
     }
-  }))
+  })),
+  watch: {
+    $route: {
+      handler: function handler() {
+        var _this5 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  _context5.next = 2;
+                  return _this5.fetchNotifications();
+
+                case 2:
+                case "end":
+                  return _context5.stop();
+              }
+            }
+          }, _callee5);
+        }))();
+      },
+      immediate: true
+    }
+  }
 });
 
 /***/ }),
@@ -7807,19 +7908,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var keyword, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get("/api/users/".concat(_this.id));
+                keyword = window.location.search;
+                _context.next = 3;
+                return axios.get("/api/users/".concat(_this.id).concat(keyword));
 
-              case 2:
+              case 3:
                 response = _context.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
@@ -7827,10 +7929,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
                 _this.user = response.data;
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -12424,6 +12526,77 @@ var render = function() {
                 [
                   _c("v-icon", { attrs: { to: "/" } }, [_vm._v("home")]),
                   _vm._v("\n                    ホーム\n            ")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-menu",
+                {
+                  attrs: { "offset-y": "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var attrs = ref.attrs
+                        var on = ref.on
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                { attrs: { color: "white", elevation: "0" } },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [
+                              _vm.hasNotification
+                                ? _c(
+                                    "v-badge",
+                                    { attrs: { bordered: "", overlap: "" } },
+                                    [
+                                      _c("v-icon", [
+                                        _vm._v("notifications_none")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                : _c("v-icon", [_vm._v("notifications_none")])
+                            ],
+                            1
+                          )
+                        ]
+                      }
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    _vm._l(_vm.notifications, function(notification) {
+                      return _c(
+                        "v-list-item",
+                        {
+                          key: notification.message,
+                          class: { grey: notification.read_at !== null },
+                          attrs: { link: "", to: notification.to }
+                        },
+                        [
+                          _c("v-list-item-title", {
+                            domProps: {
+                              textContent: _vm._s(notification.message)
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
                 ],
                 1
               ),
@@ -78866,6 +79039,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserEditModal_vue_vue_type_template_id_31b8dadd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/notifications.js":
+/*!***************************************!*\
+  !*** ./resources/js/notifications.js ***!
+  \***************************************/
+/*! exports provided: makeNotification, makeNotificationMessage, routeNotification */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeNotification", function() { return makeNotification; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeNotificationMessage", function() { return makeNotificationMessage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routeNotification", function() { return routeNotification; });
+var NOTIFICATION_TYPES = {
+  follow: "App\\Notifications\\UserFollowed"
+};
+function makeNotification(notification) {
+  var notificationMessage = makeNotificationMessage(notification);
+  var to = routeNotification(notification);
+  return '{message => ' + notificationMessage + ', route => ' + to + '}';
+}
+function makeNotificationMessage(notification) {
+  if (notification.type === NOTIFICATION_TYPES.follow) {
+    return notification.data.follower_name + 'さんにフォローされました';
+  }
+}
+function routeNotification(notification) {
+  var to = '?read=' + notification.id;
+
+  if (notification.type === NOTIFICATION_TYPES.follow) {
+    return to = '/users/' + notification.data.follower_id + to;
+  }
+}
 
 /***/ }),
 
