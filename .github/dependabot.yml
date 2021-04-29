@@ -1,0 +1,55 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: facade/ignition
+    versions:
+    - 2.5.10
+    - 2.5.11
+    - 2.5.12
+    - 2.5.9
+  - dependency-name: laravel/tinker
+    versions:
+    - 2.6.0
+  - dependency-name: nunomaduro/collision
+    versions:
+    - 5.3.0
+  - dependency-name: laravel/framework
+    versions:
+    - 7.30.3
+  - dependency-name: doctrine/dbal
+    versions:
+    - 3.0.0
+  - dependency-name: fruitcake/laravel-cors
+    versions:
+    - 2.0.3
+  - dependency-name: guzzlehttp/guzzle
+    versions:
+    - 7.2.0
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: vuetify
+    versions:
+    - 2.4.11
+    - 2.4.3
+    - 2.4.4
+    - 2.4.5
+    - 2.4.6
+    - 2.4.7
+    - 2.4.8
+    - 2.4.9
+  - dependency-name: sass
+    versions:
+    - 1.32.11
+    - 1.32.5
+    - 1.32.6
+    - 1.32.7
+    - 1.32.8
